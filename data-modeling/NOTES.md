@@ -13,7 +13,13 @@ this is a relational database system
 
 ## cassandra
 
-this is a NoSQL database system
+this is one of NoSQL database systems.
+
+### docker
+use following commands to start up the dockerized cassandra instance(s)
+$ cd ~/src/data-engineering/data-modeling/cassandra/docker
+$ docker-compose up or $ docker-compose up -d
+
 
 Data structures used are different than those use in relational database; make some operations fast
 
