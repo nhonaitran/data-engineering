@@ -1,6 +1,16 @@
 folder organization
 
-#data modeling
+# data modeling
+### docker
+$ cd ~/data-engineering/data-modeling/docker
+$ docker-compose up
+
+Do the above commands to start multiple services at once:
+* start a jupyter notebook container
+* start a cassandra container as well
+
+Should continue to add to this docker-compose file to include more services if you want.
+
 Relational databse supports:
 * ACID
 * 

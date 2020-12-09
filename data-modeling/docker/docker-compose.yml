@@ -1,0 +1,14 @@
+version: '3.13'
+
+services:
+  cassandra:
+    image: cassandra:latest
+
+  jupyter:
+    build:
+      context: ./jupyter
+      dockerfile: Dockerfile
+    ports:
+      - 8888:8888
+    volumes:
+      - ./notebooks:/Users/ai.tran/src/data-engineering/data-modeling/notebooks
