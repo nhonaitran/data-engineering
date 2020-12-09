@@ -1,7 +1,8 @@
-version: '3.13'
+version: "3.8"
 
 services:
   cassandra:
     image: cassandra:latest
+    container_name: cassandra
     ports:
       - '6000:9042'
