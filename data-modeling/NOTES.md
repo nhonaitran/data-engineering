@@ -2,9 +2,12 @@ folder organization
 
 # data modeling
 ### docker
+```
 $ cd ~/data-engineering/data-modeling/docker
 $ docker-compose up
+```
 
+Development workflow would be to use visual studio code to run the jupyter notebook.  And then start the dockerized database systems using the docker-compose file in this docker folder.
 Do the above commands to start multiple services at once:
 * start a jupyter notebook container
 * start a cassandra container as well
