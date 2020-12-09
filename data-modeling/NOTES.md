@@ -15,9 +15,19 @@ $ docker-compose up -d
 
 to stop and remove all containers:
 ```
-$ docker stop cassandra && docker rm cassandra
+$ docker-compose down or
 $ docker stop postgres && docker rm postgres
+$ docker stop cassandra && docker rm cassandra
 ```
+Notes: 
+* the postgres database container is configured to always restart, so you'll see that it'll keep restarting again and again.
+
+* security for postgres database\
+You must specify POSTGRES_PASSWORD to a non-empty value for the superuser. 
+For example, "-e POSTGRES_PASSWORD=password" on "docker run".\
+You may also use "POSTGRES_HOST_AUTH_METHOD=trust" to allow all
+connections without a password. This is *not* recommended.
+See PostgreSQL documentation about "trust":  https://www.postgresql.org/docs/current/auth-trust.html
 
 Development workflow would be to use visual studio code to run the jupyter notebooks.  Start the database system contains using the docker-compose file in above docker folder.
 Do the above commands to start multiple services at once:

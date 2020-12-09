@@ -11,6 +11,6 @@ services:
     container_name: postgres
     restart: always
     environment:
-      POSTGRES_PASSWORD: "let'sgo"
+      POSTGRES_PASSWORD: "password"
     ports:
-      - '7000:5432'
+      - '5000:5432'
