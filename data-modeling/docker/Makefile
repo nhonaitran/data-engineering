@@ -23,6 +23,8 @@ setup:
 	sleep 5
 	@echo ---- drop and create tables
 	python $(DB_SCRIPT_DIR)/create_tables.py	
+	@echo ---- insert data
+	python $(DB_SCRIPT_DIR)/etl.py
 
 verify:
 	@echo ---- login to project database
