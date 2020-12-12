@@ -1,7 +1,6 @@
 
 
 HOST=127.0.0.1
-PORT=5000
 DBADMIN=postgres
 DB=postgres
 DB_SCRIPT_DIR=~/src/data-engineering/data-modeling/project-template
@@ -19,7 +18,7 @@ run:
 setup:
 	sleep 5
 	@echo ---- setup studentdb database and student user
-	psql -h $(HOST) -p $(PORT) -U $(DBADMIN) -d $(DB) -f $(DB_SCRIPT_DIR)/create_db_user.sql	
+	psql -h $(HOST) -U $(DBADMIN) -d $(DB) -f $(DB_SCRIPT_DIR)/create_db_user.sql	
 	sleep 5
 	@echo ---- drop and create tables
 	python $(DB_SCRIPT_DIR)/create_tables.py	
@@ -28,6 +27,6 @@ setup:
 
 verify:
 	@echo ---- login to project database
-	psql -h $(HOST) -p $(PORT) -U student -d sparkifydb
+	psql -h $(HOST) -U student -d sparkifydb
 
 .PHONY: clean run setup verify
