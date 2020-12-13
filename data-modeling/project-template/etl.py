@@ -1,3 +1,4 @@
+import argparse
 import os
 import glob
 import psycopg2
@@ -82,7 +83,6 @@ def process_log_file(cur, filepath):
                         row.userAgent]
         cur.execute(songplay_table_insert, songplay_data)
 
-
 def process_data(cur, conn, filepath, func):
     # get all files matching extension from directory
     all_files = []
@@ -101,14 +101,23 @@ def process_data(cur, conn, filepath, func):
         conn.commit()
         print('{}/{} files processed.'.format(i, num_files))
 
-
 def main():
+    my_parser = argparse.ArgumentParser(description='Import data from json files into database')
+    my_parser.add_argument('Path',
+                       metavar='path',
+                       type=str,
+                       help='the path to json files')
+    args = my_parser.parse_args()
+    if not os.path.isdir(args.Path):
+        print('The path specified does not exist')
+        sys.exit()
+
     conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
     cur = conn.cursor()
 
     data_dir = "/Users/ai.tran/src/data-engineering/data-modeling/project-template/"
-    process_data(cur, conn, filepath=data_dir+'data/song_data', func=process_song_file)
-    process_data(cur, conn, filepath=data_dir+'data/log_data', func=process_log_file)
+    process_data(cur, conn, filepath=f"{args.Path}/data/song_data", func=process_song_file)
+    process_data(cur, conn, filepath=f"{args.Path}/data/log_data", func=process_log_file)
 
     conn.close()
 

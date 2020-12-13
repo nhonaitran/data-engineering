@@ -77,23 +77,49 @@ INSERT INTO songplays (
 """)
 
 user_table_insert = ("""
-INSERT INTO users (id, first_name, last_name, gender, level) VALUES (%s, %s, %s, %s, %s)
+INSERT INTO users (
+    id, 
+    first_name, 
+    last_name, 
+    gender, 
+    level
+) VALUES (%s, %s, %s, %s, %s)
 ON CONFLICT DO NOTHING
 """)
 
 song_table_insert = ("""
-INSERT INTO songs (id, title, artist_id, duration, year) VALUES (%s, %s, %s, %s, %s)
+INSERT INTO songs (
+    id, 
+    title, 
+    artist_id, 
+    duration, 
+    year
+) VALUES (%s, %s, %s, %s, %s)
 ON CONFLICT DO NOTHING
 """)
 
 artist_table_insert = ("""
-INSERT INTO artists (id, name, location, latitude, longitude) VALUES (%s, %s, %s, %s, %s)
+INSERT INTO artists (
+    id, 
+    name, 
+    location, 
+    latitude, 
+    longitude
+) VALUES (%s, %s, %s, %s, %s)
 ON CONFLICT DO NOTHING
 """)
 
 
 time_table_insert = ("""
-INSERT INTO time (start_time, hour, day, week, month, year, weekday) VALUES (%s, %s, %s, %s, %s, %s, %s)
+INSERT INTO time (
+    start_time, 
+    hour, 
+    day, 
+    week, 
+    month, 
+    year, 
+    weekday
+) VALUES (%s, %s, %s, %s, %s, %s, %s)
 """)
 
 # FIND SONGS
@@ -108,5 +134,14 @@ AND     songs.duration = %s;
 
 # QUERY LISTS
 
-create_table_queries = [songplay_table_create, user_table_create, song_table_create, artist_table_create, time_table_create]
-drop_table_queries = [songplay_table_drop, user_table_drop, song_table_drop, artist_table_drop, time_table_drop]
+create_table_queries = [songplay_table_create, 
+                        user_table_create, 
+                        song_table_create, 
+                        artist_table_create, 
+                        time_table_create]
+
+drop_table_queries = [songplay_table_drop, 
+                    user_table_drop, 
+                    song_table_drop, 
+                    artist_table_drop, 
+                    time_table_drop]
