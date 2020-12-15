@@ -1,6 +1,5 @@
 # Music Database for Song Play Analysis
 
-
 This repo contains python modules and utility shell scripts that automate the ETL workflow pipeline for transfering music song and log datasets from json files into a PostgreSQL database for song play analysis.
 
 The json data files come in two datasets:
@@ -36,7 +35,7 @@ The ETL python module or the bulk-import script can be used to import the data c
 
 
 ## Star Schema for Music Database
-___
+
 To facility song play analysis, the music PostgreSQL database based on a star schema is created to store the imported song and log data.
 
 The database schema includes the `songplays` fact table and four dimension tables that are linked by the primary keys defined in the dimenion tables.
@@ -59,7 +58,7 @@ Below is brief description of the fact and dimentions tables of the star schema 
 Each dimension table has a primary key which is used to join with the `songplays` fact table for getting more detail information about the song(s), the artist(s), the user(s), and/or relevant time related to the listening session.
 
 ## ETL Pipeline Workflow
-___
+
 
 The data ETL workflow uses different technique to import the data dependent on the size of the datasets.  Each technique is described below.
 
@@ -112,7 +111,7 @@ The `bulk-import` shell script reads in the content of the json files and invoke
 The `extract` shell script then run ETL SQL scripts to extract songs, artists, users and songplays data from the holding table into their own tables as described in above star schema for the database.
 
 ## Sample Queries
-___
+
 Here are some of queries that you can run to view the import data.
 
 Login to the database:
