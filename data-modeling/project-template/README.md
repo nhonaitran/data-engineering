@@ -93,6 +93,14 @@ The `extract` shell script then run ETL SQL scripts to extract songs, artists, u
 
 ## Sample Queries
 ___
+Examine the number of songs played with free vs paid level per user.
+```
+sparkifydb=> select user_id, level, count(*)
+from songplays
+group by user_id, level
+order by user_id;
+```
+The above query shows users tend to listen to more songs with `paid` level compared to their `free` level, which is expected since there might be a limit of free songs they can listen to.
 
 Average length of songs played:
 ```
