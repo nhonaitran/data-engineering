@@ -9,7 +9,7 @@ HOST=127.0.0.1
 DBADMIN=postgres
 DB=postgres
 PORT=5432
-DB_SCRIPT_DIR=~/src/data-engineering/data-modeling/project-template
+DB_SCRIPT_DIR=~/src/data-engineering/data-modeling/etl-pipeline
 
 all: clean run create-db-users create-tables import-data verify
 

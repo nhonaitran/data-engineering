@@ -1,6 +1,7 @@
 # Music Database for Song Play Analysis
 
-This document describes the ETL pipeline workflow used for transfer musica data from json files into a Postgresql database for song play analysis.
+
+This repo contains python modules and utility shell scripts that automate the ETL workflow pipeline for transfering music song and log datasets from json files into a PostgreSQL database for song play analysis.
 
 The json data files come in two datasets:
 
@@ -33,9 +34,14 @@ And below is an example of what the data in a log file, 2018-11-12-events.json, 
 
 The ETL python module or the bulk-import script can be used to import the data contained in these json files into a Postgresql database, which can be used for queries to analysis song play
 
+
 ## Star Schema for Music Database
 ___
-To facility song play analysis, the music database based on a star schema is created to store the song and log data.  Users' listening sessions data is stored in the `songplays` fact table.  This fact table is supported by four dimensions tables which contains users inforation, songs information, artists information, and the time play for the songs per session.
+To facility song play analysis, the music PostgreSQL database based on a star schema is created to store the imported song and log data.
+
+The database schema includes the `songplays` fact table and four dimension tables that are linked by the primary keys defined in the dimenion tables.
+
+Users' listening sessions data is stored in the `songplays` fact table.  This table only contains the primary key for the song, artist, user, and timestamp in each entry.  Metadata such as song title or artist's or user's name, etc. can be queried by joining the fact table with the respective dimension tables using these primary keys.
 
 ![star-schema](star-schema.png)
 
@@ -54,23 +60,37 @@ Each dimension table has a primary key which is used to join with the `songplays
 
 ## ETL Pipeline Workflow
 ___
+
+The data ETL workflow uses different technique to import the data dependent on the size of the datasets.  Each technique is described below.
+
 ### Working with small datasets
-A dockerized environment is setup for individual developers to run an independent postgres musica database with music data loaded.  
+A dockerized environment with postgresql database is setup to load music data into an independent  music database with ease.  A Makefile is provided in the `docker` directory that can use to either run individual commands as needed or `make all` to perform the entire ETL pipeline.
 
-A Makefile is provided in this directory that you can use to either run individual commands as needed or `make all` to do everything for you.
-
-The method is suited for import small datasets into the database. This is due to the fact that the ETL pipeline is written to traverse given directory and process json file by file, which can take a few minutes.
+This method is suited for importing small datasets into the database. This is due to the fact that the ETL python module is written to traverse the log and song directories and process the json file by file, which can take a few minutes.
 Please refer to the `Working with large datasets` section for faster method of importing data using COPY command avaiable in Postgresql.
 
-At the project root directory, type the followings:
+
+To run the entire ETL pipeline, at the project root directory `etl-pipeline`, type the followings:
+
+Download this repo to local machine, and go to the `data-modeling`
 ```
+$ git clone https://github.com/nhonaitran/data-engineering.git
+$ cd data-engineering/data-modeling
+```
+
+then project dir, setup virtual environment, install library dependencies, and off we go:
+```
+$ cd etl-pipeline
+$ python -v venv .venv
+$ source .venv/bin/activate
+$ pip install -r requirements.txt
 $ cd docker
 $ make all
 ```
 
-This make target does the following tasks:
+The make `all` target performs the following tasks:
 1. shut down the docker posrgresl (and cassandra) container, and remove it
-2. start up a new container
+2. start up a new postgresql container
 3. create the student role (with appropriate privileges granted) and default database
 4. run the `create_tables` python module to create the tables in the sparkifydb database
 5. run the `etl` module with given path where the json files reside
@@ -79,12 +99,12 @@ This make target does the following tasks:
 ### Working with large datasets
 For larger datasets, Postgresql database provides the COPY command that can be used for fast batch importing data into the database.
 
-At the project root directory, type the following:
+A couple of shell scripts are provided for kick off the data import and ETL processing with SQL scripts. At the project root directory `etl-pipeline`, type the followings:
 ```
-$ cd bin
+$ cd etl-pipeline/bin
 $ sh bulk-import.sh ../data/log_data log_data
 $ sh bulk-import.sh ../data/song_data song_data
-$ sh extract.sh 
+$ sh extract_and_verify.sh 
 ```
 
 The `bulk-import` shell script reads in the content of the json files and invoke the COPY command provided by postgresl to import the json content the given table name
@@ -93,6 +113,35 @@ The `extract` shell script then run ETL SQL scripts to extract songs, artists, u
 
 ## Sample Queries
 ___
+Here are some of queries that you can run to view the import data.
+
+Login to the database:
+```
+$ psql -h 127.0.0.1 -p 5432 -U student -d sparkifydb
+```
+
+General data about the datasets:
+```
+sparkifydb=> select count(*) from users;
+ count
+-------
+    96
+(1 row)
+
+sparkifydb=> select count(*) from artists;
+ count
+-------
+    69
+(1 row)
+
+sparkifydb=> select count(*) from songs;
+ count
+-------
+    71
+(1 row)
+
+```
+
 Examine the number of songs played with free vs paid level per user.
 ```
 sparkifydb=> select user_id, level, count(*)
@@ -133,7 +182,6 @@ sparkifydb=> select a.name, count(*) from songplays sp left join artists a on sp
 Top 10 popular songs:
 
 ```
-$ psql -h 127.0.0.1 -U student -d sparkifydb
 sparkifydb=> select s.title, count(*) from songplays sp left join songs s on sp.song_id = s.id group by s.title order by count(*) desc limit 10;
      title      | count
 ----------------+-------
