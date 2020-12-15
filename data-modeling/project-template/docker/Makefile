@@ -24,7 +24,7 @@ run:
 create-db-users:
 	sleep 5
 	@echo ---- setup studentdb database and student user
-	psql -h $(HOST) -p $(PORT) -U $(DBADMIN) -d $(DB) -f $(DB_SCRIPT_DIR)/sql/create_db_user.sql
+	PGPASSWORD=password psql -h $(HOST) -p $(PORT) -U $(DBADMIN) -d $(DB) -f $(DB_SCRIPT_DIR)/sql/create_db_user.sql
 
 create-tables:
 	sleep 5
@@ -37,6 +37,6 @@ import-data:
 
 verify:
 	@echo ---- verify imported data
-	psql -h $(HOST) -p $(PORT) -U student -d sparkifydb -f $(DB_SCRIPT_DIR)/sql/queries.sql
+	PGPASSWORD=student psql -h $(HOST) -p $(PORT) -U student -d sparkifydb -f $(DB_SCRIPT_DIR)/sql/verify_queries.sql
 	
 .PHONY: clean run setup verify

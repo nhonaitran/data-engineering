@@ -54,32 +54,39 @@ def process_log_file(cur, filepath):
         cur.execute(time_table_insert, list(row.values))
 
     # load user table
-    user_df = df[['userId', 'firstName', 'lastName', 'gender', 'level']].drop_duplicates()
+    user_df = df[['userId', 'firstName', 'lastName', 'gender', 'location']]
 
     # insert user records
     for i, row in user_df.iterrows():
+        # TODO: better to filter this in the user_df, like anything with userId != ''
+        if row.userId == '':
+            continue
         cur.execute(user_table_insert, row)
 
     # insert songplay records
     for index, row in df.iterrows():
-        
+        if row.userId == '':
+            userId = None
+        else:
+            userId = row.userId
+            
+        # TODO: can't figure out how to pass in float value without having convert to string
         # get songid and artistid from song and artist tables
-        cur.execute(song_select, (row.song, row.artist, row.length))
+        cur.execute(song_select, (row.song, row.artist, str(row.length)))
         results = cur.fetchone()
-        
+
         if results:
             songid, artistid = results
         else:
             songid, artistid = None, None
 
         # insert songplay record
-        songplay_data = [row.ts, 
-                        row.userId, 
+        songplay_data = [row.sessionId,
                         row.level, 
-                        songid, 
+                        row.ts,
+                        userId, 
                         artistid, 
-                        row.sessionId, 
-                        row.location, 
+                        songid, 
                         row.userAgent]
         cur.execute(songplay_table_insert, songplay_data)
 
@@ -102,12 +109,12 @@ def process_data(cur, conn, filepath, func):
         print('{}/{} files processed.'.format(i, num_files))
 
 def main():
-    my_parser = argparse.ArgumentParser(description='Import data from json files into database')
-    my_parser.add_argument('Path',
+    app_parser = argparse.ArgumentParser(description='Import data from json files into database')
+    app_parser.add_argument('Path',
                        metavar='path',
                        type=str,
                        help='the path to json files')
-    args = my_parser.parse_args()
+    args = app_parser.parse_args()
     if not os.path.isdir(args.Path):
         print('The path specified does not exist')
         sys.exit()
@@ -115,7 +122,6 @@ def main():
     conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
     cur = conn.cursor()
 
-    data_dir = "/Users/ai.tran/src/data-engineering/data-modeling/project-template/"
     process_data(cur, conn, filepath=f"{args.Path}/data/song_data", func=process_song_file)
     process_data(cur, conn, filepath=f"{args.Path}/data/log_data", func=process_log_file)
 
