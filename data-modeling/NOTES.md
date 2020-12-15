@@ -23,11 +23,13 @@ Notes:
 * the postgres database container is configured to always restart, so you'll see that it'll keep restarting again and again.
 
 * security for postgres database\
-You must specify POSTGRES_PASSWORD to a non-empty value for the superuser. 
-For example, "-e POSTGRES_PASSWORD=password" on "docker run".\
-You may also use "POSTGRES_HOST_AUTH_METHOD=trust" to allow all
-connections without a password. This is *not* recommended.
-See PostgreSQL documentation about "trust":  https://www.postgresql.org/docs/current/auth-trust.html
+create .pgpass file in my home dir to store the database credentials for 
+this class
+
+https://tableplus.com/blog/2019/09/how-to-use-pgpass-in-postgresql.html
+https://www.postgresql.org/docs/current/libpq-pgpass.html
+https://dba.stackexchange.com/questions/14740/how-to-use-psql-with-no-password-prompt
+
 
 Development workflow would be to use visual studio code to run the jupyter notebooks.  Start the database system contains using the docker-compose file in above docker folder.
 Do the above commands to start multiple services at once:
@@ -89,3 +91,6 @@ Basics of cassandra:
     * clustering and data columns
     * Labeled element
 
+
+# Miscellaneous cool tools
+http://asciiflow.com/
