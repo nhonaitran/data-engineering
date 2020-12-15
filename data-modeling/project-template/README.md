@@ -68,6 +68,14 @@ $ cd docker
 $ make all
 ```
 
+This make target does the following tasks:
+1. shut down the docker posrgresl (and cassandra) container, and remove it
+2. start up a new container
+3. create the student role (with appropriate privileges granted) and default database
+4. run the `create_tables` python module to create the tables in the sparkifydb database
+5. run the `etl` module with given path where the json files reside
+6. run sql scripts to verify data is imported into the table as expected.  
+
 ### Working with large datasets
 For larger datasets, Postgresql database provides the COPY command that can be used for fast batch importing data into the database.
 
@@ -78,12 +86,10 @@ $ sh bulk-import.sh ../data/log_data log_data
 $ sh bulk-import.sh ../data/song_data song_data
 $ sh extract.sh 
 ```
-Artists informatiom is stored in the `Artists` table.  This project provides two methods for imthe ETL module that traverse the 
-Artists and songs information extracted from the json files in `song_data` directory, where users information and their listening sessions information are extracted to the  By searching for the single entry from log data that show a match of a song from a specific artist
-that indicates that the location saved in log data is the area where the user is listening from,
-and not the location where the artist is from.
 
-duration field in song_data is the length of the song it self in seconds.
+The `bulk-import` shell script reads in the content of the json files and invoke the COPY command provided by postgresl to import the json content the given table name
+
+The `extract` shell script then run ETL SQL scripts to extract songs, artists, users and songplays data from the holding table into their own tables as described in above star schema for the database.
 
 ## Sample Queries
 ___

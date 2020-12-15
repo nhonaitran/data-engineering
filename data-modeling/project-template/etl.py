@@ -119,14 +119,19 @@ def main():
         print('The path specified does not exist')
         sys.exit()
 
-    conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
-    cur = conn.cursor()
+    conn = None
+    try:
+        conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
+        cur = conn.cursor()
 
-    process_data(cur, conn, filepath=f"{args.Path}/data/song_data", func=process_song_file)
-    process_data(cur, conn, filepath=f"{args.Path}/data/log_data", func=process_log_file)
-
-    conn.close()
-
+        process_data(cur, conn, filepath=f"{args.Path}/data/song_data", func=process_song_file)
+        process_data(cur, conn, filepath=f"{args.Path}/data/log_data", func=process_log_file)
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+        
 
 if __name__ == "__main__":
     main()
