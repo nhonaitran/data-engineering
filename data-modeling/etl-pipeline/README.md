@@ -202,28 +202,21 @@ sparkifydb=> select avg(s.duration) from songplays sp left join songs s on sp.so
 Top 10 popular artist:
 ```
 sparkifydb=> select a.name, count(*) from songplays sp left join artists a on sp.artist_id = a.artist_id group by a.name order by count(*) desc limit 10;
-       name        | count
--------------------+-------
-                   |  8035
- Lupe Fiasco       |     5
- Lionel Richie     |     4
- Tom Petty         |     4
- Gob               |     1
- Elena             |     1
- Trafik            |     1
- Jimmy Wakely      |     1
- Sophie B. Hawkins |     1
- Gwen Stefani      |     1
-(10 rows)
+ name  | count
+-------+-------
+       |  6819
+ Elena |     1
+(2 rows)
 ```
 
 Top 10 popular songs:
 
 ```
 sparkifydb=> select s.title, count(*) from songplays sp left join songs s on sp.song_id = s.song_id group by s.title order by count(*) desc limit 10;
+sparkifydb=> select s.title, count(*) from songplays sp left join songs s on sp.song_id = s.song_id group by s.title order by count(*) desc limit 10;
      title      | count
 ----------------+-------
-                |  8055
+                |  6819
  Setanta matins |     1
 (2 rows)
 ```
