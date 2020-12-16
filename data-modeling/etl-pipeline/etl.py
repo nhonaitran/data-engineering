@@ -1,3 +1,8 @@
+"""
+ETL workflow module for transfering song and log datasets into the 
+PostgreSQL database for song play analysis.
+"""
+
 import argparse
 import os
 import glob
@@ -7,6 +12,10 @@ from sql_queries import *
 
 
 def process_song_file(cur, filepath):
+    """
+    Load given json file into dataframe, extract song and artist data from dataframe and
+    insert into songs and artists tables, respectively. 
+    """
     # open song file
     df = pd.read_json(filepath, lines=True)
 
@@ -14,8 +23,8 @@ def process_song_file(cur, filepath):
     song_data = df[['song_id', 
                     'title', 
                     'artist_id', 
-                    'duration', 
-                    'year']].values[0].tolist()
+                    'year', 
+                    'duration']].values[0].tolist()
     cur.execute(song_table_insert, song_data)
     
     # insert artist record
@@ -28,6 +37,11 @@ def process_song_file(cur, filepath):
 
 
 def process_log_file(cur, filepath):
+    """
+    - Load given json file into dataframe, extract data about the listening session and insert into fact table.
+    - Perform looking of user id, song id and artist id for the user.
+    - Also breakdown song listening timestamp into much high granular details for analysis
+    """
     # open log file
     df = pd.read_json(filepath, lines=True)
 
@@ -54,7 +68,7 @@ def process_log_file(cur, filepath):
         cur.execute(time_table_insert, list(row.values))
 
     # load user table
-    user_df = df[['userId', 'firstName', 'lastName', 'gender', 'location']]
+    user_df = df[['userId', 'firstName', 'lastName', 'gender', 'level']]
 
     # insert user records
     for i, row in user_df.iterrows():
@@ -81,16 +95,22 @@ def process_log_file(cur, filepath):
             songid, artistid = None, None
 
         # insert songplay record
-        songplay_data = [row.sessionId,
+        songplay_data = [row.ts,
+                        userId,
                         row.level, 
-                        row.ts,
-                        userId, 
-                        artistid, 
                         songid, 
+                        artistid, 
+                        row.sessionId,
+                        row.location,
                         row.userAgent]
         cur.execute(songplay_table_insert, songplay_data)
 
 def process_data(cur, conn, filepath, func):
+    """
+    Given the database connection and cursor objects, the file path where the data files reside,
+    and the function object, this proc traverses the given directory and invoke the given function
+    to perform ETL operation on each file found.
+    """
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
@@ -108,7 +128,13 @@ def process_data(cur, conn, filepath, func):
         conn.commit()
         print('{}/{} files processed.'.format(i, num_files))
 
+
 def main():
+    """
+    App entry function to kick off the ETL process for given file location
+    Initiate the database connection and cursor objects to connect to the 
+    PostgreSQL database for data import.
+    """
     app_parser = argparse.ArgumentParser(description='Import data from json files into database')
     app_parser.add_argument('Path',
                        metavar='path',
