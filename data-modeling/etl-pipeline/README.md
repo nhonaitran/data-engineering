@@ -191,7 +191,7 @@ The above query shows users tend to listen to more songs with `paid` level compa
 
 Average length of songs played:
 ```
-sparkifydb=> select avg(s.duration) from songplays sp left join songs s on sp.song_id = s.id group by s.title order by count(*) desc limit 10;
+sparkifydb=> select avg(s.duration) from songplays sp left join songs s on sp.song_id = s.song_id group by s.title order by count(*) desc limit 10;
         avg
 -------------------
 
@@ -201,7 +201,7 @@ sparkifydb=> select avg(s.duration) from songplays sp left join songs s on sp.so
 
 Top 10 popular artist:
 ```
-sparkifydb=> select a.name, count(*) from songplays sp left join artists a on sp.artist_id = a.id group by a.name order by count(*) desc limit 10;
+sparkifydb=> select a.name, count(*) from songplays sp left join artists a on sp.artist_id = a.artist_id group by a.name order by count(*) desc limit 10;
        name        | count
 -------------------+-------
                    |  8035
@@ -220,7 +220,7 @@ sparkifydb=> select a.name, count(*) from songplays sp left join artists a on sp
 Top 10 popular songs:
 
 ```
-sparkifydb=> select s.title, count(*) from songplays sp left join songs s on sp.song_id = s.id group by s.title order by count(*) desc limit 10;
+sparkifydb=> select s.title, count(*) from songplays sp left join songs s on sp.song_id = s.song_id group by s.title order by count(*) desc limit 10;
      title      | count
 ----------------+-------
                 |  8055
