@@ -1,6 +1,7 @@
 .idea/
 .vscode/
 .DS_Store
+.devcontainer
 
 __pycache__/
 .venv/
