@@ -1,0 +1,6 @@
+wheel==0.36.2
+psycopg2-binary==2.8.6
+boto3==1.16.58
+pandas==1.2.1
+click=7.1.2
+

@@ -5,6 +5,10 @@ import configparser
 config = configparser.ConfigParser()
 config.read('dwh.cfg')
 
+LOG_DATA  = config.get('S3','LOG_DATA')
+SONG_DATA = config.get('S3','SONG_DATA')
+DWH_ROLE_ARN = config.get('IAM_ROLE','ARN')
+
 # DROP TABLES
 
 staging_events_table_drop = "DROP TABLE IF EXISTS staging_events"
@@ -25,6 +29,7 @@ CREATE TABLE staging_events (
 
 staging_songs_table_create = ("""
 CREATE TABLE staging_songs (
+
 )
 """)
 
@@ -90,23 +95,23 @@ staging_events_copy = ("""
 	COPY staging_events FROM '{}'
 	credentials 'aws_iam_role={}'
 	gzip delimiter ';'	
-""").format(DWH_DATASET, DWH_ROLE_ARN)
+""").format(LOG_DATA, DWH_ROLE_ARN)
 
 staging_songs_copy = ("""
 	COPY staging_songs FROM '{}'
 	credentials 'aws_iam_role={}'
 	gzip delimiter ';'
-""").format(DWH_DATASET, DWH_ROLE_ARN)
+""").format(SONG_DATA, DWH_ROLE_ARN)
 
 # FINAL TABLES
 
 songplay_table_insert = ("""
 INSERT INTO songplays (
-    start_time, 
-    user_id, 
+    start_time,
+    user_id,
     level,
     song_id,
-    artist_id, 
+    artist_id,
     session_id,
     location,
     user_agent
@@ -115,25 +120,25 @@ INSERT INTO songplays (
 
 user_table_insert = ("""
 INSERT INTO users (
-    user_id, 
-    first_name, 
-    last_name, 
-    gender, 
+    user_id,
+    first_name,
+    last_name,
+    gender,
     level
 ) VALUES (%s, %s, %s, %s, %s)
-ON CONFLICT (user_id) DO UPDATE 
-SET first_name = EXCLUDED.first_name, 
-    last_name = EXCLUDED.last_name, 
-    gender = EXCLUDED.gender, 
+ON CONFLICT (user_id) DO UPDATE
+SET first_name = EXCLUDED.first_name,
+    last_name = EXCLUDED.last_name,
+    gender = EXCLUDED.gender,
     level = EXCLUDED.level;
 """)
 
 song_table_insert = ("""
 INSERT INTO songs (
-    song_id, 
-    title, 
+    song_id,
+    title,
     artist_id,
-    year, 
+    year,
     duration
 ) VALUES (%s, %s, %s, %s, %s)
 ON CONFLICT DO NOTHING
@@ -141,10 +146,10 @@ ON CONFLICT DO NOTHING
 
 artist_table_insert = ("""
 INSERT INTO artists (
-    artist_id, 
-    name, 
-    location, 
-    latitude, 
+    artist_id,
+    name,
+    location,
+    latitude,
     longitude
 ) VALUES (%s, %s, %s, %s, %s)
 ON CONFLICT DO NOTHING
@@ -152,12 +157,12 @@ ON CONFLICT DO NOTHING
 
 time_table_insert = ("""
 INSERT INTO time (
-    start_time, 
-    hour, 
-    day, 
-    week, 
-    month, 
-    year, 
+    start_time,
+    hour,
+    day,
+    week,
+    month,
+    year,
     weekday
 ) VALUES (%s, %s, %s, %s, %s, %s, %s)
 ON CONFLICT DO NOTHING
