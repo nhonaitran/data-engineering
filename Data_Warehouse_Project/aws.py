@@ -91,9 +91,16 @@ def create_cluster():
     logging.info(msg)
 
 
-def delete_cluster():
-    redshift.delete_cluster(ClusterIdentifier=DWH_NAME, SkipFinalClusterSnapshot=True)
-    show_cluster_property()
+def delete_cluster() -> None:
+    """
+    Delete the cluster with given cluster identifier
+    :return: None
+    """
+    try:
+        logging.info(f"Deleting cluster {DWH_NAME}")
+        redshift.delete_cluster(ClusterIdentifier=DWH_NAME, SkipFinalClusterSnapshot=True)
+    except Exception as e:
+        logging.error(e)
 
 
 def setup_role() -> None:
@@ -131,6 +138,10 @@ def setup_role() -> None:
 
 
 def show_cluster_property() -> None:
+    """
+    Show current status of a cluster
+    :return: None
+    """
     if cluster_props is None:
         return
 

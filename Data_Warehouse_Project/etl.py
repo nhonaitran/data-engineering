@@ -32,19 +32,17 @@ def insert_tables(cur, conn):
 
 
 @click.command()
-@click.option('--command', default="lst", help='Operation to execute.')
 @click.option('--log_level', default="INFO", help='Level of logging.')
-def main(command, log_level):
+def main(log_level):
     aws.logging.basicConfig(level=log_level)
 
     aws.show_cluster_property()
 
     conn, cur = aws.connect_to_data_warehouse()
 
-    if command == "lst":
-        load_staging_tables(cur, conn)
-    else:
-        insert_tables(cur, conn)
+    load_staging_tables(cur, conn)
+
+    insert_tables(cur, conn)
 
     conn.close()
 

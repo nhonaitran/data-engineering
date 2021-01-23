@@ -1,5 +1,4 @@
 import click
-import json
 import logging
 import aws
 from sql_queries import create_table_queries, drop_table_queries
@@ -38,6 +37,7 @@ def main(command, log_level):
             aws.show_cluster_property()
 
     elif command == "delete":
+        aws.show_cluster_property()
         aws.delete_cluster()
 
     elif command == "create":
