@@ -124,35 +124,44 @@ process to then load data into following fact and dimensions tables:
 * `artists` dimension
 * `time` dimension
 
-### CLI Operations
+## CLI Operations
 
 Below is the summary of all operations to launch the data warehose in AWS and 
 relevant ETL commands to populate the tables in it.
 
+To kick off the entire ETL process with virtual environment already
+created and activated.
+```
+$ make run
+```
+or to first activate the virtual environment and run ETL 
+```
+$ make arun
+```
+
+To clean up the cluster and virtual environment:
+```
+$ make clean
+```
+
 To launch a new cluster:
 ```
-$ python create_tables.py --command launch 
+$ make launch-cluster 
 ```
 
 To delete an existing cluster:
 ```
-$ python create_tables.py --command delete 
+$ make remove
 ```
 
 To create the database schema with all tables:
 ```
-$ python create_tables.py --command create
+$ make create-dwh
 ```
 
 To check current status of the cluster:
 ```
-$ python create_tables.py --command status
-```
-
-To run ETL process to load data into staging
-tables and populate relevant tables from staging tables:
-```
-$ python etl.py
+$ make check-cluster-status
 ```
 
 

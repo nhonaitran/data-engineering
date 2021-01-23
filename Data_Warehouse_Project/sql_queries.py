@@ -194,11 +194,6 @@ SELECT ts,
 FROM songplay_timestamp;
 """)
 
-staging_events_count = ("""
-SELECT COUNT(*) as total
-FROM staging_events;
-""")
-
 # QUERY LISTS
 
 create_table_queries = [staging_events_table_create, staging_songs_table_create,
@@ -224,3 +219,4 @@ insert_table_queries = [user_table_insert,
                         songplay_table_insert]
 
 
+verify_tables = ["staging_events", "staging_songs", "users", "time", "artists", "songs", "songplays"]

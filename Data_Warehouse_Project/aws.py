@@ -69,8 +69,9 @@ def create_cluster():
     Given the AWS IAM and redshift clients, create and launch a new cluster
     :return: None
     """
-    msg = "Creating Redshift cluster"
     try:
+        logging.info(f"Creating Redshift cluster {DWH_NAME}")
+
         # check the IAM role ARN
         role_arn = iam.get_role(RoleName=DWH_IAM_ROLE)['Role']['Arn']
 
@@ -84,11 +85,8 @@ def create_cluster():
             MasterUserPassword=DWH_DB_PASSWORD,
             IamRoles=[role_arn]
         )
-        msg = msg + ", done."
     except Exception as e:
-        msg = msg + str(e)
-
-    logging.info(msg)
+        logging.error(e)
 
 
 def delete_cluster() -> None:
