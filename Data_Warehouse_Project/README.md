@@ -86,17 +86,13 @@ The data warehouse uses the AWS Redshift columnar database to
 store event logs data extracted from the user listening sessions and songs information
 to support user listening analysis.
 
-Session listening log data are stored in the `log-data` json files.  The data
-is loaded into the `staging_events` table, which is used for populating the
-`songplays` fact table.
+The process begins first with loading data from `log_data` and `song_data` json files in an AWS S3 bucket
+into the `staging_events` and `staging_songs` tables, respectively.
 
-Songs' and users' data are stored in `song-data` json files.  The data
-are loaded and stored in the `staging_songs` table for latter 
-extracted to the dimension tables.
+Then, ETL module extracts data from these staging tables into the `songplays` fact table and `users`,
+`artists`, `songs`, and `time` dimension tables.
 
-The ETL pipeline for launching a data warehouse with relevant facts and dimensions
-tables to support songs analysis can be executed with the following
-command options.
+The fact table can be joined with the dimension tables to analyze the users' listening sessions.
 
 Launching a new cluster uses the infrastructure-as-code `create_table.py`
 module to create a new cluster in AWS with provided configurations
@@ -125,6 +121,9 @@ process to then load data into following fact and dimensions tables:
 * `time` dimension
 
 ## CLI Operations
+
+**Before issuing the `make run` to perform the entire ETL process, create a `dwh.cfg` from the sample configuration file, 
+`sample-dwh.cfg` and fill in the relevant settings.**
 
 Below is the summary of all operations to launch the data warehose in AWS and 
 relevant ETL commands to populate the tables in it.
@@ -169,36 +168,36 @@ $ make check-cluster-status
 
 Here are some of queries that you can run to view the import data.
 
-Login to the database:
+General data about the data warehouse:
 ```
-$ psql -h 127.0.0.1 -p 5432 -U student -d sparkifydb
-```
-
-General data about the datasets:
-```
-sparkifydb=> select count(*) from users;
- count
--------
-    96
-(1 row)
-
-sparkifydb=> select count(*) from artists;
- count
--------
-    69
-(1 row)
-
-sparkifydb=> select count(*) from songs;
- count
--------
-    71
-(1 row)
-
+$ ︎make verify
+python verify.py
+01.23.2021 16:25:04 PM [INFO] Data warehouse cluster info: host=song-analytics-cluster dbname=sparkify user=prophet password=*** port=5439
+01.23.2021 16:25:04 PM [INFO] Init AWS Client and Resource instances
+01.23.2021 16:25:04 PM [INFO] Fetching AWS IAM role for loading data to data warehouse
+01.23.2021 16:25:05 PM [INFO]                  Key                                                                                              Value
+0  ClusterIdentifier                                                                             song-analytics-cluster
+1           NodeType                                                                                          dc2.large
+2      ClusterStatus                                                                                          available
+3     MasterUsername                                                                                            prophet
+4             DBName                                                                                           sparkify
+5           Endpoint  {'Address': 'song-analytics-cluster.c5c7ovgg2wrr.us-west-2.redshift.amazonaws.com', 'Port': 5439}
+6              VpcId                                                                                       vpc-d6ac6fae
+7      NumberOfNodes                                                                                                  4
+01.23.2021 16:25:05 PM [INFO] Connecting to sparkify at song-analytics-cluster.c5c7ovgg2wrr.us-west-2.redshift.amazonaws.com, and get cursor to it
+01.23.2021 16:25:06 PM [INFO] Verify data warehouse fact and dimention tables are populated properly
+01.23.2021 16:25:06 PM [INFO] Table staging_events: 8056 rows.
+01.23.2021 16:25:06 PM [INFO] Table staging_songs: 14896 rows.
+01.23.2021 16:25:06 PM [INFO] Table users: 104 rows.
+01.23.2021 16:25:06 PM [INFO] Table time: 6820 rows.
+01.23.2021 16:25:06 PM [INFO] Table artists: 10014 rows.
+01.23.2021 16:25:06 PM [INFO] Table songs: 14896 rows.
+01.23.2021 16:25:06 PM [INFO] Table songplays: 7215 rows.
 ```
 
 Examine the number of songs played with free vs paid level per user.
 ```
-sparkifydb=> select user_id, level, count(*)
+select user_id, level, count(*)
 from songplays
 group by user_id, level
 order by user_id;
