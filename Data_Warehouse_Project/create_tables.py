@@ -1,5 +1,6 @@
 import configparser
 import boto3
+import botocore
 import click
 import json
 import pandas as pd
@@ -10,21 +11,21 @@ from sql_queries import create_table_queries, drop_table_queries
 config = configparser.ConfigParser()
 config.read('dwh.cfg')
 
-KEY                     = config.get('AWS','KEY')
-SECRET                  = config.get('AWS','SECRET')
+KEY = config.get('AWS', 'KEY')
+SECRET = config.get('AWS', 'SECRET')
 
-DWH_CLUSTER_TYPE        = config.get("CLUSTER","DWH_CLUSTER_TYPE")
-DWH_NUM_NODES           = config.get("CLUSTER","DWH_NUM_NODES")
-DWH_NODE_TYPE           = config.get("CLUSTER","DWH_NODE_TYPE")
-DWH_REGION              = config.get("CLUSTER","DWH_REGION")
+DWH_NAME = config.get("CLUSTER", "NAME")
+DWH_REGION = config.get("CLUSTER", "REGION")
+DWH_CLUSTER_TYPE = config.get("CLUSTER", "TYPE")
+DWH_NUM_NODES = config.get("CLUSTER", "NUM_NODES")
+DWH_NODE_TYPE = config.get("CLUSTER", "NODE_TYPE")
 
-DWH_CLUSTER_IDENTIFIER  = config.get("CLUSTER","DWH_CLUSTER_IDENTIFIER")
-DWH_DB                  = config.get("CLUSTER","DWH_DB")
-DWH_DB_USER             = config.get("CLUSTER","DWH_DB_USER")
-DWH_DB_PASSWORD         = config.get("CLUSTER","DWH_DB_PASSWORD")
-DWH_PORT                = config.get("CLUSTER","DWH_PORT")
+DWH_DB = config.get("CLUSTER", "DB")
+DWH_DB_USER = config.get("CLUSTER", "DB_USER")
+DWH_DB_PASSWORD = config.get("CLUSTER", "DB_PASSWORD")
+DWH_PORT = config.get("CLUSTER", "DB_PORT")
 
-DWH_IAM_ROLE_NAME       = config.get("IAM_ROLE", "ARN")
+DWH_IAM_ROLE = config.get("IAM_ROLE", "ARN")
 
 
 def drop_tables(cur, conn):
@@ -44,89 +45,126 @@ def create_tables(cur, conn):
         cur.execute(query)
         conn.commit()
 
-def prettyRedshiftProps(props):
+
+def prettify_redshift_props(props):
     """
-    Show current propertiers about the cluster
+    Map a dict containing Redshift properties to a pandas dataframe
     """
     pd.set_option('display.max_colwidth', None)
-    keysToShow = ["ClusterIdentifier", "NodeType", "ClusterStatus", "MasterUsername", "DBName", "Endpoint", "NumberOfNodes", 'VpcId']
-    x = [(k, v) for k,v in props.items() if k in keysToShow]
+    keysToShow = ["ClusterIdentifier", "NodeType", "ClusterStatus", "MasterUsername", "DBName", "Endpoint",
+                  "NumberOfNodes", 'VpcId']
+    x = [(k, v) for k, v in props.items() if k in keysToShow]
     return pd.DataFrame(data=x, columns=["Key", "Value"])
 
+
 def create_aws_resources():
+    """
+    Create AWS resources and clients
+    :return:
+    ec2, s3, iam, redshift
+    """
     ec2 = boto3.resource('ec2',
-                        region_name=DWH_REGION,
-                        aws_access_key_id=KEY,
-                        aws_secret_access_key=SECRET)
+                         region_name=DWH_REGION,
+                         aws_access_key_id=KEY,
+                         aws_secret_access_key=SECRET)
 
     s3 = boto3.resource('s3',
-                    region_name=DWH_REGION,
-                    aws_access_key_id=KEY,
-                    aws_secret_access_key=SECRET)
-
-    iam = boto3.client('iam',
-                    region_name=DWH_REGION,
-                    aws_access_key_id=KEY,
-                    aws_secret_access_key=SECRET)
-
-    redshift = boto3.client('redshift',
                         region_name=DWH_REGION,
                         aws_access_key_id=KEY,
                         aws_secret_access_key=SECRET)
+
+    iam = boto3.client('iam',
+                       region_name=DWH_REGION,
+                       aws_access_key_id=KEY,
+                       aws_secret_access_key=SECRET)
+
+    redshift = boto3.client('redshift',
+                            region_name=DWH_REGION,
+                            aws_access_key_id=KEY,
+                            aws_secret_access_key=SECRET)
 
     return ec2, s3, iam, redshift
 
-def setup_role(iam):
+
+def setup_role(iam) -> None:
+    """
+    Given the AWS IAM object, setup a programmatic role for for interacting
+    with the AWS data warehouse.
+    :param iam: AWS IAM client
+    :return: None
+    """
+    print("setting up IAM role...")
     try:
         # creating a new IAM Role
-        dwhRole = iam.create_role(
+        iam.create_role(
             Path='/',
-            RoleName=DWH_IAM_ROLE_NAME,
+            RoleName=DWH_IAM_ROLE,
             Description="Allow Redshift clusters to call AWS services on your behalf",
             AssumeRolePolicyDocument=json.dumps(
                 {'Statement': [{'Action': 'sts:AssumeRole',
-                            'Effect': 'Allow',
-                            'Principal': {'Service': 'redshift.amazonaws.com'}}],
-                'Version': '2012-10-17'}
+                                'Effect': 'Allow',
+                                'Principal': {'Service': 'redshift.amazonaws.com'}}],
+                 'Version': '2012-10-17'}
             )
         )
 
-        # Attach Policy
-        iam.attach_role_policy(RoleName=DWH_IAM_ROLE_NAME, PolicyArn="arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess")['ResponseMetadata']['HTTPStatusCode']
+        # attach policy to role
+        iam.attach_role_policy(RoleName=DWH_IAM_ROLE,
+                               PolicyArn="arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess")['ResponseMetadata'][
+            'HTTPStatusCode']
+        return 1
+    except iam.exceptions.EntityAlreadyExistsException:
+        print("Role already exists")
+        return 1
     except Exception as e:
         print(e)
+        return 0
+
 
 def create_cluster(iam, redshift):
+    """
+    Given the AWS IAM and redshift clients, create and launch a new
+    cluster
+    :param iam:
+    :param redshift:
+    :return:
+    """
+    msg = "creating cluster..."
     try:
-         # check the IAM role ARN
-        roleArn = iam.get_role(RoleName=DWH_IAM_ROLE_NAME)['Role']['Arn']
+        # check the IAM role ARN
+        role_arn = iam.get_role(RoleName=DWH_IAM_ROLE)['Role']['Arn']
 
-        response = redshift.create_cluster(
-            # TODO: add parameters for hardware
+        redshift.create_cluster(
             ClusterType=DWH_CLUSTER_TYPE,
             NodeType=DWH_NODE_TYPE,
             NumberOfNodes=int(DWH_NUM_NODES),
-
-            # TODO: add parameters for identifiers & credentials
             DBName=DWH_DB,
-            ClusterIdentifier=DWH_CLUSTER_IDENTIFIER,
+            ClusterIdentifier=DWH_NAME,
             MasterUsername=DWH_DB_USER,
             MasterUserPassword=DWH_DB_PASSWORD,
-
-            # TODO: add parameter for role (to allow s3 access)
-            IamRoles=[roleArn]
+            IamRoles=[role_arn]
         )
+        msg = msg + "done."
     except Exception as e:
-        print(e)
+        msg = msg + str(e)
 
-def open_tcp_port_for_external_access(ec2, clusterProps):
+    print(msg)
+
+
+def open_tcp_port_for_external_access(ec2, cluster_props):
+    """
+    Open TCP port for access database
+    :param ec2:
+    :param cluster_props:
+    :return:
+    """
     try:
-        vpc = ec2.Vpc(id=clusterProps['VpcId'])
-        defaultSg = list(vpc.security_groups.all())[0]
-        print(defaultSg)
+        vpc = ec2.Vpc(id=cluster_props['VpcId'])
+        default_sg = list(vpc.security_groups.all())[0]
+        print(default_sg)
 
-        defaultSg.authorize_ingress(
-            GroupName=defaultSg.group_name,
+        default_sg.authorize_ingress(
+            GroupName=default_sg.group_name,
             CidrIp='0.0.0.0/0',
             IpProtocol='TCP',
             FromPort=int(DWH_PORT),
@@ -135,60 +173,60 @@ def open_tcp_port_for_external_access(ec2, clusterProps):
     except Exception as e:
         print(e)
 
+
 @click.command()
 @click.option('--command', default="create", help='Operation to execute.')
 def main(command):
-
-    conn_str = f"host={DWH_CLUSTER_IDENTIFIER} dbname={DWH_DB} user={DWH_DB_USER} password={DWH_DB_PASSWORD} port={DWH_PORT}"
+    print("cluster database info:")
+    conn_str = f"host={DWH_NAME} dbname={DWH_DB} user={DWH_DB_USER} password={DWH_DB_PASSWORD} port={DWH_PORT}"
     print(conn_str)
 
     ec2, s3, iam, redshift = create_aws_resources()
 
-    print(command)
     if command == "create":
-        setup_role(iam)
-        create_cluster(iam, redshift)
+        if setup_role(iam):
+            create_cluster(iam, redshift)
 
-        clusterProps = redshift.describe_clusters(ClusterIdentifier=DWH_CLUSTER_IDENTIFIER)['Clusters'][0]
-        print(prettyRedshiftProps(clusterProps))
+            cluster_props = redshift.describe_clusters(ClusterIdentifier=DWH_NAME)['Clusters'][0]
+            print(prettify_redshift_props(cluster_props))
 
     elif command == "delete":
 
-        redshift.delete_cluster(ClusterIdentifier=DWH_CLUSTER_IDENTIFIER, SkipFinalClusterSnapshot=True)
+        redshift.delete_cluster(ClusterIdentifier=DWH_NAME, SkipFinalClusterSnapshot=True)
 
-        clusterProps = redshift.describe_clusters(ClusterIdentifier=DWH_CLUSTER_IDENTIFIER)['Clusters'][0]
-        print(prettyRedshiftProps(clusterProps))
+        cluster_props = redshift.describe_clusters(ClusterIdentifier=DWH_NAME)['Clusters'][0]
+        print(prettify_redshift_props(cluster_props))
 
     else:
         try:
-            clusterProps = redshift.describe_clusters(ClusterIdentifier=DWH_CLUSTER_IDENTIFIER)['Clusters'][0]
-            print(prettyRedshiftProps(clusterProps))
+            cluster_props = redshift.describe_clusters(ClusterIdentifier=DWH_NAME)['Clusters'][0]
+            print(prettify_redshift_props(cluster_props))
 
-            DWH_ENDPOINT = clusterProps['Endpoint']['Address']
-            DWH_ROLE_ARN = clusterProps['IamRoles'][0]['IamRoleArn']
+            DWH_ENDPOINT = cluster_props['Endpoint']['Address']
+            DWH_ROLE_ARN = cluster_props['IamRoles'][0]['IamRoleArn']
             print("DWH_ENDPOINT :: ", DWH_ENDPOINT)
             print("DWH_ROLE_ARN :: ", DWH_ROLE_ARN)
 
-            if clusterProps['ClusterStatus'] == "available":
-                open_tcp_port_for_external_access(ec2)
+            if cluster_props['ClusterStatus'] == "available":
+                open_tcp_port_for_external_access(ec2, cluster_props)
 
-                sampleDbBucket = s3.Bucket("udacity-labs")
-                for obj in sampleDbBucket.objects.filter(Prefix="tickets"):
+                sample_db_bucket = s3.Bucket("udacity-labs")
+                for obj in sample_db_bucket.objects.filter(Prefix="tickets"):
                     print(obj)
         except Exception as e:
             print(e)
     # connect to the database and get cursor to it
-    #conn = psycopg2.connect(conn_str)
-    #cur = conn.cursor()
+    # conn = psycopg2.connect(conn_str)
+    # cur = conn.cursor()
 
     # drop all tables
-    #drop_tables(cur, conn)
+    # drop_tables(cur, conn)
 
     # create all tables
-    #create_tables(cur, conn)
+    # create_tables(cur, conn)
 
     # close connection to database
-    #conn.close()
+    # conn.close()
 
 
 if __name__ == "__main__":
