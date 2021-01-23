@@ -6,5 +6,6 @@
 __pycache__/
 .venv/
 .env/
-
+dwh.cfg
+dwh.cfg.bk
 
