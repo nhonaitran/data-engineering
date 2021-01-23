@@ -1,10 +1,10 @@
 import configparser
 import boto3
-import botocore
 import click
 import json
 import pandas as pd
 import psycopg2
+import logging
 from sql_queries import create_table_queries, drop_table_queries
 
 # Load data warehouse configuration settings
@@ -51,9 +51,15 @@ def prettify_redshift_props(props):
     Map a dict containing Redshift properties to a pandas dataframe
     """
     pd.set_option('display.max_colwidth', None)
-    keysToShow = ["ClusterIdentifier", "NodeType", "ClusterStatus", "MasterUsername", "DBName", "Endpoint",
-                  "NumberOfNodes", 'VpcId']
-    x = [(k, v) for k, v in props.items() if k in keysToShow]
+    keys_to_show = ["ClusterIdentifier",
+                    "NodeType",
+                    "ClusterStatus",
+                    "MasterUsername",
+                    "DBName",
+                    "Endpoint",
+                    "NumberOfNodes",
+                    'VpcId']
+    x = [(k, v) for k, v in props.items() if k in keys_to_show]
     return pd.DataFrame(data=x, columns=["Key", "Value"])
 
 
@@ -63,6 +69,7 @@ def create_aws_resources():
     :return:
     ec2, s3, iam, redshift
     """
+    logging.info("Init AWS clients and resources")
     ec2 = boto3.resource('ec2',
                          region_name=DWH_REGION,
                          aws_access_key_id=KEY,
@@ -93,7 +100,7 @@ def setup_role(iam) -> None:
     :param iam: AWS IAM client
     :return: None
     """
-    print("setting up IAM role...")
+    logging.info("Setting up IAM role")
     try:
         # creating a new IAM Role
         iam.create_role(
@@ -114,10 +121,10 @@ def setup_role(iam) -> None:
             'HTTPStatusCode']
         return 1
     except iam.exceptions.EntityAlreadyExistsException:
-        print("Role already exists")
+        logging.info("Role already exists")
         return 1
     except Exception as e:
-        print(e)
+        logging.error(e)
         return 0
 
 
@@ -129,7 +136,7 @@ def create_cluster(iam, redshift):
     :param redshift:
     :return:
     """
-    msg = "creating cluster..."
+    msg = "creating cluster"
     try:
         # check the IAM role ARN
         role_arn = iam.get_role(RoleName=DWH_IAM_ROLE)['Role']['Arn']
@@ -148,7 +155,7 @@ def create_cluster(iam, redshift):
     except Exception as e:
         msg = msg + str(e)
 
-    print(msg)
+    logging.info(msg)
 
 
 def open_tcp_port_for_external_access(ec2, cluster_props):
@@ -161,7 +168,7 @@ def open_tcp_port_for_external_access(ec2, cluster_props):
     try:
         vpc = ec2.Vpc(id=cluster_props['VpcId'])
         default_sg = list(vpc.security_groups.all())[0]
-        print(default_sg)
+        logging.info(default_sg)
 
         default_sg.authorize_ingress(
             GroupName=default_sg.group_name,
@@ -176,10 +183,14 @@ def open_tcp_port_for_external_access(ec2, cluster_props):
 
 @click.command()
 @click.option('--command', default="create", help='Operation to execute.')
-def main(command):
-    print("cluster database info:")
+@click.option('--log_level', default="INFO", help='Level of logging.')
+def main(command, log_level):
+    logging.basicConfig(format='%(asctime)s [%(levelname)s] %(message)s',
+                        datefmt='%m/%d/%Y %I:%M:%S %p',
+                        level=log_level)
+
     conn_str = f"host={DWH_NAME} dbname={DWH_DB} user={DWH_DB_USER} password={DWH_DB_PASSWORD} port={DWH_PORT}"
-    print(conn_str)
+    logging.info(f"data warehouse cluster info: {conn_str}")
 
     ec2, s3, iam, redshift = create_aws_resources()
 
@@ -188,33 +199,36 @@ def main(command):
             create_cluster(iam, redshift)
 
             cluster_props = redshift.describe_clusters(ClusterIdentifier=DWH_NAME)['Clusters'][0]
-            print(prettify_redshift_props(cluster_props))
+            logging.info(prettify_redshift_props(cluster_props))
+
+            open_tcp_port_for_external_access(ec2, cluster_props)
 
     elif command == "delete":
 
         redshift.delete_cluster(ClusterIdentifier=DWH_NAME, SkipFinalClusterSnapshot=True)
 
         cluster_props = redshift.describe_clusters(ClusterIdentifier=DWH_NAME)['Clusters'][0]
-        print(prettify_redshift_props(cluster_props))
+        logging.info(prettify_redshift_props(cluster_props))
 
     else:
         try:
             cluster_props = redshift.describe_clusters(ClusterIdentifier=DWH_NAME)['Clusters'][0]
-            print(prettify_redshift_props(cluster_props))
+            logging.info(prettify_redshift_props(cluster_props))
 
-            DWH_ENDPOINT = cluster_props['Endpoint']['Address']
-            DWH_ROLE_ARN = cluster_props['IamRoles'][0]['IamRoleArn']
-            print("DWH_ENDPOINT :: ", DWH_ENDPOINT)
-            print("DWH_ROLE_ARN :: ", DWH_ROLE_ARN)
+            end_point = cluster_props['Endpoint']['Address']
+            role_arn = cluster_props['IamRoles'][0]['IamRoleArn']
+            logging.info("DWH_ENDPOINT :: ", end_point)
+            logging.info("DWH_ROLE_ARN :: ", role_arn)
 
             if cluster_props['ClusterStatus'] == "available":
-                open_tcp_port_for_external_access(ec2, cluster_props)
-
                 sample_db_bucket = s3.Bucket("udacity-labs")
                 for obj in sample_db_bucket.objects.filter(Prefix="tickets"):
-                    print(obj)
+                    logging.info(obj)
+
+        except redshift.exceptions.ClusterNotFoundFault:
+            logging.warning(f"Cluster {DWH_NAME} has been deleted")
         except Exception as e:
-            print(e)
+            logging.error(e)
     # connect to the database and get cursor to it
     # conn = psycopg2.connect(conn_str)
     # cur = conn.cursor()
