@@ -1,7 +1,7 @@
 venv:
 	python -m venv .venv
 
-run: venv
+setup: venv
 	source .venv/bin/activate && \
 	pip install wheel && \
 	python -m pip install --upgrade pip && \
