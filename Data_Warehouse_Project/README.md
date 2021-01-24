@@ -122,7 +122,7 @@ process to then load data into following fact and dimensions tables:
 
 ## CLI Operations
 
-**Before issuing the `make run` to perform the entire ETL process, create a `dwh.cfg` from the sample configuration file, 
+**Before issuing the `make arun` to perform the entire ETL process, create a `dwh.cfg` from the sample configuration file, 
 `sample-dwh.cfg` and fill in the relevant settings.**
 
 Below is the summary of all operations to launch the data warehose in AWS and 
