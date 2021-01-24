@@ -163,18 +163,21 @@ def connect_to_data_warehouse():
     """
     open_tcp_port_for_external_access()
 
-    end_point = cluster_props['Endpoint']['Address']
+    try:
+        end_point = cluster_props['Endpoint']['Address']
 
-    logging.info(f"Connecting to {DWH_DB} at {end_point}, and get cursor to it")
-    conn = psycopg2.connect(
-        host=end_point,
-        user=DWH_DB_USER,
-        port=DWH_PORT,
-        password=DWH_DB_PASSWORD,
-        dbname=DWH_DB
-    )
-    cur = conn.cursor()
-    return conn, cur
+        logging.info(f"Connecting to {DWH_DB} at {end_point}, and get cursor to it")
+        conn = psycopg2.connect(
+            host=end_point,
+            user=DWH_DB_USER,
+            port=DWH_PORT,
+            password=DWH_DB_PASSWORD,
+            dbname=DWH_DB
+        )
+        cur = conn.cursor()
+        return conn, cur
+    except Exception as e:
+        logging.warning(e)
 
 
 def prettify_redshift_props():
@@ -201,7 +204,7 @@ def open_tcp_port_for_external_access():
     """
     try:
         vpc = ec2.Vpc(id=cluster_props['VpcId'])
-        default_sg = list(vpc.security_groups.all())[2]
+        default_sg = list(vpc.security_groups.all())[0]
         logging.info(default_sg)
 
         default_sg.authorize_ingress(
@@ -212,7 +215,7 @@ def open_tcp_port_for_external_access():
             ToPort=int(DWH_PORT)
         )
     except Exception as e:
-        logging.error(e)
+        logging.warning(e)
 
 
 # show db info

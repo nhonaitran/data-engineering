@@ -52,7 +52,7 @@ CREATE TABLE staging_songs (
 
 songplay_table_create = ("""
 CREATE TABLE IF NOT EXISTS songplays (
-songplay_id int IDENTITY(1,1),
+songplay_id int IDENTITY(1,1) NOT NULL,
 start_time	varchar,
 user_id		int NOT NULL,
 level		varchar,
@@ -60,55 +60,51 @@ song_id		varchar,
 artist_id	varchar,
 session_id	int NOT NULL,
 location	varchar,
-user_agent	varchar,
-PRIMARY KEY(songplay_id)
+user_agent	varchar
 );
 """)
 
 user_table_create = ("""
 CREATE TABLE IF NOT EXISTS users (
-user_id 	int NOT NULL,
+user_id 	int NOT NULL sortkey,
 first_name	varchar NOT NULL,
 last_name	varchar NOT NULL,
 gender		varchar,
-level		varchar,
-PRIMARY KEY(user_id)
-);
+level		varchar)
+DISTSTYLE all;
 """)
 
 song_table_create = ("""
 CREATE TABLE IF NOT EXISTS songs (
-song_id		varchar,
+song_id		varchar NOT NULL,
 title		varchar NOT NULL,
-artist_id	varchar NOT NULL,
+artist_id	varchar NOT NULL sortkey,
 year		int,
-duration	real,
-PRIMARY KEY(song_id)
-);
+duration	real)
+DISTSTYLE all;
 """)
 
 artist_table_create = ("""
 CREATE TABLE IF NOT EXISTS artists (
-artist_id	varchar,
-name		varchar NOT NULL,
+artist_id	varchar NOT NULL,
+name		varchar NOT NULL sortkey,
 location	varchar,
 latitude	real,
-longitude	real,
-PRIMARY KEY(artist_id)
-);
+longitude	real)
+DISTSTYLE all;
 """)
 
 time_table_create = ("""
 CREATE TABLE IF NOT EXISTS time (
-start_time 	varchar,
+start_time 	varchar NOT NULL,
 hour		smallint,
 day			smallint,
 week		smallint,
 month		smallint,
 year		int,
-weekday		varchar,
-PRIMARY KEY(start_time)
-);
+weekday		varchar
+)
+DISTSTYLE all;
 """)
 
 # STAGING TABLES

@@ -195,46 +195,5 @@ python verify.py
 01.23.2021 16:25:06 PM [INFO] Table songplays: 7215 rows.
 ```
 
-Examine the number of songs played with free vs paid level per user.
-```
-select user_id, level, count(*)
-from songplays
-group by user_id, level
-order by user_id;
-```
-The above query shows users tend to listen to more songs with `paid` level compared to their `free` level, which is expected since there might be a limit of free songs they can listen to.
-
-Average length of songs played:
-```
-sparkifydb=> select avg(s.duration) from songplays sp left join songs s on sp.song_id = s.song_id group by s.title order by count(*) desc limit 10;
-        avg
--------------------
-
- 269.5832214355469
-(2 rows)
-```
-
-Top 10 popular artist:
-```
-sparkifydb=> select a.name, count(*) from songplays sp left join artists a on sp.artist_id = a.artist_id group by a.name order by count(*) desc limit 10;
- name  | count
--------+-------
-       |  6819
- Elena |     1
-(2 rows)
-```
-
-Top 10 popular songs:
-
-```
-sparkifydb=> select s.title, count(*) from songplays sp left join songs s on sp.song_id = s.song_id group by s.title order by count(*) desc limit 10;
-sparkifydb=> select s.title, count(*) from songplays sp left join songs s on sp.song_id = s.song_id group by s.title order by count(*) desc limit 10;
-     title      | count
-----------------+-------
-                |  6819
- Setanta matins |     1
-(2 rows)
-```
-
 
 
