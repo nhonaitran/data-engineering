@@ -9,3 +9,5 @@ __pycache__/
 dwh.cfg
 dwh.cfg.bk
 
+.ipynb_checkpoints/
+
