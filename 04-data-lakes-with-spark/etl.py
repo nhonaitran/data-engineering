@@ -14,7 +14,7 @@ os.environ['AWS_SECRET_ACCESS_KEY'] = config.get('default', 'AWS_SECRET_ACCESS_K
 
 def create_spark_session():
     """
-    Create Spark session
+    Create Spark session:q
     """
     spark = SparkSession \
         .builder \
