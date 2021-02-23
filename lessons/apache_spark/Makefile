@@ -1,17 +1,15 @@
-setup-venv:
-	python -m venv .venv
+.PHONY: venv-create pip-install jupyter-server clean notebook
 
-install:
-	. .venv/bin/activate && python -m pip install --upgrade pip && pip install wheel && pip install -r requirements.txt
+venv-create:
+	python -m venv venv
 
-notebook:
-	. .venv/bin/activate && jupyter-lab
+pip-install: 
+	. venv/bin/activate && python -m pip install --upgrade pip && pip install wheel && pip install -r requirements.txt
 
-run: setup-venv install notebook
+jupyter-server:
+	. venv/bin/activate && jupyter lab
 
 clean:
-	rm -rf .venv
+	rm -rf venv
 
-
-
-	
+notebook: venv-create pip-install jupyter-server
