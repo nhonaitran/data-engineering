@@ -2,12 +2,15 @@
 .vscode/
 .DS_Store
 .devcontainer
+.pem
 
 __pycache__/
+venv/
 .venv/
 .env/
 dwh.cfg
 dwh.cfg.bk
 
 .ipynb_checkpoints/
+
 
