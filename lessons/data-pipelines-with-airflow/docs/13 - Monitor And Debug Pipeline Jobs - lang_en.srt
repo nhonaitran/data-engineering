@@ -1,0 +1,180 @@
+1
+00:00:00,000 --> 00:00:02,759
+So now that we've learned about schedules,
+
+2
+00:00:02,759 --> 00:00:06,269
+I want to talk about one of my favorite features of airflow and that feature is
+
+3
+00:00:06,269 --> 00:00:09,599
+how airflow has so many operators that are shipped along with it.
+
+4
+00:00:09,599 --> 00:00:14,265
+Many common data engineering problems can be solved using the provided operators.
+
+5
+00:00:14,265 --> 00:00:15,855
+In the beginning of this lecture,
+
+6
+00:00:15,855 --> 00:00:17,280
+we discussed an example,
+
+7
+00:00:17,280 --> 00:00:20,160
+a removed data from S3 to Redshift.
+
+8
+00:00:20,160 --> 00:00:22,035
+As you can see on this diagram,
+
+9
+00:00:22,035 --> 00:00:25,214
+airflow comes out of the box with an operator that can perform this work.
+
+10
+00:00:25,214 --> 00:00:29,820
+All you have to do is correctly instantiate the operator with your desired parameters.
+
+11
+00:00:29,820 --> 00:00:33,460
+We'll walk through an example of this in an exercise shortly.
+
+12
+00:00:34,039 --> 00:00:38,144
+Remember our definition of a graph from earlier in the lesson,
+
+13
+00:00:38,145 --> 00:00:42,505
+every graph is made up of nodes and then edges,
+
+14
+00:00:42,505 --> 00:00:44,675
+which are these arrows between the nodes.
+
+15
+00:00:44,674 --> 00:00:50,254
+These are the edges. An airflow DAGs are nodes or tasks,
+
+16
+00:00:50,255 --> 00:00:51,500
+so these are the tasks, A,
+
+17
+00:00:51,500 --> 00:00:59,810
+B, C, D, and E. The ordering dependencies between those tasks are the edges of the graph.
+
+18
+00:00:59,810 --> 00:01:03,080
+Task dependencies can be described programmatically in
+
+19
+00:01:03,079 --> 00:01:06,694
+airflow using the double carrot operator.
+
+20
+00:01:06,694 --> 00:01:10,744
+So, these can be referred to as chevrons carrots.
+
+21
+00:01:10,745 --> 00:01:14,135
+I'll try to refer to them using the phrase carrot, so double carrot.
+
+22
+00:01:14,135 --> 00:01:18,995
+So, if I say A, then double carrot B, in airflow code,
+
+23
+00:01:18,995 --> 00:01:25,625
+that means that task A will be executed and run before task B.
+
+24
+00:01:25,625 --> 00:01:27,349
+If we look at our nodes here,
+
+25
+00:01:27,349 --> 00:01:29,989
+this is the description of exactly what's happening.
+
+26
+00:01:29,989 --> 00:01:34,539
+A will be run and executed before B.
+
+27
+00:01:34,540 --> 00:01:38,150
+Likewise, if I flip those carrots the other direction,
+
+28
+00:01:38,150 --> 00:01:41,645
+this would say that B comes before A.
+
+29
+00:01:41,644 --> 00:01:47,119
+In this example, we've defined two tasks: hello_world_task and goodbye_world_task.
+
+30
+00:01:47,120 --> 00:01:50,359
+Then, we use the double carrot operator to tell airflow
+
+31
+00:01:50,359 --> 00:01:54,155
+at the hello_world_task comes before goodbye_world_task.
+
+32
+00:01:54,155 --> 00:01:57,469
+So again, we have a hello_world_task and a goodbye_world_task,
+
+33
+00:01:57,469 --> 00:02:00,355
+and we've omitted some of the code here for clarity.
+
+34
+00:02:00,355 --> 00:02:03,575
+But you can see down here that I've told the airflow, "Hey,
+
+35
+00:02:03,575 --> 00:02:09,384
+I want hello_world_task to come before goodbye_world_task".
+
+36
+00:02:09,384 --> 00:02:12,674
+Alternatively, you can use the function call
+
+37
+00:02:12,675 --> 00:02:17,025
+set_downstream and the other function calls set_upstream functions if you prefer.
+
+38
+00:02:17,025 --> 00:02:20,510
+That being said, idiomatic or normal
+
+39
+00:02:20,509 --> 00:02:24,414
+airflow code that you would see would use these double carrot operators.
+
+40
+00:02:24,414 --> 00:02:26,299
+In this class, we'll ask that you use
+
+41
+00:02:26,300 --> 00:02:30,530
+the double carrot operators rather than set_downstream and set_upstream.
+
+42
+00:02:30,530 --> 00:02:34,069
+But I wanted to make sure that you were aware of what they are,
+
+43
+00:02:34,069 --> 00:02:37,739
+so that if you see that on other people's code, you know what they mean.
+
+44
+00:02:38,169 --> 00:02:41,809
+Here's an example of what that would look like if you use encode.
+
+45
+00:02:41,810 --> 00:02:47,939
+So this is the same as the previous example, hello_world set_downstream goodbye_world.
+

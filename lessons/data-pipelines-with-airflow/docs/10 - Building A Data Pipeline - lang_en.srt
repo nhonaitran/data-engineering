@@ -1,0 +1,232 @@
+1
+00:00:00,000 --> 00:00:02,690
+So, now, we're going to move into actually creating a DAG.
+
+2
+00:00:02,690 --> 00:00:04,908
+Creating a DAG in Airflow,
+
+3
+00:00:04,908 --> 00:00:07,168
+as we already saw in the previous example,
+
+4
+00:00:07,168 --> 00:00:11,084
+is as simple as importing the class from the Airflow module and instantiating it.
+
+5
+00:00:11,085 --> 00:00:15,390
+All you need to get going is a name for your DAG and a description of what it does.
+
+6
+00:00:15,390 --> 00:00:17,760
+You'll also need to specify when Airflow should
+
+7
+00:00:17,760 --> 00:00:21,060
+begin executing a DAG by giving it a start date.
+
+8
+00:00:21,059 --> 00:00:24,524
+For some DAGs, you may want the start date to be today.
+
+9
+00:00:24,524 --> 00:00:28,079
+For others though, you may want to set this time in the past.
+
+10
+00:00:28,079 --> 00:00:31,199
+This feature is useful if you have older datasets
+
+11
+00:00:31,199 --> 00:00:34,380
+that you want to process in pieces rather than all at once.
+
+12
+00:00:34,380 --> 00:00:36,390
+We'll cover this in detail later in the course,
+
+13
+00:00:36,390 --> 00:00:39,285
+but for now, you just need to know this is a very useful feature.
+
+14
+00:00:39,284 --> 00:00:42,209
+Finally, most DAGs run on a scheduled basis.
+
+15
+00:00:42,210 --> 00:00:45,890
+You define a schedule for your DAG by giving it a schedule interval.
+
+16
+00:00:45,890 --> 00:00:49,340
+In this example, you can see that we've
+
+17
+00:00:49,340 --> 00:00:53,070
+given it a daily interval so this DAG should run once a day.
+
+18
+00:00:53,070 --> 00:00:57,240
+We'll talk a little bit about this syntax here in a moment.
+
+19
+00:00:57,520 --> 00:01:00,890
+Operators are the building blocks of DAGs.
+
+20
+00:01:00,890 --> 00:01:03,865
+They define the actual work what a DAG will perform.
+
+21
+00:01:03,865 --> 00:01:06,590
+Operators are abstracted nature and need to be
+
+22
+00:01:06,590 --> 00:01:10,189
+parameterized in your pipeline definition to actually be used.
+
+23
+00:01:10,189 --> 00:01:12,259
+So, we're parameterizing it here.
+
+24
+00:01:12,260 --> 00:01:15,859
+Once you've parameterized and instantiated an operator for use in your DAG,
+
+25
+00:01:15,859 --> 00:01:18,394
+it is referred to as a task.
+
+26
+00:01:18,394 --> 00:01:21,289
+When I said that you've parameterized an operator,
+
+27
+00:01:21,290 --> 00:01:23,060
+I mean that we provided the Python operator or
+
+28
+00:01:23,060 --> 00:01:25,299
+function the parameters it needs to function.
+
+29
+00:01:25,299 --> 00:01:30,034
+So, we have three parameters here that paramaterize our Python operator,
+
+30
+00:01:30,034 --> 00:01:34,024
+we have the task_id, python_callable, and a DAG.
+
+31
+00:01:34,025 --> 00:01:36,740
+In this example, we define a task built on
+
+32
+00:01:36,739 --> 00:01:39,969
+the Python operator which executes the function Hello World.
+
+33
+00:01:39,969 --> 00:01:42,469
+So, this should look very familiar to you from the previous demo.
+
+34
+00:01:42,469 --> 00:01:46,319
+So, that explains all the components that we've used so far.
+
+35
+00:01:46,599 --> 00:01:51,280
+Airflow defines a handful of other special schedule strings once,
+
+36
+00:01:51,280 --> 00:01:54,430
+hourly, daily, weekly, and so on and so forth.
+
+37
+00:01:54,430 --> 00:01:57,850
+You can also specify schedules using cron format.
+
+38
+00:01:57,849 --> 00:02:00,399
+If you set your schedule to none,
+
+39
+00:02:00,400 --> 00:02:02,425
+the Python value none,
+
+40
+00:02:02,424 --> 00:02:06,640
+the scheduler will only run the DAG when you initiate a run through the UI.
+
+41
+00:02:06,640 --> 00:02:08,775
+If you omit a schedule altogether,
+
+42
+00:02:08,775 --> 00:02:11,020
+your DAG will default to running once a day.
+
+43
+00:02:11,020 --> 00:02:14,290
+Again, if you don't specify a schedule by default,
+
+44
+00:02:14,289 --> 00:02:17,509
+it will run once a day from the start date.
+
+45
+00:02:18,289 --> 00:02:20,834
+If your start date is in the past,
+
+46
+00:02:20,835 --> 00:02:23,170
+Airflow run your DAG as many times as there are
+
+47
+00:02:23,169 --> 00:02:26,229
+schedule intervals between that start date and the current date.
+
+48
+00:02:26,229 --> 00:02:28,879
+Unless you specify an optional end date,
+
+49
+00:02:28,879 --> 00:02:33,079
+Airflow will continue to run your DAG until you disable or delete the DAG.
+
+50
+00:02:33,080 --> 00:02:36,140
+It's important to note that the Airflow scheduler will do
+
+51
+00:02:36,139 --> 00:02:39,169
+its best to run DAGs in our tasks as soon as it can.
+
+52
+00:02:39,169 --> 00:02:41,794
+However, depending on how busy your Airflow workers are,
+
+53
+00:02:41,794 --> 00:02:43,564
+that may not be right away.
+
+54
+00:02:43,564 --> 00:02:45,710
+If your Airflow workers have more work than they can
+
+55
+00:02:45,710 --> 00:02:47,974
+handle or a task is taking a long time,
+
+56
+00:02:47,974 --> 00:02:50,614
+new work will have to wait for older work to finish.
+
+57
+00:02:50,615 --> 00:02:52,700
+It's important to be mindful of this as you pick how
+
+58
+00:02:52,699 --> 00:02:55,569
+frequently your DAG and your task should run.
+

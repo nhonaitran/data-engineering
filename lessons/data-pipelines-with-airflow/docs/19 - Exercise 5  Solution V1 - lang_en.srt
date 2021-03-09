@@ -1,0 +1,40 @@
+1
+00:00:00,410 --> 00:00:05,115
+All right. Well, I hope you guys had fun working on that exercise.
+
+2
+00:00:05,115 --> 00:00:08,745
+Just to review one more time what we did.
+
+3
+00:00:08,744 --> 00:00:13,869
+We added a context variable to our code.
+
+4
+00:00:16,039 --> 00:00:19,664
+I gave you guys the opportunity to do whatever you would like,
+
+5
+00:00:19,664 --> 00:00:22,410
+so you could print anything you'd like here,
+
+6
+00:00:22,410 --> 00:00:26,339
+as long as you were using keyword arguments based off of
+
+7
+00:00:26,339 --> 00:00:34,335
+the actual information available on Airflow on the website.
+
+8
+00:00:34,335 --> 00:00:38,370
+The other thing you need to do was actually set provide context equal to true.
+
+9
+00:00:38,369 --> 00:00:44,250
+With those two things, you're good to go and execute your DAG,
+
+10
+00:00:44,250 --> 00:00:47,340
+and actually see the task print out that information.
+

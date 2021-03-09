@@ -1,0 +1,536 @@
+1
+00:00:00,000 --> 00:00:03,165
+Okay, so I'm going to conclude.
+
+2
+00:00:03,165 --> 00:00:04,935
+Before we finished out here,
+
+3
+00:00:04,934 --> 00:00:06,299
+I want to go through one;
+
+4
+00:00:06,299 --> 00:00:08,550
+final demonstration, and this is going to
+
+5
+00:00:08,550 --> 00:00:11,175
+put together all the concepts that we've just reviewed.
+
+6
+00:00:11,175 --> 00:00:14,250
+That this lesson, we've been talking about a [inaudible] company and
+
+7
+00:00:14,250 --> 00:00:18,105
+an ELT process to identify our most highly traffic locations.
+
+8
+00:00:18,105 --> 00:00:22,125
+What's build an Airflow DAG that allows us to perform this analysis.
+
+9
+00:00:22,125 --> 00:00:25,829
+Before we begin, we need to set up a connection Redshift to Airflow.
+
+10
+00:00:25,829 --> 00:00:29,594
+So let's go ahead and take a look at how that works.
+
+11
+00:00:29,594 --> 00:00:33,780
+The first thing I'm going to do, is I'm going to go back to Airflow.
+
+12
+00:00:33,780 --> 00:00:36,045
+Again, turn off demo five.
+
+13
+00:00:36,045 --> 00:00:43,679
+Then, I'm going to actually pull up the code in my code editor here.
+
+14
+00:00:43,679 --> 00:00:50,405
+So, we have a little bit more going on here between line 26 to 41,
+
+15
+00:00:50,405 --> 00:00:52,490
+and this looks pretty different.
+
+16
+00:00:52,490 --> 00:00:54,550
+It's no longer a Hello World DAG.
+
+17
+00:00:54,549 --> 00:00:58,844
+On line 13, we have a function that says load_data _to_redshift,
+
+18
+00:00:58,844 --> 00:01:01,820
+although we still just have our basic DAG definition here for
+
+19
+00:01:01,820 --> 00:01:05,180
+lesson 1: Demo 6 with a start_dated now.
+
+20
+00:01:05,180 --> 00:01:15,050
+So what we're going to do here is essentially create a portion of an ETL process.
+
+21
+00:01:15,049 --> 00:01:19,745
+So the first thing we're going to do is we're going to set up our PostgresOperator.
+
+22
+00:01:19,745 --> 00:01:21,740
+Again, just to clarify,
+
+23
+00:01:21,739 --> 00:01:23,420
+I know it's a little confusing that we're working with
+
+24
+00:01:23,420 --> 00:01:25,835
+Redshift but using the PostgresOperator,
+
+25
+00:01:25,834 --> 00:01:30,469
+but Postgres and Redshift are interoperable from the perspective of Airflow.
+
+26
+00:01:30,469 --> 00:01:32,435
+So even if that's a little bit confusing,
+
+27
+00:01:32,435 --> 00:01:35,689
+don't worry, Postgres will work just fine.
+
+28
+00:01:35,689 --> 00:01:38,364
+So it's going to ask us for a connection ID,
+
+29
+00:01:38,364 --> 00:01:40,009
+which we haven't created yet.
+
+30
+00:01:40,010 --> 00:01:41,420
+So before we can continue,
+
+31
+00:01:41,420 --> 00:01:45,545
+we need to go back to Airflow and actually create a connection to Redshift.
+
+32
+00:01:45,545 --> 00:01:48,129
+So we're going to go back to this UI.
+
+33
+00:01:48,129 --> 00:01:50,969
+We're going to go to the Admin drop-down here.
+
+34
+00:01:50,969 --> 00:01:52,769
+I'm going to go to Connections,
+
+35
+00:01:52,769 --> 00:01:54,765
+just like we did earlier.
+
+36
+00:01:54,765 --> 00:01:57,805
+We're going to go to the Create tab.
+
+37
+00:01:57,805 --> 00:02:01,445
+Now, we're going to be filling out slightly different fields here.
+
+38
+00:02:01,444 --> 00:02:05,474
+My connection ID is going to be Redshift.
+
+39
+00:02:05,474 --> 00:02:08,909
+The connection type is going to be Postgres.
+
+40
+00:02:08,909 --> 00:02:10,954
+Now, again, just want to re-emphasize,
+
+41
+00:02:10,955 --> 00:02:12,295
+I know this is confusing,
+
+42
+00:02:12,294 --> 00:02:16,674
+and it's not Redshift, but you want to use Postgres connection type for this to work.
+
+43
+00:02:16,675 --> 00:02:25,020
+Next, you're going to get the host to your Redshift instance.
+
+44
+00:02:25,020 --> 00:02:28,969
+You're going to give, the schema is the database that you're going to be using.
+
+45
+00:02:28,969 --> 00:02:31,925
+In my case, the database is called Udacity.
+
+46
+00:02:31,925 --> 00:02:34,160
+Use your login information.
+
+47
+00:02:34,159 --> 00:02:36,875
+So my username is bgoldberg.
+
+48
+00:02:36,875 --> 00:02:40,710
+The password, I'm going to get from my password manager.
+
+49
+00:02:41,129 --> 00:02:50,669
+I'm going to copy that here and then, specify port 5439.
+
+50
+00:02:50,669 --> 00:02:53,734
+I'm just going to put this up for just another moment.
+
+51
+00:02:53,735 --> 00:02:56,180
+So connection ID needs to be Redshift.
+
+52
+00:02:56,180 --> 00:02:57,784
+This is the most important part.
+
+53
+00:02:57,784 --> 00:02:59,900
+Connection type is Postgres.
+
+54
+00:02:59,900 --> 00:03:02,030
+You specified the host.
+
+55
+00:03:02,030 --> 00:03:05,810
+We specified our database name as the Schema,
+
+56
+00:03:05,810 --> 00:03:09,724
+using the username that you provided and your password,
+
+57
+00:03:09,724 --> 00:03:12,519
+and you specify the port as 5439.
+
+58
+00:03:12,520 --> 00:03:15,130
+Then you're going to click Save.
+
+59
+00:03:15,830 --> 00:03:18,915
+We're not going to edit to last pass,
+
+60
+00:03:18,914 --> 00:03:23,519
+but we've created that, and we can scroll down in this list.
+
+61
+00:03:23,520 --> 00:03:26,100
+We can see we have a Redshift here.
+
+62
+00:03:26,099 --> 00:03:29,394
+So we're going to go back to the main page,
+
+63
+00:03:29,395 --> 00:03:33,140
+and we're going to then return to our code example here,
+
+64
+00:03:33,139 --> 00:03:34,250
+and we're going to finish this up.
+
+65
+00:03:34,250 --> 00:03:37,504
+So now, that we have a Postgres connection ID called redshift,
+
+66
+00:03:37,504 --> 00:03:39,560
+we can replace this.
+
+67
+00:03:39,560 --> 00:03:42,729
+You also need to give this task ID.
+
+68
+00:03:42,729 --> 00:03:46,269
+So we're going to call this create_table.
+
+69
+00:03:46,669 --> 00:03:50,239
+Next, we're going to define a copy task.
+
+70
+00:03:50,240 --> 00:03:52,189
+So this is a Python operator,
+
+71
+00:03:52,189 --> 00:03:55,859
+and we're going to use the function we defined above, load_data_to_redshift.
+
+72
+00:03:55,860 --> 00:03:56,910
+So we're going to say task_id=copy.
+
+73
+00:03:56,909 --> 00:04:03,030
+In fact, we'll call that copy_to_redshift,
+
+74
+00:04:03,030 --> 00:04:06,699
+a little more descriptive, copy_to_redshift.
+
+75
+00:04:07,370 --> 00:04:12,360
+Then we're going to give it a DAG,
+
+76
+00:04:12,360 --> 00:04:15,710
+and we actually need to get the DAG to this operator as
+
+77
+00:04:15,710 --> 00:04:21,384
+well and then we need to give it the python_callable.
+
+78
+00:04:21,384 --> 00:04:24,879
+In this case, that's equal to load_data_to_redshift.
+
+79
+00:04:27,019 --> 00:04:30,875
+Finally, we have to define a proper task ordering.
+
+80
+00:04:30,875 --> 00:04:34,129
+So we're going to create the table and then we're going to run in
+
+81
+00:04:34,129 --> 00:04:37,865
+the copy task. I'm going to save this.
+
+82
+00:04:37,865 --> 00:04:40,160
+One more thing I just want to note,
+
+83
+00:04:40,160 --> 00:04:43,100
+I've provided SQL to this PostgresOperator here.
+
+84
+00:04:43,100 --> 00:04:45,814
+Typically, you can define the SQL in-line here.
+
+85
+00:04:45,814 --> 00:04:47,839
+But because the purpose of this class is to review
+
+86
+00:04:47,839 --> 00:04:50,689
+Airflow and not to actually build out SQL statements,
+
+87
+00:04:50,689 --> 00:04:54,379
+I've actually provided all the SQL that we're going to be using in a separate file.
+
+88
+00:04:54,379 --> 00:04:56,779
+If you're interested in the SQL that I'm running,
+
+89
+00:04:56,779 --> 00:05:00,504
+you can open the files sql.py, and have a look.
+
+90
+00:05:00,504 --> 00:05:03,024
+For now, we're not going to review it,
+
+91
+00:05:03,024 --> 00:05:05,209
+I just want to let you know where you can find it.
+
+92
+00:05:05,209 --> 00:05:08,044
+Okay. So now, that we've defined our DAG,
+
+93
+00:05:08,045 --> 00:05:11,035
+we're going to come back into Airflow and refresh.
+
+94
+00:05:11,035 --> 00:05:14,820
+I'm going to go over to extras to the demo 6,
+
+95
+00:05:14,819 --> 00:05:16,665
+and click on the code view,
+
+96
+00:05:16,665 --> 00:05:19,745
+and we're just going to review the code to make sure that it looks good.
+
+97
+00:05:19,745 --> 00:05:22,220
+So we have our load data statement here.
+
+98
+00:05:22,220 --> 00:05:24,530
+We've got our DAG defined.
+
+99
+00:05:24,529 --> 00:05:27,179
+We have our create_table operator.
+
+100
+00:05:27,180 --> 00:05:29,444
+Excuse me, our create_table task.
+
+101
+00:05:29,444 --> 00:05:30,974
+We have our copy_task,
+
+102
+00:05:30,975 --> 00:05:34,785
+and we have a create_table coming before copy_task.
+
+103
+00:05:34,785 --> 00:05:37,110
+So with that in mind, we can go back.
+
+104
+00:05:37,110 --> 00:05:40,550
+You can turn this on, and jump out of here.
+
+105
+00:05:40,550 --> 00:05:42,680
+I don't have a schedule settlement DAG,
+
+106
+00:05:42,680 --> 00:05:46,655
+so I'm going to need to run it manually. We're going to do that.
+
+107
+00:05:46,654 --> 00:05:50,689
+Now, we're going to wait. We're going to jump in here.
+
+108
+00:05:50,689 --> 00:05:55,019
+You can see that one of these tasks is queued.
+
+109
+00:05:55,019 --> 00:05:58,889
+So earlier, we had a question about would it
+
+110
+00:05:58,889 --> 00:06:00,800
+be possible to see an example where things
+
+111
+00:06:00,800 --> 00:06:02,840
+don't happen at the same time, and this is an example.
+
+112
+00:06:02,839 --> 00:06:04,189
+So this hasn't happened yet.
+
+113
+00:06:04,189 --> 00:06:06,139
+copy_to_redshift, it has a dependency,
+
+114
+00:06:06,139 --> 00:06:09,199
+so it hasn't run yet, and now, they both executed.
+
+115
+00:06:09,199 --> 00:06:10,370
+So we've created the table,
+
+116
+00:06:10,370 --> 00:06:12,199
+I've copied the redshift.
+
+117
+00:06:12,199 --> 00:06:14,990
+To actually see the logs from those statements,
+
+118
+00:06:14,990 --> 00:06:18,245
+you can click on them. Go to View Log.
+
+119
+00:06:18,245 --> 00:06:21,030
+If you scroll down,
+
+120
+00:06:21,139 --> 00:06:25,199
+airflow will actually log the SQL that it executed,
+
+121
+00:06:25,199 --> 00:06:28,444
+so you can see what was being run against the database.
+
+122
+00:06:28,444 --> 00:06:31,714
+All right. Likewise, if I go back,
+
+123
+00:06:31,714 --> 00:06:33,244
+you can see the copy_to_redshift,
+
+124
+00:06:33,245 --> 00:06:35,305
+and you need to log there as well,
+
+125
+00:06:35,305 --> 00:06:38,495
+and you can see exactly what was running.
+
+126
+00:06:38,495 --> 00:06:40,819
+It's worth mentioning that if you're interested,
+
+127
+00:06:40,819 --> 00:06:45,574
+you can jump into Redshift yourself via PSQL or another database interface,
+
+128
+00:06:45,574 --> 00:06:50,305
+and you can actually see the code that's there.
+
+129
+00:06:50,305 --> 00:06:52,625
+So, that's a demonstration.
+
+130
+00:06:52,625 --> 00:06:56,060
+I hope you guys have fun trying this demonstration on your own tonight as homework.
+
+131
+00:06:56,060 --> 00:06:58,280
+Again, I just want to reiterate if you had extended line for
+
+132
+00:06:58,279 --> 00:07:00,694
+about 20 minutes to get feedback, that would be great.
+
+133
+00:07:00,694 --> 00:07:02,269
+Thank you again for your time today.
+
+134
+00:07:02,269 --> 00:07:05,310
+Really, I had a great time walking through this slide with you.
+

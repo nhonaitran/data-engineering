@@ -1,0 +1,332 @@
+1
+00:00:00,000 --> 00:00:04,665
+So, now we're going to talk about what Airflow is actually made up of operationally.
+
+2
+00:00:04,665 --> 00:00:08,175
+Airflow consists of five runtime components.
+
+3
+00:00:08,175 --> 00:00:09,960
+We're going to give you an environment where
+
+4
+00:00:09,960 --> 00:00:12,045
+these pieces are already configured in this class,
+
+5
+00:00:12,044 --> 00:00:15,435
+whether you're using docker compose or you're using cocoa.
+
+6
+00:00:15,435 --> 00:00:19,710
+But it's still important to understand what they are and how they work.
+
+7
+00:00:19,710 --> 00:00:23,250
+The scheduler is responsible for tracking the progress of
+
+8
+00:00:23,250 --> 00:00:28,300
+DAGS and their tasks as well as ensuring that they are triggered properly.
+
+9
+00:00:29,629 --> 00:00:34,750
+A Queue holds the state of running DAGS and tasks.
+
+10
+00:00:35,229 --> 00:00:39,244
+Airflow worker processes take data off the queue and actually
+
+11
+00:00:39,244 --> 00:00:43,379
+execute the integral individual tasks and your DAG.
+
+12
+00:00:44,329 --> 00:00:47,460
+A database, stores your credentials,
+
+13
+00:00:47,460 --> 00:00:49,725
+configuration, connections, and history,
+
+14
+00:00:49,725 --> 00:00:52,094
+what we refer to this as metadata.
+
+15
+00:00:52,094 --> 00:00:58,594
+And finally the web server is the web interface that we've been interacting with so far.
+
+16
+00:00:58,594 --> 00:01:00,890
+One thing I want to mention real quick.
+
+17
+00:01:00,890 --> 00:01:04,504
+Airflow itself is not a data processing framework,
+
+18
+00:01:04,504 --> 00:01:08,890
+in Airflow you don't pass data in memory between steps in your DAG.
+
+19
+00:01:08,890 --> 00:01:11,989
+Instead, you're going to use Airflow to coordinate the movement of
+
+20
+00:01:11,989 --> 00:01:15,769
+data between other data storage and data processing tools.
+
+21
+00:01:15,769 --> 00:01:17,569
+If we just stop here for just a moment,
+
+22
+00:01:17,569 --> 00:01:22,279
+you'll notice that we do have a database here but it's strictly a metadata database.
+
+23
+00:01:22,280 --> 00:01:27,484
+We don't store actual data related to our datasets in this database or in this queue.
+
+24
+00:01:27,484 --> 00:01:29,510
+These workers when they execute,
+
+25
+00:01:29,510 --> 00:01:31,010
+will work with Redshift,
+
+26
+00:01:31,010 --> 00:01:36,080
+Spark, other types of systems that are not actually on this diagram.
+
+27
+00:01:36,079 --> 00:01:41,015
+So just to clarify, we're not going to pass data between steps or tasks and we will
+
+28
+00:01:41,015 --> 00:01:47,200
+not typically run heavy processing workloads on Airflow.
+
+29
+00:01:47,200 --> 00:01:51,200
+Reason for this is that Airflow workers often have less memory and processing
+
+30
+00:01:51,200 --> 00:01:54,920
+power individually and some dataframe works offer an aggregate.
+
+31
+00:01:54,920 --> 00:02:00,155
+Tools like Spark or able to expose the computing power of many machines all at once.
+
+32
+00:02:00,155 --> 00:02:02,150
+Whereas with Airflow you will always be limited to
+
+33
+00:02:02,150 --> 00:02:04,340
+the processing power of a single machine.
+
+34
+00:02:04,340 --> 00:02:06,289
+So if this worker were one machine,
+
+35
+00:02:06,289 --> 00:02:09,939
+would only have access to the memory and CPU of just that machine.
+
+36
+00:02:09,939 --> 00:02:13,069
+This is why Airflow developers prefer to use Airflow to trigger
+
+37
+00:02:13,069 --> 00:02:14,479
+heavy processing steps in
+
+38
+00:02:14,479 --> 00:02:18,159
+analytic warehouses like Redshift or dataframe works like spark.
+
+39
+00:02:18,159 --> 00:02:20,555
+Instead of within Airflow itself.
+
+40
+00:02:20,555 --> 00:02:23,870
+Airflow can be thought of as a partner to those dataframe
+
+41
+00:02:23,870 --> 00:02:27,990
+works or data warehouses but not as a replacement.
+
+42
+00:02:28,750 --> 00:02:34,145
+Airflow is designed to codify the definition and execution of data pipelines.
+
+43
+00:02:34,145 --> 00:02:36,485
+Airflow tracks the status and progression of
+
+44
+00:02:36,485 --> 00:02:39,935
+all DAGS in its system as well as the steps within those DAGS.
+
+45
+00:02:39,935 --> 00:02:43,069
+Because Airflow understands the dependencies in your DAG,
+
+46
+00:02:43,069 --> 00:02:45,828
+the scheduler will only place work that can be performed
+
+47
+00:02:45,829 --> 00:02:49,510
+and have had their dependency is satisfied into the queue.
+
+48
+00:02:49,509 --> 00:02:53,299
+In this example, our DAG has been triggered by a schedule.
+
+49
+00:02:53,300 --> 00:02:56,689
+You can see in the diagram this clock icon indicates the scheduler has
+
+50
+00:02:56,689 --> 00:03:00,784
+recognized that a DAG run must occur due to the time of day.
+
+51
+00:03:00,784 --> 00:03:04,129
+Once the scheduler has decided to execute a DAG,
+
+52
+00:03:04,129 --> 00:03:06,680
+it analyzes the various tasks that make up the DAG,
+
+53
+00:03:06,680 --> 00:03:09,395
+and finds all tasks that have no dependencies.
+
+54
+00:03:09,395 --> 00:03:11,975
+This is first task that it's going to choose to run.
+
+55
+00:03:11,974 --> 00:03:16,939
+So in this example, we can see our old HTTP to Redshift and S3 Redshift tests.
+
+56
+00:03:16,939 --> 00:03:19,129
+They have no arrows pointing into them.
+
+57
+00:03:19,129 --> 00:03:20,990
+Therefore they have no dependencies,
+
+58
+00:03:20,990 --> 00:03:23,165
+so they can be run first.
+
+59
+00:03:23,164 --> 00:03:27,370
+The scheduler then places those tasks in the queue,
+
+60
+00:03:27,370 --> 00:03:32,960
+so that workers will pick up those tasks for execution. So we stopped here.
+
+61
+00:03:32,960 --> 00:03:34,955
+I'm going to move onto the next slide now.
+
+62
+00:03:34,955 --> 00:03:37,580
+So as workers in the queue,
+
+63
+00:03:37,580 --> 00:03:40,115
+workers pick up the tasks and execute them.
+
+64
+00:03:40,115 --> 00:03:42,145
+When the worker completes a task,
+
+65
+00:03:42,145 --> 00:03:44,360
+the status is recorded by the scheduler.
+
+66
+00:03:44,360 --> 00:03:46,640
+So you can see here this actually
+
+67
+00:03:46,639 --> 00:03:49,879
+correlates really nicely with the question that we were just talking about,
+
+68
+00:03:49,879 --> 00:03:52,134
+which is what do the workers actually do?
+
+69
+00:03:52,134 --> 00:03:55,899
+Again the worker will take the work off of the queue,
+
+70
+00:03:55,900 --> 00:03:59,395
+the task off of the queue and actually execute them.
+
+71
+00:03:59,395 --> 00:04:02,950
+The scheduler repeats the following steps until all steps in
+
+72
+00:04:02,949 --> 00:04:06,454
+the DAG have completed successfully or Intel DAG fails.
+
+73
+00:04:06,455 --> 00:04:09,760
+So, in the previous steps we talked about completing
+
+74
+00:04:09,759 --> 00:04:13,209
+the HTTP to Redshift and S3 to Redshift tasks.
+
+75
+00:04:13,210 --> 00:04:18,480
+Now those are complete the dependencies to our Redshift analysis task.
+
+76
+00:04:18,480 --> 00:04:21,595
+Excuse me, our Redshift analysis task are complete.
+
+77
+00:04:21,595 --> 00:04:28,880
+So the Airflow scheduler is now going to actually execute the Redshift analysis task.
+
+78
+00:04:29,240 --> 00:04:32,610
+Once all tasks and the DAG have been completed,
+
+79
+00:04:32,610 --> 00:04:34,215
+the DAG run is complete.
+
+80
+00:04:34,214 --> 00:04:36,424
+You can use the Airflow UI to track the progression
+
+81
+00:04:36,425 --> 00:04:38,975
+of any DAG run and see that it has succeeded.
+
+82
+00:04:38,975 --> 00:04:43,360
+So this is what we'd see if we had multiple tasks in Airflow UI.
+
+83
+00:04:43,360 --> 00:04:47,120
+The dark green denotes that it was completed successfully.
+

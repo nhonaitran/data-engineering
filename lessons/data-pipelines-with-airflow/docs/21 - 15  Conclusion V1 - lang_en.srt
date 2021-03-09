@@ -1,0 +1,32 @@
+1
+00:00:00,000 --> 00:00:04,049
+In this lesson, review the basics of data pipelines and Apache Airflow.
+
+2
+00:00:04,049 --> 00:00:07,439
+In lesson two, learn about the aspects of data quality and how we
+
+3
+00:00:07,440 --> 00:00:11,025
+can use Apache Airflow to ensure that our pipelines have those features.
+
+4
+00:00:11,025 --> 00:00:12,660
+Thank you for joining us for this lesson.
+
+5
+00:00:12,660 --> 00:00:14,429
+I hope you had a good time and you learned
+
+6
+00:00:14,429 --> 00:00:17,429
+a little bit about Apache Airflow and its components,
+
+7
+00:00:17,429 --> 00:00:21,390
+in addition to data pipelines themselves,
+
+8
+00:00:21,390 --> 00:00:25,570
+data validation, and graphs and DAGs.
+

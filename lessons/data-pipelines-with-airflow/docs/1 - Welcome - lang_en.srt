@@ -1,0 +1,96 @@
+1
+00:00:00,000 --> 00:00:01,965
+My name is Ben Goldberg,
+
+2
+00:00:01,965 --> 00:00:03,870
+and I'll be your instructor for this course.
+
+3
+00:00:03,870 --> 00:00:07,740
+Throughout these lessons, I'll be introducing you to the concept of data pipelines,
+
+4
+00:00:07,740 --> 00:00:11,130
+and how you can use them to accelerate your career as a data engineer.
+
+5
+00:00:11,130 --> 00:00:14,730
+This course will focus on applying the data pipeline concepts you learn through
+
+6
+00:00:14,730 --> 00:00:18,885
+an open source tool from Airbnb called Apache Airflow.
+
+7
+00:00:18,885 --> 00:00:20,640
+Once you've completed this course,
+
+8
+00:00:20,640 --> 00:00:25,149
+you will be ready to apply these skills in your career as a data engineer.
+
+9
+00:00:25,160 --> 00:00:28,905
+Before we get started, I want to tell you a bit about myself.
+
+10
+00:00:28,905 --> 00:00:34,424
+Most of my career has been centered around data engineering of one kind or another.
+
+11
+00:00:34,424 --> 00:00:37,729
+I spent the beginning of my career working on computer vision
+
+12
+00:00:37,729 --> 00:00:41,254
+teaching airborne systems to understand and parse the world around them.
+
+13
+00:00:41,255 --> 00:00:44,150
+I worked at an artificial intelligence startup that was able to
+
+14
+00:00:44,149 --> 00:00:46,909
+transform raw datasets into written language,
+
+15
+00:00:46,909 --> 00:00:48,709
+which is where I had my first introduction to
+
+16
+00:00:48,710 --> 00:00:51,079
+many of the concepts we're going to cover in this course.
+
+17
+00:00:51,079 --> 00:00:54,814
+I'm currently located in Chicago where I'm a staff engineer at SpotHero.
+
+18
+00:00:54,814 --> 00:00:56,629
+At SpotHero, I founded, built,
+
+19
+00:00:56,630 --> 00:00:58,715
+and lead our data engineering team.
+
+20
+00:00:58,715 --> 00:01:01,340
+I'm also a contributor to Apache Airflow,
+
+21
+00:01:01,340 --> 00:01:05,420
+and one of the three original contributors to the Airflow Kubernetes executor.
+
+22
+00:01:05,420 --> 00:01:08,719
+The approaches we're going to cover in this course represents the best practices
+
+23
+00:01:08,719 --> 00:01:11,810
+that I've learned through my day-to-day work as a data engineer,
+
+24
+00:01:11,810 --> 00:01:15,109
+and through collaborating with colleagues in the space.
+
