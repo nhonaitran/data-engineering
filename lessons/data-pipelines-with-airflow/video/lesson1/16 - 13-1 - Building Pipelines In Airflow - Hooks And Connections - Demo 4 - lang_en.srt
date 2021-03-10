@@ -1,0 +1,156 @@
+1
+00:00:00,000 --> 00:00:06,120
+So data pipelines interact with data originating from and going to many systems.
+
+2
+00:00:06,120 --> 00:00:09,210
+Because of this, most Airflow DAGs have to interact
+
+3
+00:00:09,210 --> 00:00:12,510
+with connection data and variables that may change often.
+
+4
+00:00:12,509 --> 00:00:14,910
+Thankfully, Airflow provides a system to
+
+5
+00:00:14,910 --> 00:00:18,495
+modify and update this data without ever having to change your code.
+
+6
+00:00:18,495 --> 00:00:22,220
+We'll review connection and variables in detail in Lesson 3.
+
+7
+00:00:22,219 --> 00:00:25,204
+Once you've configured your connections in the Airflow UI,
+
+8
+00:00:25,204 --> 00:00:27,320
+you can configure Airflow Hooks to use
+
+9
+00:00:27,320 --> 00:00:29,615
+these credentials to interact with your data stores and
+
+10
+00:00:29,614 --> 00:00:35,329
+other external systems such as databases like Redshift, Postgres, and MySQL.
+
+11
+00:00:35,329 --> 00:00:39,859
+One of the major benefits of this is that you don't have to worry about
+
+12
+00:00:39,859 --> 00:00:44,600
+how and where to store these connection strings and secrets in your code.
+
+13
+00:00:44,600 --> 00:00:47,975
+Your code just needs to know the name of the connection.
+
+14
+00:00:47,975 --> 00:00:50,945
+Here's an example of what this might look like.
+
+15
+00:00:50,945 --> 00:00:56,869
+You can see here we've imported a PostgresHook from Airflow Hooks PostgresHook,
+
+16
+00:00:56,869 --> 00:01:00,664
+and we've instantiated it by giving it the name demo.
+
+17
+00:01:00,664 --> 00:01:02,164
+So this is a string,
+
+18
+00:01:02,164 --> 00:01:05,405
+and you'll see in just a moment here where we do the demonstration
+
+19
+00:01:05,405 --> 00:01:08,855
+how to actually name your connections when you create them.
+
+20
+00:01:08,855 --> 00:01:12,500
+But let's just presume that we've created a connection called demo,
+
+21
+00:01:12,500 --> 00:01:14,930
+we're going to instantiate the PostgresHook,
+
+22
+00:01:14,930 --> 00:01:18,860
+and then every hook and Airflow has a number of functions
+
+23
+00:01:18,859 --> 00:01:22,879
+defined on it so that we can automatically get some usage out of it.
+
+24
+00:01:22,879 --> 00:01:24,379
+So in this particular case,
+
+25
+00:01:24,379 --> 00:01:26,795
+we're saying get me a Pandas DataFrame.
+
+26
+00:01:26,795 --> 00:01:32,840
+So Airflow will go off and run the SQL statement SELECT all FROM rides,
+
+27
+00:01:32,840 --> 00:01:34,969
+and then the result will be loaded into
+
+28
+00:01:34,969 --> 00:01:40,379
+a Pandas DataFrame and then returned back to Airflow.
+
+29
+00:01:40,549 --> 00:01:44,420
+Just how Airflow offers a number of operators out of the box,
+
+30
+00:01:44,420 --> 00:01:46,504
+Airflow ships with dozens of hooks.
+
+31
+00:01:46,504 --> 00:01:48,530
+Chances are Airflow already has a hook
+
+32
+00:01:48,530 --> 00:01:51,004
+defined for the system you'll want to integrate with.
+
+33
+00:01:51,004 --> 00:01:53,060
+So you can see here a couple of interesting ones.
+
+34
+00:01:53,060 --> 00:01:55,780
+We already talked about PostgresHook, which by the way,
+
+35
+00:01:55,780 --> 00:01:59,375
+we're going to use PostgresHook to interact with Redshift for the rest of this course.
+
+36
+00:01:59,375 --> 00:02:05,165
+Postgres and Redshift use the same underlying systems for topic for communication.
+
+37
+00:02:05,165 --> 00:02:08,844
+SlackHook if you want to send messages to a Slack channel,
+
+38
+00:02:08,844 --> 00:02:11,984
+HttpHook for interacting with HTTP APIs,
+
+39
+00:02:11,985 --> 00:02:14,230
+and so on and so forth.
+

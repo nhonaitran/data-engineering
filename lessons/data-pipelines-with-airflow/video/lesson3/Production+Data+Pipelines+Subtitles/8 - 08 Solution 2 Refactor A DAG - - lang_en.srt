@@ -1,0 +1,168 @@
+1
+00:00:00,000 --> 00:00:02,790
+So, the solution for exercise two
+
+2
+00:00:02,790 --> 00:00:06,750
+can be a little different depending upon exactly how you decided to break it apart.
+
+3
+00:00:06,750 --> 00:00:09,090
+You may have decided to make multiple DAGs,
+
+4
+00:00:09,090 --> 00:00:12,285
+or you may have decided just to create tasks within that DAG.
+
+5
+00:00:12,285 --> 00:00:15,975
+In my solution, I actually just created one dag,
+
+6
+00:00:15,975 --> 00:00:17,925
+so I didn't add an additional DAG,
+
+7
+00:00:17,925 --> 00:00:25,050
+and it created multiple tasks from our old giant single task.
+
+8
+00:00:25,050 --> 00:00:28,380
+So, you can see here we have our DAG,
+
+9
+00:00:28,380 --> 00:00:33,075
+we have the log oldest function which we created in the demonstration,
+
+10
+00:00:33,075 --> 00:00:35,495
+I've also created a log youngest task here,
+
+11
+00:00:35,495 --> 00:00:39,710
+or a log youngest function for us to call from a Python operator.
+
+12
+00:00:39,710 --> 00:00:45,015
+Below, we have our create_oldest_ task and our log_oldest_task which you already saw.
+
+13
+00:00:45,015 --> 00:00:48,960
+Likewise, we have a create_youngest_task and log_youngest_task,
+
+14
+00:00:48,960 --> 00:00:51,770
+which are nearly identical to the create_oldest and
+
+15
+00:00:51,770 --> 00:00:55,315
+log_oldest_tasks, but operate independently.
+
+16
+00:00:55,315 --> 00:00:59,540
+Finally, we have our lifetime rides task which creates a table,
+
+17
+00:00:59,540 --> 00:01:04,475
+and we have our city station count task which also creates a city station counts table.
+
+18
+00:01:04,475 --> 00:01:07,250
+At the very bottom, we have our ordering defined.
+
+19
+00:01:07,250 --> 00:01:10,660
+So we say that create_oldest_task must run before log_oldest_task,
+
+20
+00:01:10,660 --> 00:01:19,580
+and create_youngest_task must run before the log_youngest_task.
+
+21
+00:01:19,760 --> 00:01:23,640
+You'll notice that the lifetime_rides_task and
+
+22
+00:01:23,640 --> 00:01:29,000
+city_stations_task do not appear in the ordering of our DAG.
+
+23
+00:01:29,000 --> 00:01:34,950
+The reason for that is they're independent from the create_oldest and youngest_tasks.
+
+24
+00:01:34,950 --> 00:01:39,205
+So if we scroll to the top and go to the graph view,
+
+25
+00:01:39,205 --> 00:01:42,425
+we can see that those two tasks can run
+
+26
+00:01:42,425 --> 00:01:46,355
+independently of create_oldest and create_youngest.
+
+27
+00:01:46,355 --> 00:01:51,260
+Let's go back to the DAG view and we're going to trigger a run of this solution.
+
+28
+00:01:51,260 --> 00:01:54,245
+Actually first, I need to turn the DAG on,
+
+29
+00:01:54,245 --> 00:01:55,655
+so DAG is now on,
+
+30
+00:01:55,655 --> 00:01:59,250
+and I'm going to trigger a run of solution two.
+
+31
+00:02:00,950 --> 00:02:03,720
+Now, we'll open that back up,
+
+32
+00:02:03,720 --> 00:02:08,065
+and you can see that we've got a run scheduled, so it's executing.
+
+33
+00:02:08,065 --> 00:02:09,340
+Go to the graph view,
+
+34
+00:02:09,340 --> 00:02:12,550
+and you already notice how much faster
+
+35
+00:02:12,550 --> 00:02:16,155
+this is running then the first time we ran this when we had just a single task.
+
+36
+00:02:16,155 --> 00:02:18,910
+Lifetime_rides and city_station_count are already complete,
+
+37
+00:02:18,910 --> 00:02:21,655
+create_youngest and create_oldest are running.
+
+38
+00:02:21,655 --> 00:02:26,255
+Now, they're completed and we're going to log the oldest and youngest.
+
+39
+00:02:26,255 --> 00:02:31,665
+So, in the time it took to really just run a couple of tasks in this,
+
+40
+00:02:31,665 --> 00:02:37,385
+we were able to get through all six of our tasks.
+
+41
+00:02:37,385 --> 00:02:40,440
+So, not only do we have a speed advantage from doing this,
+
+42
+00:02:40,440 --> 00:02:44,180
+but the visibility of our DAG is much much better.
+

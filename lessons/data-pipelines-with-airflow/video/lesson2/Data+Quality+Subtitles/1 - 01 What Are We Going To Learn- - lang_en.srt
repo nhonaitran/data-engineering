@@ -1,0 +1,48 @@
+1
+00:00:00,000 --> 00:00:02,235
+In this lesson, we'll be covering
+
+2
+00:00:02,235 --> 00:00:05,565
+new concepts and expanding on a few we covered in lesson one.
+
+3
+00:00:05,565 --> 00:00:08,760
+Students will learn what data lineage is and why it's
+
+4
+00:00:08,760 --> 00:00:12,045
+critical to defining and maintaining your data pipelines.
+
+5
+00:00:12,045 --> 00:00:14,040
+Next, we'll go in depth on
+
+6
+00:00:14,040 --> 00:00:15,870
+data pipeline schedules and learn how to
+
+7
+00:00:15,870 --> 00:00:18,690
+leverage them to make our pipelines more manageable.
+
+8
+00:00:18,690 --> 00:00:22,545
+The handle on schedules will be ready to dive in on data partitioning
+
+9
+00:00:22,545 --> 00:00:26,535
+and see how partitioning can make our pipelines faster and more reliable.
+
+10
+00:00:26,535 --> 00:00:31,035
+We'll conclude this lesson with an overview of data quality, how it's defined,
+
+11
+00:00:31,035 --> 00:00:33,480
+and how we can build and test to our data pipelines to
+
+12
+00:00:33,480 --> 00:00:36,400
+ensure that our data pipelines are working as intended.
+

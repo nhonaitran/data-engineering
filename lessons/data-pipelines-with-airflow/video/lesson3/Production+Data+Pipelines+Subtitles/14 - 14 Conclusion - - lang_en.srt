@@ -1,0 +1,20 @@
+1
+00:00:00,000 --> 00:00:04,005
+Throughout this course, we've reviewed the concepts of data pipelines.
+
+2
+00:00:04,005 --> 00:00:08,100
+We saw how to use Apache Airflow to create robust and reasonable DAGs which
+
+3
+00:00:08,100 --> 00:00:12,450
+codified these ideas into a reliable and easy to understand interface.
+
+4
+00:00:12,450 --> 00:00:17,385
+With these skills, you too are now ready to start building production data pipelines.
+
+5
+00:00:17,385 --> 00:00:22,570
+Thanks again for joining with me on this data pipeline journey. I hope you enjoyed it.
+

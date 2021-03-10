@@ -1,0 +1,312 @@
+1
+00:00:00,000 --> 00:00:03,420
+Now, we'll learn more about data partitioning and data pipelines
+
+2
+00:00:03,420 --> 00:00:07,065
+and how a good data partitioning strategy can make our pipelines faster,
+
+3
+00:00:07,065 --> 00:00:09,510
+more reliable and easier to test.
+
+4
+00:00:09,510 --> 00:00:12,990
+First, let's define what data partitioning is.
+
+5
+00:00:12,990 --> 00:00:16,050
+Data partitioning is the process of isolating data to
+
+6
+00:00:16,050 --> 00:00:19,140
+be analyzed by one or more attributes such as time,
+
+7
+00:00:19,140 --> 00:00:21,075
+which we just reviewed in the previous lesson,
+
+8
+00:00:21,075 --> 00:00:23,940
+logical type, or data size.
+
+9
+00:00:23,940 --> 00:00:28,125
+In the previous lecture, we spoke in detail about pipelines schedules,
+
+10
+00:00:28,125 --> 00:00:30,465
+which are a form of time partitioning.
+
+11
+00:00:30,465 --> 00:00:32,700
+Not only are schedules great for reducing
+
+12
+00:00:32,700 --> 00:00:35,174
+the amount of data our pipelines have to process,
+
+13
+00:00:35,174 --> 00:00:37,530
+but they also help us guarantee that we can be
+
+14
+00:00:37,530 --> 00:00:40,125
+timing guarantees that our data consumers may need.
+
+15
+00:00:40,125 --> 00:00:45,590
+In this section, we'll learn more about partitioning by logical type or data size.
+
+16
+00:00:45,590 --> 00:00:48,080
+We'll also explore the reasons why data partitioning is
+
+17
+00:00:48,080 --> 00:00:51,695
+such an important consideration in the design and creation of our pipelines.
+
+18
+00:00:51,695 --> 00:00:54,590
+Conceptually related data can be partitioned into
+
+19
+00:00:54,590 --> 00:00:57,590
+discrete segments and then processed further from there.
+
+20
+00:00:57,590 --> 00:00:59,960
+This process of separating data based on
+
+21
+00:00:59,960 --> 00:01:03,460
+this conceptual relationship is called logical partitioning.
+
+22
+00:01:03,460 --> 00:01:05,020
+In our partial example,
+
+23
+00:01:05,020 --> 00:01:07,445
+we've loaded trip and stations data.
+
+24
+00:01:07,445 --> 00:01:10,010
+We have tripped data and stations data.
+
+25
+00:01:10,010 --> 00:01:11,870
+But we loaded them independently.
+
+26
+00:01:11,870 --> 00:01:13,940
+So, we have two tasks.
+
+27
+00:01:13,940 --> 00:01:15,230
+We have an estimator redshift for
+
+28
+00:01:15,230 --> 00:01:18,545
+the trip data and an estimator redshift for the stations data.
+
+29
+00:01:18,545 --> 00:01:20,900
+If we loaded both trip and stations data
+
+30
+00:01:20,900 --> 00:01:25,185
+together at the same time and one or both of those tests failed,
+
+31
+00:01:25,185 --> 00:01:29,900
+it would be hard to debug than if we had just loaded each data set independently.
+
+32
+00:01:29,900 --> 00:01:31,940
+That being said, if we were to analyze
+
+33
+00:01:31,940 --> 00:01:35,420
+both our trips data and stations data to produce a single output.
+
+34
+00:01:35,420 --> 00:01:38,600
+So, let's say that this was going to create one output.
+
+35
+00:01:38,600 --> 00:01:41,915
+That would be a totally valid thing to do to combine them.
+
+36
+00:01:41,915 --> 00:01:45,080
+With logical partitioning, the thing to keep in mind is
+
+37
+00:01:45,080 --> 00:01:48,575
+that unrelated things belong in separate steps.
+
+38
+00:01:48,575 --> 00:01:53,790
+Consider your dependencies and separate processing around those boundaries.
+
+39
+00:01:54,910 --> 00:01:58,535
+So, as partitioning separates data for processing
+
+40
+00:01:58,535 --> 00:02:01,340
+based on desired or required storage limits.
+
+41
+00:02:01,340 --> 00:02:03,094
+So, in this example,
+
+42
+00:02:03,094 --> 00:02:07,460
+we have our estimated redshift operator and we might actually only want to look at say,
+
+43
+00:02:07,460 --> 00:02:10,340
+one gigabyte of data at a time.
+
+44
+00:02:10,340 --> 00:02:15,290
+Many events streaming systems such as Amazon's Firehose can be configured to
+
+45
+00:02:15,290 --> 00:02:19,895
+write data out to key stores like Amazon S3 when a particular size has been hit.
+
+46
+00:02:19,895 --> 00:02:22,295
+This is particularly important with airflow as
+
+47
+00:02:22,295 --> 00:02:26,345
+airflow workers will have limited amount of memory available for processing.
+
+48
+00:02:26,345 --> 00:02:28,190
+As we reviewed in Lesson one,
+
+49
+00:02:28,190 --> 00:02:30,080
+airflow workers only have the amount of
+
+50
+00:02:30,080 --> 00:02:32,990
+memory on their individual machine available to them.
+
+51
+00:02:32,990 --> 00:02:36,590
+They can't pull memory like systems such as Apache Spark.
+
+52
+00:02:36,590 --> 00:02:38,165
+In the above diagram,
+
+53
+00:02:38,165 --> 00:02:43,250
+the airflow test running on worker is handling one gigabyte of data at a time.
+
+54
+00:02:43,250 --> 00:02:47,900
+We can probably safely assume that our workers have more than one gigabyte of RAM.
+
+55
+00:02:47,900 --> 00:02:50,765
+So, we can be certainly can process this much data.
+
+56
+00:02:50,765 --> 00:02:54,590
+Additionally, processing the small amount of data maybe much faster
+
+57
+00:02:54,590 --> 00:02:58,870
+than handling all of data available all at once.
+
+58
+00:02:58,870 --> 00:03:01,940
+Size partitioning is critical to understand when working
+
+59
+00:03:01,940 --> 00:03:04,670
+with large data sets, especially with airflow.
+
+60
+00:03:04,670 --> 00:03:08,535
+Airflow workers don't pull memory like some data processing frameworks.
+
+61
+00:03:08,535 --> 00:03:11,960
+If your airflow worker has 32 gigabytes of RAM,
+
+62
+00:03:11,960 --> 00:03:15,350
+which is substantial for some machines that you might actually see
+
+63
+00:03:15,350 --> 00:03:18,890
+used and you tried to load a 100 gigabyte data set,
+
+64
+00:03:18,890 --> 00:03:21,165
+the worker is going to kill the task.
+
+65
+00:03:21,165 --> 00:03:22,850
+If the worker kills a task,
+
+66
+00:03:22,850 --> 00:03:25,550
+you'll be unable to analyze that data and will likely have
+
+67
+00:03:25,550 --> 00:03:28,580
+to redesign your DAG or repartition your data.
+
+68
+00:03:28,580 --> 00:03:31,430
+This is one of the reasons we recommend you use airflow to trigger
+
+69
+00:03:31,430 --> 00:03:34,865
+dataframe works like Spark to process large data sets.
+
+70
+00:03:34,865 --> 00:03:38,930
+The reason that I say you may have to redesign your DAG is because if
+
+71
+00:03:38,930 --> 00:03:44,000
+you built your DAG with the assumption that it can handle all the data in memory,
+
+72
+00:03:44,000 --> 00:03:45,980
+the likelihood is your code's going to have to
+
+73
+00:03:45,980 --> 00:03:48,775
+change to read only a little bit of data at a time.
+
+74
+00:03:48,775 --> 00:03:50,980
+So, in these types of situations,
+
+75
+00:03:50,980 --> 00:03:52,730
+we even need to partition the data by
+
+76
+00:03:52,730 --> 00:03:56,060
+size into say those one gigabyte chunks like you saw on
+
+77
+00:03:56,060 --> 00:03:59,285
+that first slide or you may want to trigger
+
+78
+00:03:59,285 --> 00:04:04,720
+an external processing framework like Spark to actually work with these larger data sets.
+

@@ -1,0 +1,40 @@
+1
+00:00:00,000 --> 00:00:03,285
+Great question. So, question was,
+
+2
+00:00:03,285 --> 00:00:06,060
+"Is time the only type of partition?
+
+3
+00:00:06,060 --> 00:00:10,050
+Can we partition on other types of things like an event or a value?"
+
+4
+00:00:10,050 --> 00:00:12,675
+Absolutely, there are other types of partitioning.
+
+5
+00:00:12,675 --> 00:00:14,895
+We're actually going to talk about that shortly.
+
+6
+00:00:14,895 --> 00:00:17,760
+Specifically, we're going to be talking about
+
+7
+00:00:17,760 --> 00:00:23,610
+logical partitioning and also size partitioning or data size partitioning.
+
+8
+00:00:23,610 --> 00:00:29,280
+You could also partition around events and other types of things, but yes.
+
+9
+00:00:29,280 --> 00:00:31,290
+Absolutely, time is a common one,
+
+10
+00:00:31,290 --> 00:00:35,050
+but it's not the only kind of partitioning. Great question.
+

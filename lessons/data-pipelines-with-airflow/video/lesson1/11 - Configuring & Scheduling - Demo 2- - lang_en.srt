@@ -1,0 +1,176 @@
+1
+00:00:00,000 --> 00:00:02,529
+Now that we know a little bit more about schedules and Airflow,
+
+2
+00:00:02,529 --> 00:00:05,519
+we're going to do a quick demo to add a schedule to our DAG.
+
+3
+00:00:05,519 --> 00:00:08,054
+So, the first thing I'm going to do,
+
+4
+00:00:08,054 --> 00:00:09,750
+I'm going to ask you guys to do the same thing
+
+5
+00:00:09,750 --> 00:00:11,609
+in the exercise when you perform this if you
+
+6
+00:00:11,609 --> 00:00:15,404
+were using the Airflow UI is to click this on button back to off.
+
+7
+00:00:15,404 --> 00:00:19,035
+We'll come back to lesson one demo to in a moment.
+
+8
+00:00:19,035 --> 00:00:21,175
+So, the first thing we're going to do,
+
+9
+00:00:21,175 --> 00:00:24,695
+is we're going to open exercise two.
+
+10
+00:00:24,695 --> 00:00:29,010
+So, I'm going to get back to the DAGs for the demos here.
+
+11
+00:00:29,010 --> 00:00:30,945
+So, I'm going to open demo two,
+
+12
+00:00:30,945 --> 00:00:32,799
+and all we're going to do,
+
+13
+00:00:32,799 --> 00:00:36,394
+so this should be pretty much exactly the same as the previous exercise.
+
+14
+00:00:36,395 --> 00:00:39,790
+The only thing we're going to do is add a schedule interval to the DAG,
+
+15
+00:00:39,789 --> 00:00:41,765
+starting on line 16.
+
+16
+00:00:41,765 --> 00:00:45,125
+So, I'm going to add a comma at the end of this start date,
+
+17
+00:00:45,125 --> 00:00:51,480
+and then I'm going to say schedule interval equal @monthly.
+
+18
+00:00:52,030 --> 00:00:54,410
+So, this tells Airflow,
+
+19
+00:00:54,409 --> 00:00:58,039
+hey I want you to run this DAG once a month.
+
+20
+00:00:58,039 --> 00:01:00,829
+I'm going to go ahead and save,
+
+21
+00:01:00,829 --> 00:01:02,750
+and that's really all there is to it.
+
+22
+00:01:02,750 --> 00:01:06,439
+So, the reason that we have this time delta of 30 days,
+
+23
+00:01:06,439 --> 00:01:09,724
+I'm actually going to make this 60 days just so it's a little more entertaining.
+
+24
+00:01:09,724 --> 00:01:13,099
+The only reason that we're setting it back 60 days is I want you guys to see
+
+25
+00:01:13,099 --> 00:01:17,649
+Airflow backfill for the last month. So, this says.
+
+26
+00:01:17,650 --> 00:01:20,140
+hey, the start date is right now minus 60 days.
+
+27
+00:01:20,140 --> 00:01:26,194
+So, it's going to be starting some point almost two months ago.
+
+28
+00:01:26,194 --> 00:01:29,509
+So, I'm going to refresh. I'm going
+
+29
+00:01:29,510 --> 00:01:33,094
+to make sure that my code was picked up by clicking on "Code View",
+
+30
+00:01:33,094 --> 00:01:37,280
+scroll down here, we can see that picked up my schedule interval at monthly,
+
+31
+00:01:37,280 --> 00:01:39,945
+you have a time delta of 60 days.
+
+32
+00:01:39,944 --> 00:01:42,389
+I'm going to go back to that front page,
+
+33
+00:01:42,390 --> 00:01:45,689
+and then I'm going to click the "On" button,
+
+34
+00:01:45,689 --> 00:01:51,039
+and then going to wait a few moments here and then refresh.
+
+35
+00:01:51,079 --> 00:01:54,304
+You'll notice that it's already run our task.
+
+36
+00:01:54,305 --> 00:01:57,215
+I didn't click the run button. I didn't click this.
+
+37
+00:01:57,215 --> 00:02:01,865
+The reason that it ran automatically is because we gave Airflow is schedule,
+
+38
+00:02:01,864 --> 00:02:05,729
+so it knows to run our DAGs when it has a schedule.
+
+39
+00:02:05,730 --> 00:02:07,875
+So you can see here it says @monthly.
+
+40
+00:02:07,875 --> 00:02:10,289
+Because their start date was 60 days ago,
+
+41
+00:02:10,289 --> 00:02:12,060
+Airflow thinks it's behind schedule,
+
+42
+00:02:12,060 --> 00:02:14,360
+that it needs to backfill to the previous month.
+
+43
+00:02:14,360 --> 00:02:18,655
+So, now if I refresh this you can see our task is successful,
+
+44
+00:02:18,655 --> 00:02:20,610
+so is our DAG run.
+

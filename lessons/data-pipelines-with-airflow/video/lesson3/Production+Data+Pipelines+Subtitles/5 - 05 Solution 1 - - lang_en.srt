@@ -1,0 +1,84 @@
+1
+00:00:00,000 --> 00:00:02,010
+All right, welcome back guys.
+
+2
+00:00:02,010 --> 00:00:04,485
+So we're going to take a quick look at the solution to this.
+
+3
+00:00:04,485 --> 00:00:05,925
+We saw lesson one,
+
+4
+00:00:05,925 --> 00:00:07,965
+or lesson three demo one.
+
+5
+00:00:07,965 --> 00:00:12,030
+Now let's take a look at lesson three solution one.
+
+6
+00:00:12,030 --> 00:00:16,275
+So I'm going to go ahead and turn this on. We'll jump in here.
+
+7
+00:00:16,275 --> 00:00:19,125
+And you can see that our DAG looks very similar to before.
+
+8
+00:00:19,125 --> 00:00:21,285
+You'll notice the first difference at the top here though.
+
+9
+00:00:21,285 --> 00:00:24,300
+We have a PostgresOperator and an S3ToRedshiftOperator.
+
+10
+00:00:24,300 --> 00:00:28,245
+Now, you'll also see that we have a HasRowsOperator.
+
+11
+00:00:28,245 --> 00:00:31,230
+In our graph view, everything looks the same as it
+
+12
+00:00:31,230 --> 00:00:33,615
+did before but you'll notice if you hover over
+
+13
+00:00:33,615 --> 00:00:39,915
+the check_stations_data you'll see that the operator type is now HasRowsOperator.
+
+14
+00:00:39,915 --> 00:00:45,215
+Likewise, if we look at the code the function should be gone.
+
+15
+00:00:45,215 --> 00:00:49,295
+We no longer need the actual Python check code in this DAG definition.
+
+16
+00:00:49,295 --> 00:00:51,065
+And if we scroll down,
+
+17
+00:00:51,065 --> 00:00:54,740
+we're now using HasRowsOperator for
+
+18
+00:00:54,740 --> 00:01:00,470
+check_trips and we're using HasRowsOperator for check_ stations.
+
+19
+00:01:00,470 --> 00:01:03,965
+You can see at the bottom of the task ordering hasn't changed.
+
+20
+00:01:03,965 --> 00:01:06,530
+If you go back to our run,
+
+21
+00:01:06,530 --> 00:01:11,940
+we can now see that everything is completed successfully using our custom operators.
+

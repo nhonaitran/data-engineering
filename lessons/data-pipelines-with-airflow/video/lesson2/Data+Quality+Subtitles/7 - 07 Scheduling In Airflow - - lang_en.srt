@@ -1,0 +1,232 @@
+1
+00:00:00,000 --> 00:00:04,710
+Well, we've already covered how to set a schedule on an airflow DAG in lesson one.
+
+2
+00:00:04,710 --> 00:00:06,600
+We didn't cover how airflow uses
+
+3
+00:00:06,600 --> 00:00:10,515
+this schedule interval to create historical DAG runs and backfill data.
+
+4
+00:00:10,515 --> 00:00:13,500
+Whenever the start of a DAG is in the past,
+
+5
+00:00:13,500 --> 00:00:15,630
+in a time difference between the start_date and
+
+6
+00:00:15,630 --> 00:00:18,645
+now includes more than one schedule intervals,
+
+7
+00:00:18,645 --> 00:00:21,370
+airflow will automatically schedule and execute
+
+8
+00:00:21,370 --> 00:00:24,705
+a DAG run to satisfy each one of those intervals.
+
+9
+00:00:24,705 --> 00:00:28,020
+Here's an example from lesson one, exercise three.
+
+10
+00:00:28,020 --> 00:00:31,020
+On the far left, you can see the first one of our DAG,
+
+11
+00:00:31,020 --> 00:00:33,420
+where are the start_date arrow is pointing.
+
+12
+00:00:33,420 --> 00:00:35,490
+So, here would be the start of the DAG.
+
+13
+00:00:35,490 --> 00:00:40,130
+So, the start_date here is now minus 60 days.
+
+14
+00:00:40,130 --> 00:00:42,265
+We have a monthly interval.
+
+15
+00:00:42,265 --> 00:00:46,755
+So, this would indicate that would be the start_date, okay?
+
+16
+00:00:46,755 --> 00:00:48,780
+The far left is your start_date.
+
+17
+00:00:48,780 --> 00:00:50,540
+On the far right, you can see
+
+18
+00:00:50,540 --> 00:00:53,180
+the most recent run of the DAG where the now arrow is pointing.
+
+19
+00:00:53,180 --> 00:00:54,620
+So, that would be here.
+
+20
+00:00:54,620 --> 00:00:57,505
+So, this would be the most recent run of our DAG.
+
+21
+00:00:57,505 --> 00:01:01,415
+Every column between start_date and now
+
+22
+00:01:01,415 --> 00:01:05,900
+represents an interval that a DAG run that airflow scheduled as backfill.
+
+23
+00:01:05,900 --> 00:01:11,000
+So, we can see the schedule interval as the period between two of these DAG runs.
+
+24
+00:01:11,000 --> 00:01:14,245
+So, each one of these columns represents a DAG run.
+
+25
+00:01:14,245 --> 00:01:19,750
+Basically, the time spacing between each one of these runs is the schedule_interval.
+
+26
+00:01:19,750 --> 00:01:22,730
+This feature is useful in almost all enterprise settings,
+
+27
+00:01:22,730 --> 00:01:24,650
+where companies have established years of
+
+28
+00:01:24,650 --> 00:01:27,395
+data that may need to be retroactively analyzed.
+
+29
+00:01:27,395 --> 00:01:30,680
+For example, we just recently talked about comparing
+
+30
+00:01:30,680 --> 00:01:33,975
+marketing data to trip data over a period of time.
+
+31
+00:01:33,975 --> 00:01:36,095
+We've used November as an example.
+
+32
+00:01:36,095 --> 00:01:40,570
+If I have five years of marketing data and I have five years of trip data,
+
+33
+00:01:40,570 --> 00:01:43,730
+even if I just set up an analysis and airflow,
+
+34
+00:01:43,730 --> 00:01:48,290
+I can actually set up my analysis to look at a day's worth of data at a time and use
+
+35
+00:01:48,290 --> 00:01:51,650
+airflow's backfill feature to make sure that I can have
+
+36
+00:01:51,650 --> 00:01:55,835
+a robust pipeline that will work a day at a time.
+
+37
+00:01:55,835 --> 00:01:57,950
+So, if my analysis fails,
+
+38
+00:01:57,950 --> 00:02:02,150
+say two years into my 10 years or five years worth of marketing data,
+
+39
+00:02:02,150 --> 00:02:06,290
+I don't lose all the data from the start up until that point.
+
+40
+00:02:06,290 --> 00:02:09,500
+So, this is a really useful feature and one that we can
+
+41
+00:02:09,500 --> 00:02:13,220
+exploit to really make our pipelines robust.
+
+42
+00:02:13,220 --> 00:02:17,080
+Finally, airflow pipelines can also have end_dates.
+
+43
+00:02:17,080 --> 00:02:19,200
+I mentioned this briefly in the past.
+
+44
+00:02:19,200 --> 00:02:21,530
+Perhaps, a dataset only spans a set period of
+
+45
+00:02:21,530 --> 00:02:24,815
+time or a project will be going end of life at some point.
+
+46
+00:02:24,815 --> 00:02:27,020
+Or perhaps, you've made substantial changes to
+
+47
+00:02:27,020 --> 00:02:30,235
+a DAG and you want to have a second reversion of it.
+
+48
+00:02:30,235 --> 00:02:32,840
+In both cases, you can use an end_date with
+
+49
+00:02:32,840 --> 00:02:36,680
+your pipeline to let airflow know to stop running the pipeline.
+
+50
+00:02:36,680 --> 00:02:39,410
+End_dates can also be useful when you want to perform
+
+51
+00:02:39,410 --> 00:02:41,765
+an overhaul or redesign of an existing pipeline.
+
+52
+00:02:41,765 --> 00:02:44,420
+Update the old pipeline with an end_date and then have
+
+53
+00:02:44,420 --> 00:02:47,330
+the new pipeline start on the end_date of the old pipeline.
+
+54
+00:02:47,330 --> 00:02:50,255
+So, for example, if this pipeline run from January to
+
+55
+00:02:50,255 --> 00:02:53,720
+April and then I wanted to replace this redshift analysis with a new one,
+
+56
+00:02:53,720 --> 00:02:57,440
+I might shift my start_date to the same day as the end_date of
+
+57
+00:02:57,440 --> 00:03:02,255
+the old pipeline and then not have an end_date so that it runs into the future.
+
+58
+00:03:02,255 --> 00:03:05,940
+In the next exercise, you'll have an opportunity to use an end_date.
+

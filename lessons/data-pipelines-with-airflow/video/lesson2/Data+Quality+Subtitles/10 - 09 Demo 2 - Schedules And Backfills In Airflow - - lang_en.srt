@@ -1,0 +1,392 @@
+1
+00:00:00,000 --> 00:00:01,650
+So, now that we have had a quiz,
+
+2
+00:00:01,650 --> 00:00:05,775
+we're going to modify our DAG with a schedule and date and maximum active runs.
+
+3
+00:00:05,775 --> 00:00:08,415
+Let me go ahead and walk through a demo for you.
+
+4
+00:00:08,415 --> 00:00:11,730
+So, let me show that lesson one.
+
+5
+00:00:11,730 --> 00:00:13,950
+Lesson two demo one is off.
+
+6
+00:00:13,950 --> 00:00:18,570
+Then I'm going to return to my DAGs over
+
+7
+00:00:18,570 --> 00:00:23,590
+here and I'm going to open up lesson tow demo two.
+
+8
+00:00:23,690 --> 00:00:31,390
+All right, so we have our DAG here starting on line 35.
+
+9
+00:00:31,910 --> 00:00:35,505
+We're going to fill in some information on this DAG.
+
+10
+00:00:35,505 --> 00:00:38,785
+The first thing we're going to do is we're going to give it an end date.
+
+11
+00:00:38,785 --> 00:00:42,655
+So, we're going to give it an end date of December 1st.
+
+12
+00:00:42,655 --> 00:00:47,805
+So, I'm going to say datetime dot datetime 2018,
+
+13
+00:00:47,805 --> 00:00:55,945
+December 1st, and then I'm going to make sure that I say I have zero, zero, zero, zero.
+
+14
+00:00:55,945 --> 00:01:00,530
+Again, that's hours, minutes, seconds, and microseconds.
+
+15
+00:01:00,570 --> 00:01:04,105
+Then I'm going to go down and set a schedule interval.
+
+16
+00:01:04,105 --> 00:01:08,480
+So for this schedule interval I'm going to use monthly.
+
+17
+00:01:10,380 --> 00:01:15,290
+All right. So now we have a monthly schedule interval.
+
+18
+00:01:15,620 --> 00:01:20,530
+Finally, I'm going to give it a max active run setting.
+
+19
+00:01:20,530 --> 00:01:23,425
+I'm going to cover this in just a second but I just want to reiterate,
+
+20
+00:01:23,425 --> 00:01:25,640
+we have a start date and an end date.
+
+21
+00:01:25,640 --> 00:01:30,559
+So what we should see here is that our DAG should run for starting on January 1st,
+
+22
+00:01:30,559 --> 00:01:36,845
+2018, and should conclude on December 1st, 2018.
+
+23
+00:01:36,845 --> 00:01:40,565
+I've also said that the schedule interval should be monthly,
+
+24
+00:01:40,565 --> 00:01:43,310
+so we should have 12 total runs.
+
+25
+00:01:43,310 --> 00:01:46,930
+Finally, what is max active runs?
+
+26
+00:01:46,930 --> 00:01:49,220
+We haven't covered this in the lecture because this is
+
+27
+00:01:49,220 --> 00:01:51,950
+a particular setting on our schedule.
+
+28
+00:01:51,950 --> 00:01:54,920
+Max active runs is an argument to
+
+29
+00:01:54,920 --> 00:01:57,830
+our DAG constructor which tells Airflow that
+
+30
+00:01:57,830 --> 00:02:01,085
+I only want one of this DAG to run at a time.
+
+31
+00:02:01,085 --> 00:02:03,830
+I'll help you understand this parameter a little
+
+32
+00:02:03,830 --> 00:02:07,265
+bit more when we actually visualize this as in the run.
+
+33
+00:02:07,265 --> 00:02:10,325
+Okay. So flip to edit a DAG,
+
+34
+00:02:10,325 --> 00:02:11,785
+just going to take a look through here.
+
+35
+00:02:11,785 --> 00:02:14,260
+Everything looks good. We have our settings
+
+36
+00:02:14,260 --> 00:02:17,950
+correct so we've saved and now we're going to open Airflow backup.
+
+37
+00:02:17,950 --> 00:02:21,310
+So we're going to open lesson two demo three,
+
+38
+00:02:21,310 --> 00:02:24,710
+pull up the code to make sure that my changes have been reflected.
+
+39
+00:02:24,710 --> 00:02:31,605
+I can see here that we have 2018-2019 except for this is the wrong DAG, sorry about that.
+
+40
+00:02:31,605 --> 00:02:34,020
+Meant to click on lesson two demo two,
+
+41
+00:02:34,020 --> 00:02:36,355
+so make sure I'm on the right row this time.
+
+42
+00:02:36,355 --> 00:02:38,440
+I'm going to click on the code view,
+
+43
+00:02:38,440 --> 00:02:43,270
+scroll down a bit here and you can see we have our to-dos filled in here.
+
+44
+00:02:43,270 --> 00:02:44,635
+So a monthly interval,
+
+45
+00:02:44,635 --> 00:02:48,130
+December 1st, and max active runs set to 1.
+
+46
+00:02:48,130 --> 00:02:50,350
+So I'm going to turn to my DAGs menu,
+
+47
+00:02:50,350 --> 00:02:53,495
+and I turn-on lesson two demo two.
+
+48
+00:02:53,495 --> 00:02:56,780
+I wait a few moments and refresh the page and
+
+49
+00:02:56,780 --> 00:03:00,215
+we can see that Airflow has already started to schedule our DAG.
+
+50
+00:03:00,215 --> 00:03:03,140
+Click into our DAG and you can
+
+51
+00:03:03,140 --> 00:03:05,855
+see here that Airflow has picked up that we have a monthly schedule.
+
+52
+00:03:05,855 --> 00:03:11,135
+So that's correct. We can see that Airflow is actually starting to run our DAGs.
+
+53
+00:03:11,135 --> 00:03:13,840
+So I'm going to refresh the page,
+
+54
+00:03:13,840 --> 00:03:16,460
+and we have our first monthly run complete.
+
+55
+00:03:16,460 --> 00:03:18,200
+So this took place on,
+
+56
+00:03:18,200 --> 00:03:21,020
+you can see the run up there 2018-01-01,
+
+57
+00:03:21,020 --> 00:03:24,335
+so this is our run for the 1st of January, 2018.
+
+58
+00:03:24,335 --> 00:03:26,120
+If I refresh the page,
+
+59
+00:03:26,120 --> 00:03:27,965
+we have our second run happening.
+
+60
+00:03:27,965 --> 00:03:29,840
+I'm going to refresh one more time here.
+
+61
+00:03:29,840 --> 00:03:32,150
+I want to get these to turn, there we go,
+
+62
+00:03:32,150 --> 00:03:34,775
+turned gray and then we'll get it to turn green.
+
+63
+00:03:34,775 --> 00:03:39,200
+Great. So we can see we have a second run here for February 1.
+
+64
+00:03:39,200 --> 00:03:41,935
+So again, you can see in this black box,
+
+65
+00:03:41,935 --> 00:03:44,500
+it says run 2018-02-01.
+
+66
+00:03:44,500 --> 00:03:46,475
+So this is a run for February 1st.
+
+67
+00:03:46,475 --> 00:03:51,965
+So Airflow is currently back-filling the history of all of these runs.
+
+68
+00:03:51,965 --> 00:03:56,840
+Keep refreshing and so what's really interesting about this is that you
+
+69
+00:03:56,840 --> 00:04:01,370
+can just roll over each one of these to see Airflow working on its back-fill.
+
+70
+00:04:01,370 --> 00:04:04,655
+So we talked about max active runs.
+
+71
+00:04:04,655 --> 00:04:08,435
+I come back over here, you can see this variable, max active runs.
+
+72
+00:04:08,435 --> 00:04:10,765
+What does that mean? What does this do?
+
+73
+00:04:10,765 --> 00:04:13,380
+So max active runs tells Airflow,
+
+74
+00:04:13,380 --> 00:04:15,860
+it's okay to parallelize my tasks.
+
+75
+00:04:15,860 --> 00:04:17,480
+So in this particular case,
+
+76
+00:04:17,480 --> 00:04:18,874
+we have four tasks,
+
+77
+00:04:18,874 --> 00:04:22,385
+but I don't want you to parallelize runs of my DAGs.
+
+78
+00:04:22,385 --> 00:04:28,545
+So I don't want the run for say January 1st and February 1st to happen at the same time.
+
+79
+00:04:28,545 --> 00:04:33,560
+This can be important because some analyses depend on data from the previous month.
+
+80
+00:04:33,560 --> 00:04:39,125
+So I want my January analysis to complete before my February analysis begins.
+
+81
+00:04:39,125 --> 00:04:42,320
+Max active runs lets you control that.
+
+82
+00:04:42,320 --> 00:04:45,950
+If you'd like, there are advanced features for the actual tasks and
+
+83
+00:04:45,950 --> 00:04:48,800
+operators within your DAG where you can say that you don't want
+
+84
+00:04:48,800 --> 00:04:52,100
+more than one copy of a particular DAG running at once but
+
+85
+00:04:52,100 --> 00:04:56,675
+often times this kind of parallelization can really speed up your DAG.
+
+86
+00:04:56,675 --> 00:05:02,165
+So we're not going to watch the execution of this DAG for too much longer here.
+
+87
+00:05:02,165 --> 00:05:04,430
+I want to see if I can catch an example of it
+
+88
+00:05:04,430 --> 00:05:06,755
+actually parallelizing the execution of our DAGs.
+
+89
+00:05:06,755 --> 00:05:08,790
+So here you can see the light green,
+
+90
+00:05:08,790 --> 00:05:10,470
+this is running, okay?
+
+91
+00:05:10,470 --> 00:05:11,890
+So I can see here that
+
+92
+00:05:11,890 --> 00:05:17,600
+the create trips table and the create stations table tasks are running at the same time.
+
+93
+00:05:17,600 --> 00:05:22,410
+So we're seeing parallelization of our tasks.
+
+94
+00:05:22,960 --> 00:05:27,320
+Likewise, I can go to my graph view and I can actually see all of
+
+95
+00:05:27,320 --> 00:05:29,330
+the runs and the status of
+
+96
+00:05:29,330 --> 00:05:32,510
+those runs and what's really nice is you can see the date built-in here.
+
+97
+00:05:32,510 --> 00:05:34,635
+So January 1st, February 1st,
+
+98
+00:05:34,635 --> 00:05:37,130
+March 1st, so on and so forth.
+

@@ -1,0 +1,92 @@
+1
+00:00:00,000 --> 00:00:03,060
+So, we're looking at right now is the solution to
+
+2
+00:00:03,060 --> 00:00:07,410
+the first task which looks very similar to the demonstration I gave you.
+
+3
+00:00:07,410 --> 00:00:12,175
+So, we need to define a function Hello World,
+
+4
+00:00:12,175 --> 00:00:13,890
+and if he didn't say Hello World,
+
+5
+00:00:13,890 --> 00:00:16,649
+that's totally fine, you can print whatever you want.
+
+6
+00:00:16,649 --> 00:00:22,979
+The second part of it was to add a greet task which is line 16 to 20.
+
+7
+00:00:22,980 --> 00:00:26,539
+Here, you can call the task ID anything you want as long
+
+8
+00:00:26,539 --> 00:00:30,079
+as it's somewhat descriptive of what the task is performing.
+
+9
+00:00:30,079 --> 00:00:32,945
+We provided the Hello World callable.
+
+10
+00:00:32,945 --> 00:00:38,409
+This Hello World callable is related to the function we defined on line eight.
+
+11
+00:00:38,409 --> 00:00:40,244
+So, notice here on line 18,
+
+12
+00:00:40,244 --> 00:00:42,244
+I didn't write Hello World function call.
+
+13
+00:00:42,244 --> 00:00:43,714
+I'm not calling the function.
+
+14
+00:00:43,715 --> 00:00:48,635
+I'm actually passing that function to the Python operator so that when it executes,
+
+15
+00:00:48,634 --> 00:00:50,229
+it knows what to execute.
+
+16
+00:00:50,229 --> 00:00:57,299
+Finally, we assigned the DAG to the DAG field of our Python operator,
+
+17
+00:00:57,299 --> 00:01:00,229
+so the operator knows what DAG it belongs to.
+
+18
+00:01:00,229 --> 00:01:06,739
+All right. Again, we saw already how we ran this through the Airflow UI.
+
+19
+00:01:06,739 --> 00:01:08,104
+So, if it was successful,
+
+20
+00:01:08,105 --> 00:01:13,939
+you would see a green success and a green run over here as well.
+
+21
+00:01:13,939 --> 00:01:16,750
+I'm going to demonstrate a failure state in the near future here,
+
+22
+00:01:16,750 --> 00:01:18,689
+but if you had any issues,
+
+23
+00:01:18,689 --> 00:01:25,829
+you would see a red failed bulb over here and over here in this column.
+

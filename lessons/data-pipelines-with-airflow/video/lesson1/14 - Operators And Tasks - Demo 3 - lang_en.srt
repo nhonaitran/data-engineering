@@ -1,0 +1,452 @@
+1
+00:00:00,000 --> 00:00:03,120
+All right. Now, we're going to have another quick demo.
+
+2
+00:00:03,120 --> 00:00:07,710
+So I'm going to jump back over to my coding window here,
+
+3
+00:00:08,919 --> 00:00:13,559
+and I'm going to close out demo two and open demo three.
+
+4
+00:00:13,560 --> 00:00:15,730
+So now, that I have demo three open,
+
+5
+00:00:15,730 --> 00:00:17,615
+you can see there's a little bit more code here.
+
+6
+00:00:17,614 --> 00:00:19,579
+We have four functions defined,
+
+7
+00:00:19,579 --> 00:00:20,914
+a hello world function,
+
+8
+00:00:20,914 --> 00:00:22,460
+a current time function,
+
+9
+00:00:22,460 --> 00:00:24,199
+a working directory function,
+
+10
+00:00:24,199 --> 00:00:25,625
+and a complete function.
+
+11
+00:00:25,625 --> 00:00:28,910
+Now, there's no special meaning to any of these functions.
+
+12
+00:00:28,910 --> 00:00:33,920
+In fact, they're really just to show you how we can coordinate tasks before
+
+13
+00:00:33,920 --> 00:00:36,260
+we get into actually adding functionality
+
+14
+00:00:36,259 --> 00:00:39,129
+to these tasks that we'll be doing some heavy lifting with data.
+
+15
+00:00:39,130 --> 00:00:41,600
+So, the first thing we need to do is actually
+
+16
+00:00:41,600 --> 00:00:44,780
+define our tasks that utilize these functions.
+
+17
+00:00:44,780 --> 00:00:47,780
+So, we're going to follow this TODO here to create tasks
+
+18
+00:00:47,780 --> 00:00:50,780
+and operators and create one for current time.
+
+19
+00:00:50,780 --> 00:00:57,825
+So, we're going to current_time_task equal to PythonOperator. All right.
+
+20
+00:00:57,825 --> 00:01:02,290
+We're going to give this a task_ID equal to current time.
+
+21
+00:01:02,539 --> 00:01:05,939
+We're going to give it a python_callable.
+
+22
+00:01:05,939 --> 00:01:09,134
+In this case, it's going to be current_time,
+
+23
+00:01:09,135 --> 00:01:12,185
+and then we're going to set it equal to this DAG.
+
+24
+00:01:12,185 --> 00:01:15,719
+We're going to repeat this for working directory.
+
+25
+00:01:16,000 --> 00:01:20,480
+So, we're going to, again, define the task as a PythonOperator.
+
+26
+00:01:20,480 --> 00:01:23,829
+The task_id equal to working_dir.
+
+27
+00:01:23,829 --> 00:01:26,484
+We're going to give it a python_callable.
+
+28
+00:01:26,484 --> 00:01:31,159
+Again, this one's going to reference the working_dir function on line 17.
+
+29
+00:01:31,159 --> 00:01:33,250
+Then finally, assign as a DAG,
+
+30
+00:01:33,250 --> 00:01:38,370
+and we have one final task that we need to define which is going to be the complete task.
+
+31
+00:01:38,409 --> 00:01:42,034
+Okay? So, we're going to say PythonOperator,
+
+32
+00:01:42,034 --> 00:01:46,284
+task _id equal complete task.
+
+33
+00:01:46,284 --> 00:01:50,950
+Sorry. We'll be consistent here and call it complete.
+
+34
+00:01:51,379 --> 00:01:56,140
+Then, we're going to say python_callable equal complete on line,
+
+35
+00:01:56,140 --> 00:01:58,250
+which is our function defined in line 21.
+
+36
+00:01:58,250 --> 00:02:00,625
+Then, we're going to set it equal to that DAG.
+
+37
+00:02:00,625 --> 00:02:02,495
+So now, we have four tasks defined.
+
+38
+00:02:02,495 --> 00:02:04,910
+You have hello world task on line 30.
+
+39
+00:02:04,909 --> 00:02:07,984
+We have current_time_task on line 36,
+
+40
+00:02:07,984 --> 00:02:10,593
+and we have the working_dir_task on 41,
+
+41
+00:02:10,593 --> 00:02:13,389
+and on line 46, the complete_task.
+
+42
+00:02:13,389 --> 00:02:17,329
+Now, we need to define a task such that our graph looks like the following.
+
+43
+00:02:17,330 --> 00:02:18,920
+So, to do that,
+
+44
+00:02:18,919 --> 00:02:21,889
+we need to set up the task ordering in Airflow.
+
+45
+00:02:21,889 --> 00:02:25,044
+So, we're going to start with hello_world_task.
+
+46
+00:02:25,044 --> 00:02:29,109
+We can see from this graph that we've drawn the code here.
+
+47
+00:02:29,110 --> 00:02:31,890
+The hello_world_task points to current_time task.
+
+48
+00:02:31,889 --> 00:02:36,659
+So, we're going to say hello_world_task depends on- excuse me,
+
+49
+00:02:36,659 --> 00:02:40,784
+current_time_task depends on hello_world_task.
+
+50
+00:02:40,784 --> 00:02:44,569
+So, we're going to set those Chevron's such that hello_world_task happens first.
+
+51
+00:02:44,569 --> 00:02:48,689
+Likewise, working_dir_task comes first.
+
+52
+00:02:48,750 --> 00:02:53,425
+So, over here, we're going to say hello_world_ task,
+
+53
+00:02:53,425 --> 00:02:58,365
+depends on working_dir _task her.
+
+54
+00:02:58,365 --> 00:03:00,625
+The final thing we need to do here,
+
+55
+00:03:00,625 --> 00:03:05,610
+this is actually a typo in my demo, complete_task.
+
+56
+00:03:05,610 --> 00:03:07,480
+The final thing we need to say is that
+
+57
+00:03:07,479 --> 00:03:10,750
+once current_time_task and working_dir_task have been completed,
+
+58
+00:03:10,750 --> 00:03:17,125
+we want to execute complete_task through as a current time task, complete task.
+
+59
+00:03:17,125 --> 00:03:20,275
+Then we're going to say, working_dir_task
+
+60
+00:03:20,275 --> 00:03:23,920
+must be completed before complete tasks can run.
+
+61
+00:03:23,919 --> 00:03:25,764
+So now, I'm going to save this,
+
+62
+00:03:25,764 --> 00:03:30,684
+and we're going to go take advantage of the Airflow UI to see if we got this right.
+
+63
+00:03:30,685 --> 00:03:34,175
+If we didn't, we can come back and fix it.
+
+64
+00:03:34,175 --> 00:03:36,770
+So, I'm going to refresh the page.
+
+65
+00:03:36,770 --> 00:03:41,680
+I'm going to click on the code here for lesson- or excuse me,
+
+66
+00:03:41,680 --> 00:03:44,500
+for demo three. We're going to scroll down.
+
+67
+00:03:44,500 --> 00:03:46,340
+We can see our four functions.
+
+68
+00:03:46,340 --> 00:03:49,729
+We can see the three operators that we defined,
+
+69
+00:03:49,729 --> 00:03:52,144
+and then we can see our task ordering,
+
+70
+00:03:52,145 --> 00:03:55,250
+hello_world_task, and current_time task, and so on so forth.
+
+71
+00:03:55,250 --> 00:03:57,139
+So, I'm going to scroll back to the top,
+
+72
+00:03:57,139 --> 00:04:01,089
+and then I'm going to go to this graph view on the upper left-hand corner.
+
+73
+00:04:01,090 --> 00:04:05,854
+This actually shows us that what we described in code is correct.
+
+74
+00:04:05,854 --> 00:04:11,254
+I can zoom in here to make this a little bit easier to see. Then I'm going to click that.
+
+75
+00:04:11,254 --> 00:04:15,490
+You see I have a hello_world_task pointing to a working_dir_ task,
+
+76
+00:04:15,490 --> 00:04:18,314
+and then hello_world pointing on current_time_task.
+
+77
+00:04:18,314 --> 00:04:22,209
+These two tasks must be completed before the complete_task runs.
+
+78
+00:04:22,209 --> 00:04:23,914
+So, let's see this in action.
+
+79
+00:04:23,915 --> 00:04:26,090
+I'm going to go back to- or actually,
+
+80
+00:04:26,089 --> 00:04:27,334
+I'm not going to leave this page.
+
+81
+00:04:27,334 --> 00:04:31,864
+I'm going to stay on this page, and I can toggle this on here by clicking this button.
+
+82
+00:04:31,865 --> 00:04:33,965
+So, this DAG is now on,
+
+83
+00:04:33,964 --> 00:04:36,359
+and I can click on the Tree View,
+
+84
+00:04:36,360 --> 00:04:41,110
+and I can wait here in a few moments for Airflow to actually schedule and run our task.
+
+85
+00:04:41,110 --> 00:04:42,824
+I can go ahead and refresh.
+
+86
+00:04:42,824 --> 00:04:45,089
+Hopefully, the Airflow schedulers picked it up,
+
+87
+00:04:45,089 --> 00:04:46,310
+and you can see that it has.
+
+88
+00:04:46,310 --> 00:04:50,420
+So, we've actually already run the hello_world_task.
+
+89
+00:04:50,420 --> 00:04:52,040
+If I refresh again,
+
+90
+00:04:52,040 --> 00:04:53,585
+we can watch it progress,
+
+91
+00:04:53,584 --> 00:04:55,805
+and this is on an hourly schedule.
+
+92
+00:04:55,805 --> 00:04:57,079
+You can see this up here.
+
+93
+00:04:57,079 --> 00:05:01,370
+I have it set to an hourly schedule so it's going to run a few times.
+
+94
+00:05:01,370 --> 00:05:04,639
+We've now run the working directory tasks and the current_time_task,
+
+95
+00:05:04,639 --> 00:05:06,839
+and if I refresh again,
+
+96
+00:05:07,009 --> 00:05:11,469
+we can see that our first DAG is totally complete.
+
+97
+00:05:11,470 --> 00:05:15,010
+We can also see that future DAGs are now running.
+
+98
+00:05:15,009 --> 00:05:17,349
+Airflow is in the process of back filling.
+
+99
+00:05:17,350 --> 00:05:19,195
+We'll talk more about this in lesson two,
+
+100
+00:05:19,194 --> 00:05:21,454
+but I thought it would be fun to show it to you now.
+
+101
+00:05:21,454 --> 00:05:23,719
+So, I'll go back to the Graph View.
+
+102
+00:05:23,720 --> 00:05:28,420
+You can actually see an example of various runs.
+
+103
+00:05:28,420 --> 00:05:31,314
+So, we can see all the various runs that have occurred.
+
+104
+00:05:31,314 --> 00:05:32,964
+Moving forward in time,
+
+105
+00:05:32,964 --> 00:05:36,694
+I'm going to click the first one and then I'm going to click Go.
+
+106
+00:05:36,694 --> 00:05:41,634
+So, you can see by the dark green color here that everything has executed.
+
+107
+00:05:41,634 --> 00:05:44,034
+I can click into any of these tasks,
+
+108
+00:05:44,035 --> 00:05:46,885
+and I can see the logs that were emitted,
+
+109
+00:05:46,884 --> 00:05:48,819
+just like we did for the hello_world_task.
+
+110
+00:05:48,819 --> 00:05:50,555
+So, if I scroll down here,
+
+111
+00:05:50,555 --> 00:05:52,949
+this task was to print the working directory,
+
+112
+00:05:52,949 --> 00:05:54,539
+and you can see that it did just that,
+
+113
+00:05:54,540 --> 00:05:57,120
+printed user local Airflow.
+

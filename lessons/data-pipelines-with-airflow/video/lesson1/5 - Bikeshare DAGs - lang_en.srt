@@ -1,0 +1,92 @@
+1
+00:00:00,000 --> 00:00:05,415
+All right. So, let's visualize our Bikeshare analysis process from earlier as a DAG.
+
+2
+00:00:05,415 --> 00:00:11,129
+First, we're going to extract the data from S3 and load the data from S3 into Redshift.
+
+3
+00:00:11,130 --> 00:00:17,115
+So, I've represented that process as this light blue circle here, S3 to Redshift.
+
+4
+00:00:17,114 --> 00:00:22,664
+Then, we're going to perform analysis in Redshift using SQL.
+
+5
+00:00:22,664 --> 00:00:26,669
+Finally, we might deliver our data to some destination server.
+
+6
+00:00:26,670 --> 00:00:29,490
+So, these are three discrete steps,
+
+7
+00:00:29,489 --> 00:00:32,070
+which we've represented here with the node,
+
+8
+00:00:32,070 --> 00:00:35,340
+we have an edge or relationship to another node.
+
+9
+00:00:35,340 --> 00:00:36,885
+So, as time goes on,
+
+10
+00:00:36,884 --> 00:00:40,949
+it's not uncommon to need to modify or add new data sources to our data pipelines.
+
+11
+00:00:40,950 --> 00:00:44,915
+Let's say we decide to integrate additional data about traffic from the city.
+
+12
+00:00:44,914 --> 00:00:47,869
+We might hypothesize that high traffic areas
+
+13
+00:00:47,869 --> 00:00:51,049
+are also places where we would like to place Bikeshare locations.
+
+14
+00:00:51,049 --> 00:00:54,640
+You now want to incorporate that information into your Redshift analysis.
+
+15
+00:00:54,640 --> 00:00:55,960
+To access this data,
+
+16
+00:00:55,960 --> 00:00:57,590
+you will need to extract the data from
+
+17
+00:00:57,590 --> 00:01:01,925
+the city's API and load it into a table and Redshift for analysis.
+
+18
+00:01:01,924 --> 00:01:06,125
+The step will need to be completed before we perform Redshift analysis.
+
+19
+00:01:06,125 --> 00:01:07,870
+So, in this diagram,
+
+20
+00:01:07,870 --> 00:01:13,189
+you can see here we've added another task and another edge to a Redshift analysis,
+
+21
+00:01:13,189 --> 00:01:16,280
+and this task is HTTP to Redshift.
+
+22
+00:01:16,280 --> 00:01:18,290
+So, we can just imagine here that we're talking to
+
+23
+00:01:18,290 --> 00:01:23,390
+the city's data API to get traffic information and then loading it to Redshift.
+

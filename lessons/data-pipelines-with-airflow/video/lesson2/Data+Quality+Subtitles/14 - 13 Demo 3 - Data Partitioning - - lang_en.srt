@@ -1,0 +1,480 @@
+1
+00:00:00,000 --> 00:00:02,610
+So now, we're going to do one more demo.
+
+2
+00:00:02,610 --> 00:00:05,460
+This demo, I'm going to show you how to modify our DAG to load data
+
+3
+00:00:05,460 --> 00:00:08,490
+month by month instead of loading all of data all at once,
+
+4
+00:00:08,490 --> 00:00:11,430
+this is a form of time partitioning that we can apply to our DAG.
+
+5
+00:00:11,430 --> 00:00:14,070
+So, in the previous example,
+
+6
+00:00:14,070 --> 00:00:18,750
+if you actually look at the code, we've got to pull up.
+
+7
+00:00:18,750 --> 00:00:21,945
+So, we're back in Lesson 2 Demo 2,
+
+8
+00:00:21,945 --> 00:00:23,535
+whenever left this screen.
+
+9
+00:00:23,535 --> 00:00:26,370
+So, if I actually look at the code that was being
+
+10
+00:00:26,370 --> 00:00:30,000
+executed when I say load the trips data from S3 to Redshift,
+
+11
+00:00:30,000 --> 00:00:32,475
+I'm going to go ahead and view the log,
+
+12
+00:00:32,475 --> 00:00:36,330
+we can see here that it's just copying all the data.
+
+13
+00:00:36,330 --> 00:00:37,860
+The data is unpartitioned,
+
+14
+00:00:37,860 --> 00:00:40,720
+this is all the data for 2018.
+
+15
+00:00:41,570 --> 00:00:44,655
+So now, I'm going to go ahead and fix that.
+
+16
+00:00:44,655 --> 00:00:47,790
+First, I'm going to turn off Lesson 2 Demo 2,
+
+17
+00:00:47,790 --> 00:00:51,880
+then we're going to turn on Lesson 2 Demo 3 in just a moment.
+
+18
+00:00:52,100 --> 00:00:56,145
+So, real quick, I'm going to jump into Demo 3,
+
+19
+00:00:56,145 --> 00:01:00,710
+and this demo is slightly modified from what you've seen in the past.
+
+20
+00:01:00,710 --> 00:01:03,650
+So, when you guys do exercise three,
+
+21
+00:01:03,650 --> 00:01:08,315
+you'll actually be modifying the code to change
+
+22
+00:01:08,315 --> 00:01:14,195
+the time frame that the data is loaded on to be month-by-month in Redshift.
+
+23
+00:01:14,195 --> 00:01:15,905
+In this example though,
+
+24
+00:01:15,905 --> 00:01:20,260
+I'm actually going to modify our SQL command to analyze the data month by month,
+
+25
+00:01:20,260 --> 00:01:23,225
+so you're going to have a slightly different exercise.
+
+26
+00:01:23,225 --> 00:01:27,275
+So, what we have right now is a location traffic task.
+
+27
+00:01:27,275 --> 00:01:29,495
+This task has an ID,
+
+28
+00:01:29,495 --> 00:01:31,740
+a DAG and reasoning the Redshift connection,
+
+29
+00:01:31,740 --> 00:01:33,420
+pretty standard so far.
+
+30
+00:01:33,420 --> 00:01:36,375
+Finally, we have this SQL statement down here.
+
+31
+00:01:36,375 --> 00:01:38,450
+So, this may look a little confusing.
+
+32
+00:01:38,450 --> 00:01:43,165
+What you're seeing here is a Python formatting string.
+
+33
+00:01:43,165 --> 00:01:46,005
+We have sql.LOCATION_TRAFFIC_SQL.
+
+34
+00:01:46,005 --> 00:01:47,940
+So, if we look at this command,
+
+35
+00:01:47,940 --> 00:01:49,575
+if you're curious what it is,
+
+36
+00:01:49,575 --> 00:01:51,795
+we can open that code.
+
+37
+00:01:51,795 --> 00:01:54,480
+Open it in the file,
+
+38
+00:01:54,480 --> 00:01:56,445
+and you can see down here,
+
+39
+00:01:56,445 --> 00:01:58,650
+we have LOCATION_TRAFFIC_SQL, so you can see
+
+40
+00:01:58,650 --> 00:02:01,440
+exactly what the LOCATION_TRAFFIC_SQL is doing.
+
+41
+00:02:01,440 --> 00:02:03,345
+Dropping the table, creating it.
+
+42
+00:02:03,345 --> 00:02:06,065
+Then it's creating a table by performing
+
+43
+00:02:06,065 --> 00:02:11,735
+a select from counts on the number of departures and number of arrivals.
+
+44
+00:02:11,735 --> 00:02:14,405
+But what if I just wanted to do those selects
+
+45
+00:02:14,405 --> 00:02:17,405
+based on data from a particular time period?
+
+46
+00:02:17,405 --> 00:02:20,380
+Say, for the time period of this run.
+
+47
+00:02:20,380 --> 00:02:23,240
+So, what I'm going to do is I'm going to render in
+
+48
+00:02:23,240 --> 00:02:27,230
+the SQL statement that we were just looking at here, this LOCATION_TRAFFIC_SQL,
+
+49
+00:02:27,230 --> 00:02:33,845
+so I'm going to render in this LOCATION_TRAFFIC_SQL right here,
+
+50
+00:02:33,845 --> 00:02:35,580
+that's what the string is doing so far.
+
+51
+00:02:35,580 --> 00:02:38,015
+So so far, we haven't really done anything.
+
+52
+00:02:38,015 --> 00:02:40,100
+All we've done is created a string that has
+
+53
+00:02:40,100 --> 00:02:43,225
+the SQL statement that we've already seen before.
+
+54
+00:02:43,225 --> 00:02:46,370
+What I want to do is add a where clause so that we're
+
+55
+00:02:46,370 --> 00:02:49,235
+only looking at data for time periods of interest.
+
+56
+00:02:49,235 --> 00:02:52,760
+So first, I'm going to say where and then we're
+
+57
+00:02:52,760 --> 00:02:56,135
+going to have to figure out exactly what the datetime is.
+
+58
+00:02:56,135 --> 00:03:02,465
+So, I think I need to look at the actual name of the field,
+
+59
+00:03:02,465 --> 00:03:04,625
+so the name of the field is end time,
+
+60
+00:03:04,625 --> 00:03:06,140
+we're going to do it by end time.
+
+61
+00:03:06,140 --> 00:03:09,905
+So, I'm looking at the trips table, we're going to say,
+
+62
+00:03:09,905 --> 00:03:14,620
+Where end time is greater than,
+
+63
+00:03:14,620 --> 00:03:18,200
+and this syntax can be a little confusing,
+
+64
+00:03:18,200 --> 00:03:20,515
+and I'm going to explain this in just a moment,
+
+65
+00:03:20,515 --> 00:03:25,265
+where the end time is greater than previous run.
+
+66
+00:03:25,265 --> 00:03:29,490
+So, previous ds stands for the last time this DAG ran,
+
+67
+00:03:29,490 --> 00:03:35,025
+and we want the end time
+
+68
+00:03:35,025 --> 00:03:41,470
+to be less than the next time the DAG is going to run.
+
+69
+00:03:41,470 --> 00:03:43,960
+So, real quick, let's review this one more time.
+
+70
+00:03:43,960 --> 00:03:46,675
+So, we want to run this LOCATION_TRAFFIC_SQL,
+
+71
+00:03:46,675 --> 00:03:52,450
+but we only want to run our analysis where the end time is greater than the runtime of
+
+72
+00:03:52,450 --> 00:03:56,070
+our previous execution of our DAG and
+
+73
+00:03:56,070 --> 00:04:00,845
+the end time is less than the execution of our next DAG run.
+
+74
+00:04:00,845 --> 00:04:02,735
+How did I know what these fields are?
+
+75
+00:04:02,735 --> 00:04:03,950
+Where do these come from?
+
+76
+00:04:03,950 --> 00:04:06,245
+So, if you remember from lesson one,
+
+77
+00:04:06,245 --> 00:04:10,335
+we talked about templating our DAGs.
+
+78
+00:04:10,335 --> 00:04:15,200
+So, I'm going to jump back to the browser and open up my API reference.
+
+79
+00:04:15,200 --> 00:04:19,750
+So, you can find this API reference in your lesson one and its exercises,
+
+80
+00:04:19,750 --> 00:04:24,590
+and we can see here I'm using previous ds and next ds.
+
+81
+00:04:24,590 --> 00:04:29,440
+Previous ds will give us the previous execution data of a DAG in the format year, month,
+
+82
+00:04:29,440 --> 00:04:35,110
+date, and next ds will give us the next execution date in the format year, month, date.
+
+83
+00:04:35,110 --> 00:04:39,195
+So, I want to use these two variables.
+
+84
+00:04:39,195 --> 00:04:41,085
+If we go back to SQL,
+
+85
+00:04:41,085 --> 00:04:45,800
+why do we have four of these brackets instead of two?
+
+86
+00:04:45,800 --> 00:04:47,430
+That's pretty strange.
+
+87
+00:04:47,430 --> 00:04:50,000
+The reason that we have four brackets here is that
+
+88
+00:04:50,000 --> 00:04:52,295
+we're going to be formatting this twice,
+
+89
+00:04:52,295 --> 00:04:54,215
+so this looks a little confusing.
+
+90
+00:04:54,215 --> 00:04:55,460
+So first, we're going to run
+
+91
+00:04:55,460 --> 00:04:58,715
+the Python format which is going to insert the SQL statement.
+
+92
+00:04:58,715 --> 00:05:02,755
+That's going to remove two of these brackets,
+
+93
+00:05:02,755 --> 00:05:06,560
+but we still need Airflow to inject the execution date,
+
+94
+00:05:06,560 --> 00:05:11,415
+previous and next execution date into the SQL statement when it runs.
+
+95
+00:05:11,415 --> 00:05:13,490
+So, now that we've updated this,
+
+96
+00:05:13,490 --> 00:05:18,075
+I'm going to save and go back to Airflow and try running my DAG.
+
+97
+00:05:18,075 --> 00:05:21,495
+So, we're going to turn on Lesson 2 Demo 3,
+
+98
+00:05:21,495 --> 00:05:25,100
+I'm going to refresh, Airflow should start running a here shortly.
+
+99
+00:05:25,100 --> 00:05:28,145
+So, you can see it's a resorted to the tests.
+
+100
+00:05:28,145 --> 00:05:30,940
+We're going to jump into Lesson 2 Demo 3,
+
+101
+00:05:30,940 --> 00:05:33,090
+and we can see,
+
+102
+00:05:33,090 --> 00:05:35,690
+in our graph view that it's already starting to create
+
+103
+00:05:35,690 --> 00:05:39,790
+the trips table and now it's loading the data from S3 to Redshift.
+
+104
+00:05:39,790 --> 00:05:44,345
+So, now we're onto the new updated calculate location traffic task.
+
+105
+00:05:44,345 --> 00:05:46,560
+So, it's currently running.
+
+106
+00:05:47,200 --> 00:05:54,700
+We're going to let that finish and now it's complete.
+
+107
+00:05:54,700 --> 00:05:58,355
+So, let's take a look at how it rendered out those dates.
+
+108
+00:05:58,355 --> 00:06:02,660
+So, I'm going to click on calculate_location_traffic,
+
+109
+00:06:02,660 --> 00:06:05,705
+then I'm going to go up to "View Log"
+
+110
+00:06:05,705 --> 00:06:09,250
+or I could look at "Rendered" let's pull up Rendered.
+
+111
+00:06:09,250 --> 00:06:15,185
+We scroll down, we can see that we have begin and we have nowhere.
+
+112
+00:06:15,185 --> 00:06:18,780
+But if we go to Log, we should see that in there.
+
+113
+00:06:19,040 --> 00:06:21,960
+So, you can see in our statement here,
+
+114
+00:06:21,960 --> 00:06:23,295
+the formatting is a little off,
+
+115
+00:06:23,295 --> 00:06:28,790
+I apologize for that, but you can see that this is the SQL statement in our SQL file,
+
+116
+00:06:28,790 --> 00:06:31,750
+which is the one we've already run a number of times before,
+
+117
+00:06:31,750 --> 00:06:34,140
+but we also have this new where clause,
+
+118
+00:06:34,140 --> 00:06:38,000
+where end time is greater than 2017 December 1st,
+
+119
+00:06:38,000 --> 00:06:41,915
+and end time is less than 2018 February 1st.
+
+120
+00:06:41,915 --> 00:06:46,440
+So, this would give us the data that we actually need to process.
+

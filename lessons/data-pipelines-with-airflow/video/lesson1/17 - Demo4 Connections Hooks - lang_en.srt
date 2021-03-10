@@ -1,0 +1,484 @@
+1
+00:00:00,000 --> 00:00:02,640
+Now, I'm going to walk through a demonstration of how to configure and
+
+2
+00:00:02,640 --> 00:00:05,550
+connect to Amazon key-value store, S3. All right.
+
+3
+00:00:05,549 --> 00:00:08,099
+So we're going to open up the Airflow UI,
+
+4
+00:00:08,099 --> 00:00:11,339
+and when we turn off demo 3,
+
+5
+00:00:11,339 --> 00:00:15,029
+and then we're going to open up demo 4.
+
+6
+00:00:15,029 --> 00:00:18,239
+So you can see the instructions that we're going to go through here.
+
+7
+00:00:18,239 --> 00:00:21,009
+We're going to create a variable,
+
+8
+00:00:21,010 --> 00:00:23,505
+and we're going to create a connection.
+
+9
+00:00:23,504 --> 00:00:25,710
+We'll start by defining that variable.
+
+10
+00:00:25,710 --> 00:00:31,905
+So we can define variables in the Airflow UI for our DAGs.
+
+11
+00:00:31,905 --> 00:00:37,219
+To do that, you're going to click on the Admin button at the very top of the screen,
+
+12
+00:00:37,219 --> 00:00:41,174
+then you're going to go to the Variables menu option,
+
+13
+00:00:41,174 --> 00:00:44,640
+click on that, and it's going to bring you to the screen.
+
+14
+00:00:44,640 --> 00:00:49,355
+From here, there's nothing in the list because we haven't created any variables yet.
+
+15
+00:00:49,354 --> 00:00:52,140
+So we're going to click the Create button.
+
+16
+00:00:52,420 --> 00:00:56,929
+Airflow gives you a lot of space to put in a value here because
+
+17
+00:00:56,929 --> 00:01:01,384
+your value might be a large amount of JSON or XML,
+
+18
+00:01:01,384 --> 00:01:03,979
+it could be an SSH key although you shouldn't put
+
+19
+00:01:03,979 --> 00:01:07,289
+SSH keys and values because those are secure.
+
+20
+00:01:07,290 --> 00:01:11,075
+So don't do that, but it might be some large amount of text.
+
+21
+00:01:11,075 --> 00:01:13,609
+In our case, it's not going to be something significant.
+
+22
+00:01:13,609 --> 00:01:15,765
+We're going to create a bucket key.
+
+23
+00:01:15,765 --> 00:01:20,280
+So we're going to call the key s3_bucket,
+
+24
+00:01:20,280 --> 00:01:24,590
+and then we're going to set the value to what we have in the instructions here.
+
+25
+00:01:24,590 --> 00:01:28,250
+So in Step 3, we walked through the examples here,
+
+26
+00:01:28,250 --> 00:01:30,159
+go to admin Variables, click Create,
+
+27
+00:01:30,159 --> 00:01:36,134
+and then we're going to set the s3_bucket value to udac-data-pipelines.
+
+28
+00:01:36,135 --> 00:01:40,435
+Paste that in, and then I'm simply going to click the Save button.
+
+29
+00:01:40,435 --> 00:01:43,284
+So it takes you back to the Variables page,
+
+30
+00:01:43,284 --> 00:01:46,715
+and you can see here key and value.
+
+31
+00:01:46,715 --> 00:01:52,880
+All right. Next, we're going to create a connection to Amazon.
+
+32
+00:01:52,879 --> 00:01:55,549
+So we're going to go to Connections under the Admin menu.
+
+33
+00:01:55,549 --> 00:01:56,855
+So we clicked on Admin,
+
+34
+00:01:56,855 --> 00:02:00,605
+went to Connections, and then in here,
+
+35
+00:02:00,605 --> 00:02:03,020
+there are a lot of default connections.
+
+36
+00:02:03,019 --> 00:02:05,524
+You can safely ignore all of this.
+
+37
+00:02:05,525 --> 00:02:08,180
+These aren't connected talk to any real data stores.
+
+38
+00:02:08,180 --> 00:02:11,784
+So we're going to click on the Create button again on this tab here,
+
+39
+00:02:11,784 --> 00:02:14,930
+and then you're going to be greeted with a number of
+
+40
+00:02:14,930 --> 00:02:18,500
+options to actually create a connection.
+
+41
+00:02:18,500 --> 00:02:20,210
+In this particular case,
+
+42
+00:02:20,210 --> 00:02:24,875
+we're going to create a connection ID called aws_credentials,
+
+43
+00:02:24,875 --> 00:02:31,060
+and then we're going to select a connection type called Amazon Web Services.
+
+44
+00:02:31,060 --> 00:02:33,740
+So there are a number of options on this menu.
+
+45
+00:02:33,740 --> 00:02:36,379
+It can be really overwhelming when you're first getting used to using
+
+46
+00:02:36,379 --> 00:02:39,469
+Airflow to look at this menu and know where to put information.
+
+47
+00:02:39,469 --> 00:02:43,000
+In this course, we're going to try and make it as obvious and clear as possible,
+
+48
+00:02:43,000 --> 00:02:45,460
+and then walk through these examples where things go.
+
+49
+00:02:45,460 --> 00:02:48,305
+To start, we're to fill in a login.
+
+50
+00:02:48,305 --> 00:02:51,650
+So the login for Amazon Web Services is
+
+51
+00:02:51,650 --> 00:02:55,099
+going to be the IM credentials that we're going to be using throughout this class.
+
+52
+00:02:55,099 --> 00:02:58,109
+So this is going to be your access key ID.
+
+53
+00:02:58,110 --> 00:03:00,635
+Again, that's your access key ID.
+
+54
+00:03:00,634 --> 00:03:03,224
+So in this case, I'm going to pre-populate it,
+
+55
+00:03:03,224 --> 00:03:04,884
+and then for the password,
+
+56
+00:03:04,884 --> 00:03:07,234
+that's going to be your secret key ID.
+
+57
+00:03:07,235 --> 00:03:10,890
+So I'm going to use my password manager here to get that.
+
+58
+00:03:11,349 --> 00:03:15,444
+So grab that password.
+
+59
+00:03:15,444 --> 00:03:18,620
+So now my password is entered into that field.
+
+60
+00:03:18,620 --> 00:03:21,860
+I'm just going to go ahead and click Save.
+
+61
+00:03:21,860 --> 00:03:25,340
+So now we can see that record was successfully created,
+
+62
+00:03:25,340 --> 00:03:28,729
+I'm going to double check in this list to see that it's present.
+
+63
+00:03:28,729 --> 00:03:31,310
+So we can see here, we have aws_credentials,
+
+64
+00:03:31,310 --> 00:03:35,920
+and we can see that airflow has encrypted our credentials.
+
+65
+00:03:35,919 --> 00:03:38,834
+So now, I'm going to go back and double-check,
+
+66
+00:03:38,835 --> 00:03:40,700
+and we can see that we follow the directions here.
+
+67
+00:03:40,699 --> 00:03:42,994
+So we created our Admin Connections,
+
+68
+00:03:42,995 --> 00:03:46,115
+we filled in our aws_credentials, and we saved.
+
+69
+00:03:46,115 --> 00:03:49,055
+So the DAG is actually already ready to go.
+
+70
+00:03:49,055 --> 00:03:51,439
+I've already pre-populated it with a function that
+
+71
+00:03:51,439 --> 00:03:54,004
+will list all of the values in an s3_bucket.
+
+72
+00:03:54,004 --> 00:03:56,509
+So you don't actually have to do any work here.
+
+73
+00:03:56,509 --> 00:04:00,125
+All you got to do is go out to Airflow, click on DAGs,
+
+74
+00:04:00,125 --> 00:04:02,469
+and then turn on lesson 4,
+
+75
+00:04:02,469 --> 00:04:06,159
+and refresh, then once you've turned it on,
+
+76
+00:04:06,159 --> 00:04:07,819
+we're going to click the Play button and trigger it.
+
+77
+00:04:07,819 --> 00:04:09,650
+I don't have this one on a schedule.
+
+78
+00:04:09,650 --> 00:04:12,030
+Go ahead and click Play,
+
+79
+00:04:12,460 --> 00:04:15,719
+and we're going to wait for it to run.
+
+80
+00:04:17,319 --> 00:04:20,375
+So this may take a few moments.
+
+81
+00:04:20,375 --> 00:04:22,430
+Unlike the previous demonstrations,
+
+82
+00:04:22,430 --> 00:04:27,125
+there is a little bit of work going on behind the scenes here. So now it's done.
+
+83
+00:04:27,125 --> 00:04:29,845
+So I'm going to click in the lesson 1 demo 4,
+
+84
+00:04:29,845 --> 00:04:34,760
+and then I'm going to click on the actual task to see if it did what I asked it to do,
+
+85
+00:04:34,759 --> 00:04:36,125
+which if we go back here,
+
+86
+00:04:36,125 --> 00:04:37,790
+you can see we're listing the key.
+
+87
+00:04:37,790 --> 00:04:39,720
+So it's getting an S3_hook,
+
+88
+00:04:39,720 --> 00:04:41,975
+it's using that variable that we defined.
+
+89
+00:04:41,975 --> 00:04:45,275
+So before we look at the logs, I want to walk through this.
+
+90
+00:04:45,274 --> 00:04:47,354
+You can see that we're using the S3_hook.
+
+91
+00:04:47,355 --> 00:04:49,895
+So this is going to talk to Amazon's S3.
+
+92
+00:04:49,894 --> 00:04:54,459
+It's using the AWS connection ID, aws_credentials.
+
+93
+00:04:54,459 --> 00:04:58,724
+Remember, this was the name that we gave to the credentials that we were using.
+
+94
+00:04:58,725 --> 00:05:01,015
+Once we've gotten that hook,
+
+95
+00:05:01,014 --> 00:05:05,149
+we can actually use it to list the keys in a particular s3_bucket.
+
+96
+00:05:05,149 --> 00:05:09,034
+Instead of hard coding the s3_bucket into my Airflow DAG,
+
+97
+00:05:09,035 --> 00:05:12,575
+I've actually told it to use an airflow variable,
+
+98
+00:05:12,574 --> 00:05:15,319
+and you can see that I've imported that on Line 5,
+
+99
+00:05:15,319 --> 00:05:17,420
+we have airflow variable.
+
+100
+00:05:17,420 --> 00:05:22,420
+I've imported the airflow variable and ask it to give me the name of the s3_bucket.
+
+101
+00:05:22,420 --> 00:05:24,770
+So what's nice about this is whether
+
+102
+00:05:24,769 --> 00:05:27,169
+it's this example or something else in the real-world,
+
+103
+00:05:27,170 --> 00:05:30,024
+chances are as a data engineer,
+
+104
+00:05:30,024 --> 00:05:33,649
+configuration within your data engineering environment
+
+105
+00:05:33,649 --> 00:05:35,628
+needs to change, whether that's credentials,
+
+106
+00:05:35,629 --> 00:05:37,834
+or its locations of things with an S3,
+
+107
+00:05:37,834 --> 00:05:41,485
+or names of database tables, things like that.
+
+108
+00:05:41,485 --> 00:05:45,560
+You can actually use airflow variables to make managing those much simpler.
+
+109
+00:05:45,560 --> 00:05:49,610
+Finally, all we're going to do is list all the keys in that bucket.
+
+110
+00:05:49,610 --> 00:05:53,870
+So let's go back, and let's actually view the logs from our list_keys function.
+
+111
+00:05:53,870 --> 00:05:56,375
+So let me close out of this and just get into it one more time.
+
+112
+00:05:56,375 --> 00:06:01,295
+So again, we're in the Tree View for our DAG lesson 1 demo 4,
+
+113
+00:06:01,295 --> 00:06:03,425
+we're going to click on Our Task,
+
+114
+00:06:03,425 --> 00:06:05,855
+and then click View Log.
+
+115
+00:06:05,855 --> 00:06:07,935
+We're going to scroll down,
+
+116
+00:06:07,935 --> 00:06:12,935
+and then you can see here listing keys from udac-data-pipelines,
+
+117
+00:06:12,935 --> 00:06:15,185
+and you can see a whole bunch of stuff.
+
+118
+00:06:15,185 --> 00:06:18,050
+We're actually going to be using these datasets throughout the rest of the course.
+
+119
+00:06:18,050 --> 00:06:20,680
+So you're getting a preview of the data that you're going to be working with,
+
+120
+00:06:20,680 --> 00:06:23,900
+and you can see everything in this s3_bucket,
+
+121
+00:06:23,899 --> 00:06:29,729
+and so we did all of that again by using connections and variables.
+

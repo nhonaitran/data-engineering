@@ -1,0 +1,68 @@
+1
+00:00:00,000 --> 00:00:03,169
+You guys already saw the solution to this but real quick,
+
+2
+00:00:03,169 --> 00:00:07,229
+I'm going to walk through one more time what we did.
+
+3
+00:00:07,230 --> 00:00:09,765
+So we had these four functions defined.
+
+4
+00:00:09,765 --> 00:00:12,644
+Your functions are slightly different to mine.
+
+5
+00:00:12,644 --> 00:00:16,155
+But then, we defined three Python operators,
+
+6
+00:00:16,155 --> 00:00:19,770
+and these three operators are for
+
+7
+00:00:19,769 --> 00:00:23,160
+all intents and purposes the same as our Hello World task,
+
+8
+00:00:23,160 --> 00:00:26,760
+but we gave them different IDs and different Python callables.
+
+9
+00:00:26,760 --> 00:00:30,765
+Then, down here, we configured our DAG
+
+10
+00:00:30,765 --> 00:00:35,100
+using the task dependency ordering operations down here.
+
+11
+00:00:35,100 --> 00:00:38,250
+So they just needed these double [inaudible].
+
+12
+00:00:38,250 --> 00:00:42,195
+So we said Hello World task comes before Current Time task and Working Directory task.
+
+13
+00:00:42,195 --> 00:00:45,390
+Then, when Current Time task and Working Directory task are complete,
+
+14
+00:00:45,390 --> 00:00:47,399
+we can run the complete task.
+
+15
+00:00:47,399 --> 00:00:53,405
+Then, the output that we saw in the UI is very similar to this.
+
+16
+00:00:53,405 --> 00:00:57,545
+We have these four tasks that are complete,
+
+17
+00:00:57,545 --> 00:01:02,310
+and we can go to Tree View and see a history of our runs.
+

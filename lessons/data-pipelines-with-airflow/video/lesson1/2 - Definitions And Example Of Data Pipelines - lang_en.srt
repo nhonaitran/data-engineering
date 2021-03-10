@@ -1,0 +1,164 @@
+1
+00:00:00,000 --> 00:00:02,310
+What is a data pipeline?
+
+2
+00:00:02,310 --> 00:00:05,459
+Before we dive into the definition of a data pipeline,
+
+3
+00:00:05,459 --> 00:00:09,089
+let's discuss a few examples of data pipelines you may have encountered.
+
+4
+00:00:09,089 --> 00:00:11,730
+Chances are, you've already interacted with
+
+5
+00:00:11,730 --> 00:00:15,075
+the output of a data pipeline multiple times today.
+
+6
+00:00:15,074 --> 00:00:18,929
+Open your email inbox and have a look at a few of our marketing emails.
+
+7
+00:00:18,929 --> 00:00:22,009
+A lot of these emails are probably personalized for you directly,
+
+8
+00:00:22,010 --> 00:00:24,795
+and were triggered after a data pipeline executed.
+
+9
+00:00:24,795 --> 00:00:28,380
+Maybe you used a rideshare app like Lyft or Uber,
+
+10
+00:00:28,379 --> 00:00:30,375
+where you were offered real-time pricing.
+
+11
+00:00:30,375 --> 00:00:32,570
+Companies commonly use data pipelines to
+
+12
+00:00:32,570 --> 00:00:35,284
+orchestrate the analysis that determines pricing.
+
+13
+00:00:35,284 --> 00:00:37,099
+Perhaps you were shopping online,
+
+14
+00:00:37,100 --> 00:00:38,660
+left without purchasing anything,
+
+15
+00:00:38,659 --> 00:00:43,384
+and then suddenly saw advertisements for the items you were shopping for on our websites.
+
+16
+00:00:43,384 --> 00:00:45,844
+At its most basic definition,
+
+17
+00:00:45,844 --> 00:00:51,394
+a data pipeline describes encode a series of sequential data processing steps.
+
+18
+00:00:51,395 --> 00:00:54,080
+Depending on the data requirements for each step,
+
+19
+00:00:54,079 --> 00:00:56,674
+some steps may occur in parallel.
+
+20
+00:00:56,674 --> 00:00:59,989
+Data pipelines also typically occur on a schedule.
+
+21
+00:00:59,990 --> 00:01:02,060
+That schedule could be once an hour,
+
+22
+00:01:02,060 --> 00:01:05,635
+once a day, every minute, or once a year.
+
+23
+00:01:05,635 --> 00:01:08,960
+The cadence largely depends on how frequently data is delivered,
+
+24
+00:01:08,959 --> 00:01:12,439
+and how often data consumers need new insights.
+
+25
+00:01:12,439 --> 00:01:17,170
+Schedules are the most common mechanisms of triggering an execution of a data pipeline,
+
+26
+00:01:17,170 --> 00:01:21,575
+external triggers and events can also be used to execute data pipelines.
+
+27
+00:01:21,575 --> 00:01:24,829
+Extract, transform and load, or extract, load,
+
+28
+00:01:24,829 --> 00:01:28,144
+and transform, are common patterns found in data pipelines,
+
+29
+00:01:28,144 --> 00:01:29,644
+but not strictly required.
+
+30
+00:01:29,644 --> 00:01:34,469
+Some data pipelines perform only a subset of ETL or ELT.
+
+31
+00:01:34,510 --> 00:01:37,250
+Let's return to one of our earlier examples,
+
+32
+00:01:37,250 --> 00:01:40,939
+and see how a company might use a data pipeline to accomplish a goal.
+
+33
+00:01:40,939 --> 00:01:43,620
+Let's pretend that we work in a Bikeshare company,
+
+34
+00:01:43,620 --> 00:01:46,445
+and want to figure out where our busiest locations are.
+
+35
+00:01:46,444 --> 00:01:50,974
+We might use this data to determine where to build additional locations,
+
+36
+00:01:50,974 --> 00:01:53,164
+or simply to add more bikes.
+
+37
+00:01:53,165 --> 00:01:56,480
+A data pipeline to accomplish this task would likely
+
+38
+00:01:56,480 --> 00:02:01,925
+first load application event data from a source such as S3 or kafka.
+
+39
+00:02:01,924 --> 00:02:04,670
+Second, we might take that data and then
+
+40
+00:02:04,670 --> 00:02:07,885
+load it into an analytic warehouse such as RedShift.
+
+41
+00:02:07,885 --> 00:02:13,930
+Then third, perform data transformations that identify high-traffic bike docks.
+

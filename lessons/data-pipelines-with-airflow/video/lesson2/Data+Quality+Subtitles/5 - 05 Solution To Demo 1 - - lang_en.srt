@@ -1,0 +1,92 @@
+1
+00:00:00,000 --> 00:00:03,780
+All right. I hope everyone had fun working on the exercise.
+
+2
+00:00:03,780 --> 00:00:06,600
+We're going to take a quick look at the solution.
+
+3
+00:00:06,600 --> 00:00:11,950
+So, let me open it up.
+
+4
+00:00:12,260 --> 00:00:15,765
+I'm going to go down to my solutions.
+
+5
+00:00:15,765 --> 00:00:20,145
+Lesson two, exercise one. All right.
+
+6
+00:00:20,145 --> 00:00:22,949
+So, as we take a look at the solution,
+
+7
+00:00:22,949 --> 00:00:25,935
+we're going to recognize that your code looks a little bit different from mine.
+
+8
+00:00:25,935 --> 00:00:28,395
+So, we're loading the stations' data,
+
+9
+00:00:28,395 --> 00:00:30,495
+as well as the trip data.
+
+10
+00:00:30,495 --> 00:00:33,255
+If we go down and take a look at the operators,
+
+11
+00:00:33,255 --> 00:00:34,635
+we can see just like in mine,
+
+12
+00:00:34,635 --> 00:00:38,445
+you have a create_trips_table, copy_trips_task.
+
+13
+00:00:38,445 --> 00:00:41,870
+The difference is that you don't have a traffic calculation task,
+
+14
+00:00:41,870 --> 00:00:46,625
+and instead you're loading a stations_table and a copy_stations_task.
+
+15
+00:00:46,625 --> 00:00:52,520
+I asked you to run the DAG without this second line here first.
+
+16
+00:00:52,520 --> 00:00:54,590
+Then, to add the second line,
+
+17
+00:00:54,590 --> 00:00:56,795
+where we have create_stations_table happen,
+
+18
+00:00:56,795 --> 00:00:58,825
+and then the copy_stations_task.
+
+19
+00:00:58,825 --> 00:01:01,860
+With both of those changes in place,
+
+20
+00:01:01,860 --> 00:01:06,140
+you were able to see the difference in the runs between both of those decks,
+
+21
+00:01:06,140 --> 00:01:09,500
+which again you should have ended up with something that looks similar to this.
+
+22
+00:01:09,500 --> 00:01:12,125
+However, you would've had creating the stations_table,
+
+23
+00:01:12,125 --> 00:01:14,240
+and then finishing the stations_table.
+

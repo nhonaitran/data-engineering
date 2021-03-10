@@ -1,0 +1,164 @@
+1
+00:00:00,000 --> 00:00:03,060
+Tracking data lineage in Airflow is simple.
+
+2
+00:00:03,060 --> 00:00:05,100
+As we've already seen in lesson one,
+
+3
+00:00:05,100 --> 00:00:09,435
+the Airflow UI parses our DAGs and surfaces a visualization of the graph.
+
+4
+00:00:09,435 --> 00:00:10,725
+So, as we've already covered,
+
+5
+00:00:10,725 --> 00:00:15,555
+we have create_table, load_from_S3_to_redshift,and then calculate_location_traffic.
+
+6
+00:00:15,555 --> 00:00:19,800
+Airflow keeps track of all runs of a particular DAG as tasks.
+
+7
+00:00:19,800 --> 00:00:23,475
+So again, we have our exercise six DAG down here,
+
+8
+00:00:23,475 --> 00:00:28,725
+and we have runs for each one each time that we've executed our DAG.
+
+9
+00:00:28,725 --> 00:00:31,020
+So, you can see here the dark green indicates
+
+10
+00:00:31,020 --> 00:00:33,390
+that the run is complete and that the task is complete.
+
+11
+00:00:33,390 --> 00:00:37,740
+So, the runs complete here in the circle and the square says the task is complete.
+
+12
+00:00:37,740 --> 00:00:42,150
+Airflow also shows us the rendered code for each task.
+
+13
+00:00:42,150 --> 00:00:43,995
+One thing to keep in mind,
+
+14
+00:00:43,995 --> 00:00:46,550
+Airflow keeps a record of historical DAGs and
+
+15
+00:00:46,550 --> 00:00:51,575
+task executions but it does not store the data from those historical runs.
+
+16
+00:00:51,575 --> 00:00:54,125
+Whatever the latest code is in your DAG definition
+
+17
+00:00:54,125 --> 00:00:56,815
+is what Airflow will render for you in the browser.
+
+18
+00:00:56,815 --> 00:01:01,025
+So, be careful in making assumptions about what was run historically.
+
+19
+00:01:01,025 --> 00:01:03,680
+So again, just to emphasize this,
+
+20
+00:01:03,680 --> 00:01:07,260
+if I went in and change the SQL on the slide, say,
+
+21
+00:01:07,260 --> 00:01:10,010
+I want to change the table name from station traffic to
+
+22
+00:01:10,010 --> 00:01:14,105
+just traffic or station traffic 2018.
+
+23
+00:01:14,105 --> 00:01:17,330
+If I did that and I updated my DAG,
+
+24
+00:01:17,330 --> 00:01:20,480
+Airflow is going to pick up that change and it's
+
+25
+00:01:20,480 --> 00:01:23,180
+going to render that for all historical DAG runs.
+
+26
+00:01:23,180 --> 00:01:26,720
+So, it's really important to understand that as you modify
+
+27
+00:01:26,720 --> 00:01:31,280
+DAGs that the code for historical runs will look different as well when you pull them up.
+
+28
+00:01:31,280 --> 00:01:34,565
+So, it does not keep a record of those historical code changes.
+
+29
+00:01:34,565 --> 00:01:38,195
+If you're going to make major changes to an existing DAG, say,
+
+30
+00:01:38,195 --> 00:01:41,225
+I wanted to completely change the analysis in this example,
+
+31
+00:01:41,225 --> 00:01:43,775
+it would be better to make an entirely new DAG
+
+32
+00:01:43,775 --> 00:01:46,300
+and turn this DAG off or give in an end date.
+
+33
+00:01:46,300 --> 00:01:49,535
+You should wait these decisions carefully with your team when they come up.
+
+34
+00:01:49,535 --> 00:01:52,850
+We're going to talk more about end dates very shortly.
+
+35
+00:01:52,850 --> 00:01:55,880
+Another nice thing about Airflow is that it's
+
+36
+00:01:55,880 --> 00:01:59,570
+a single visual point of reference for everyone on your team,
+
+37
+00:01:59,570 --> 00:02:01,540
+no matter how technical they are.
+
+38
+00:02:01,540 --> 00:02:04,625
+You can provide your data consumers access to the web UI,
+
+39
+00:02:04,625 --> 00:02:07,745
+so that they can open up View DAGs and their history.
+
+40
+00:02:07,745 --> 00:02:12,169
+Giving your data consumers the ability to view data lineage and your data pipelines,
+
+41
+00:02:12,169 --> 00:02:15,360
+goes a long way towards building trust in your data pipelines.
+

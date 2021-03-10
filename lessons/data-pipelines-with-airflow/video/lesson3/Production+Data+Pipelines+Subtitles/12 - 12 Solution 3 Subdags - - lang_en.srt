@@ -1,0 +1,228 @@
+1
+00:00:00,000 --> 00:00:02,370
+Now that you've had a chance to try out exercise three,
+
+2
+00:00:02,370 --> 00:00:04,290
+let's walk through the solution.
+
+3
+00:00:04,290 --> 00:00:10,005
+So, first, we're going to go over to the code and have a look.
+
+4
+00:00:10,005 --> 00:00:15,600
+So, again, lesson3.exercise3, let's open up the DAG first.
+
+5
+00:00:15,600 --> 00:00:18,420
+You can see here, we have a subdag operator defined for
+
+6
+00:00:18,420 --> 00:00:22,490
+trips and a station subdag defined for stations,
+
+7
+00:00:22,490 --> 00:00:24,010
+and if we keep scrolling down,
+
+8
+00:00:24,010 --> 00:00:26,970
+you're going to see the only task left that's not
+
+9
+00:00:26,970 --> 00:00:32,025
+a subdag is the PostgresOperator for calculating location_traffic.
+
+10
+00:00:32,025 --> 00:00:34,380
+You can see our task ordering is that the trips_
+
+11
+00:00:34,380 --> 00:00:37,170
+subdag runs, then the location_traffic_task.
+
+12
+00:00:37,170 --> 00:00:39,195
+Same thing with stations_subdag.
+
+13
+00:00:39,195 --> 00:00:41,610
+We open up our subdag,
+
+14
+00:00:41,610 --> 00:00:44,900
+you can see if we come in here that we have the create and
+
+15
+00:00:44,900 --> 00:00:48,425
+copy tasks that you saw me move in during demonstration,
+
+16
+00:00:48,425 --> 00:00:51,485
+we now also have the check_task defined.
+
+17
+00:00:51,485 --> 00:00:53,750
+We made the check_task generic.
+
+18
+00:00:53,750 --> 00:00:57,285
+We use Python 3.0 formatting strings to say check,
+
+19
+00:00:57,285 --> 00:01:00,470
+and then rendered in the table name data.
+
+20
+00:01:00,470 --> 00:01:04,715
+We also made sure to pass on the DAG that we defined here in the subdag,
+
+21
+00:01:04,715 --> 00:01:07,540
+a redshift_conn_id and a table.
+
+22
+00:01:07,540 --> 00:01:10,280
+Once we did that, we made sure that after we ran
+
+23
+00:01:10,280 --> 00:01:12,980
+the copy_task that we ran the check_task.
+
+24
+00:01:12,980 --> 00:01:19,520
+So again, we called in our subdag here in our DAG.
+
+25
+00:01:19,520 --> 00:01:25,410
+Once we did that, we can go into the Airflow UI and we just want to make sure first,
+
+26
+00:01:25,410 --> 00:01:26,785
+we're going to turn this on.
+
+27
+00:01:26,785 --> 00:01:30,745
+We can come into the Airflow UI, look at lesson3.exercise3.
+
+28
+00:01:30,745 --> 00:01:33,430
+We want to make sure that the Graph View looks correct.
+
+29
+00:01:33,430 --> 00:01:35,710
+So we can see here, we have trips_subdag and
+
+30
+00:01:35,710 --> 00:01:38,965
+stations_subdag feeding into calculate_location_traffic.
+
+31
+00:01:38,965 --> 00:01:43,000
+So this is what you should see if your DAG was properly configured.
+
+32
+00:01:43,000 --> 00:01:48,055
+Now, we're going to go ahead and run this DAG once to see it execute.
+
+33
+00:01:48,055 --> 00:01:50,275
+So we're going to scroll back to the front page,
+
+34
+00:01:50,275 --> 00:01:54,800
+go to lesson3.exercise3, and click the "Play" button.
+
+35
+00:01:55,050 --> 00:01:59,965
+So, Airflow is going to start running lesson3.exercise3 in a moment here.
+
+36
+00:01:59,965 --> 00:02:03,030
+We're going to the Graph View and watch it progress.
+
+37
+00:02:03,030 --> 00:02:07,235
+So, the trips_subdag and the stations_subdag are now underway.
+
+38
+00:02:07,235 --> 00:02:10,830
+We'll wait just a few minutes for these to run.
+
+39
+00:02:10,900 --> 00:02:13,990
+It's worth noting while we're waiting for this to run,
+
+40
+00:02:13,990 --> 00:02:19,895
+that the coloring of these tasks actually indicates to us what kind of task they are.
+
+41
+00:02:19,895 --> 00:02:23,435
+So here, the Postgres operator is a light gray.
+
+42
+00:02:23,435 --> 00:02:26,935
+The subdag operator is a dark gray.
+
+43
+00:02:26,935 --> 00:02:30,070
+So, we can visually distinguish that something
+
+44
+00:02:30,070 --> 00:02:34,055
+is a subdag versus a normal DAG based on the color.
+
+45
+00:02:34,055 --> 00:02:40,130
+So now, both of our subdags have completed the trips_subdag and the station_subdag.
+
+46
+00:02:40,130 --> 00:02:44,090
+We can see this one took about 27 seconds as did this one.
+
+47
+00:02:44,090 --> 00:02:47,225
+Our calculate_location_traffic task is completed.
+
+48
+00:02:47,225 --> 00:02:51,050
+Again, if we wanted to make sure that there are subdags worked properly.
+
+49
+00:02:51,050 --> 00:02:56,625
+We can click on the "subdag" in the Graph View click "Zoom into Sub DAG".
+
+50
+00:02:56,625 --> 00:02:59,085
+Then, once we're in the subdag,
+
+51
+00:02:59,085 --> 00:03:03,860
+we can see that the subdag itself ran how long each of the task took,
+
+52
+00:03:03,860 --> 00:03:05,645
+and if we go to the Graph View,
+
+53
+00:03:05,645 --> 00:03:08,850
+you can see the components of our subdag.
+
+54
+00:03:08,850 --> 00:03:10,875
+So first, we create the table,
+
+55
+00:03:10,875 --> 00:03:16,065
+we load the trips data from S3 to Redshift and then we check the trips data.
+
+56
+00:03:16,065 --> 00:03:19,210
+Now, if we return to our subdag code,
+
+57
+00:03:19,210 --> 00:03:24,450
+you'll notice that this matches the task ordering that we defined.
+

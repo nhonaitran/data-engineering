@@ -1,0 +1,408 @@
+1
+00:00:00,000 --> 00:00:02,370
+So, we're going to do one more demo.
+
+2
+00:00:02,370 --> 00:00:06,194
+For this demo, we're going to be taking a look at basically
+
+3
+00:00:06,194 --> 00:00:10,650
+how we can use Airflow tasks and features to test data quality with inner jags.
+
+4
+00:00:10,650 --> 00:00:14,505
+First, we're going to set an SLA on our bike share traffic calculation operator.
+
+5
+00:00:14,505 --> 00:00:18,390
+Then, we're going to add a data verification step after a load step from S3 Redshift.
+
+6
+00:00:18,390 --> 00:00:19,800
+Finally, we're going to add
+
+7
+00:00:19,800 --> 00:00:24,270
+a data verification step after we've calculated our output table.
+
+8
+00:00:24,270 --> 00:00:27,105
+So, we've got our dags off.
+
+9
+00:00:27,105 --> 00:00:30,720
+We're going to be turning on lesson two demo four in just a moment.
+
+10
+00:00:30,720 --> 00:00:33,795
+So, we're going to return to our demos.
+
+11
+00:00:33,795 --> 00:00:37,510
+We're going to open up demo four,
+
+12
+00:00:37,670 --> 00:00:42,240
+and then we're going to take a look through our code to see what's different here.
+
+13
+00:00:42,240 --> 00:00:44,330
+We can see we have a new function.
+
+14
+00:00:44,330 --> 00:00:46,160
+Check greater than zero.
+
+15
+00:00:46,160 --> 00:00:48,455
+This function isn't complete yet.
+
+16
+00:00:48,455 --> 00:00:50,090
+All we've done so far,
+
+17
+00:00:50,090 --> 00:00:53,620
+is we've actually selected account from a table.
+
+18
+00:00:53,620 --> 00:00:57,080
+That table comes in as a keyword argument.
+
+19
+00:00:57,080 --> 00:00:59,810
+So, we know we're going to need to provide context
+
+20
+00:00:59,810 --> 00:01:03,800
+to our Python operator that's actually running this data quality check.
+
+21
+00:01:03,800 --> 00:01:09,530
+So, let's go take a look at the operator that's actually going to run the check.
+
+22
+00:01:09,530 --> 00:01:13,715
+The first thing we have here is this check trips data Python operator.
+
+23
+00:01:13,715 --> 00:01:16,535
+We can see it's already partially configured.
+
+24
+00:01:16,535 --> 00:01:21,130
+It provides context, it calls the check greater than zero function,
+
+25
+00:01:21,130 --> 00:01:25,130
+and we've provided the perimeter the table name as trips.
+
+26
+00:01:25,130 --> 00:01:29,015
+So again, table name is trips and we're checking the trips table.
+
+27
+00:01:29,015 --> 00:01:32,240
+So, if I go back up, we can see that that parameter
+
+28
+00:01:32,240 --> 00:01:36,280
+is being pulled in off of the keyword arguments here.
+
+29
+00:01:36,280 --> 00:01:40,700
+So, we're going to get the table name to check from those keyword arguments.
+
+30
+00:01:40,700 --> 00:01:44,450
+Likewise, we're going to check the stations data in a similar fashion.
+
+31
+00:01:44,450 --> 00:01:46,940
+So, this is another new operator.
+
+32
+00:01:46,940 --> 00:01:49,345
+So here, we provided context,
+
+33
+00:01:49,345 --> 00:01:54,965
+and here we've given the name of the table as Stations. As you can see.
+
+34
+00:01:54,965 --> 00:02:01,000
+Final thing we need to do, is actually add these checks into our dag.
+
+35
+00:02:01,000 --> 00:02:05,490
+So, we're going to say after we've copied trips data,
+
+36
+00:02:05,710 --> 00:02:11,280
+we need to actually run the check trips task.
+
+37
+00:02:11,740 --> 00:02:15,550
+Sorry on line 72 it's actually check trips.
+
+38
+00:02:15,550 --> 00:02:18,400
+So, we're going to do check trips,
+
+39
+00:02:19,280 --> 00:02:23,885
+and then after we've done copy stations task,
+
+40
+00:02:23,885 --> 00:02:28,075
+we're going to run the check stations task.
+
+41
+00:02:28,075 --> 00:02:31,040
+However, our task isn't totally complete yet.
+
+42
+00:02:31,040 --> 00:02:33,079
+If we go back up to this function,
+
+43
+00:02:33,079 --> 00:02:34,655
+is not actually doing anything.
+
+44
+00:02:34,655 --> 00:02:39,560
+All it's doing is executing this function select a count of records from a table,
+
+45
+00:02:39,560 --> 00:02:41,870
+and then logging if it succeeded or not.
+
+46
+00:02:41,870 --> 00:02:44,165
+Well, we need to add some checks here.
+
+47
+00:02:44,165 --> 00:02:49,020
+So first, we need to make sure that records exist.
+
+48
+00:02:50,980 --> 00:02:56,330
+We also need to see that since records is going to be an array,
+
+49
+00:02:56,330 --> 00:03:00,400
+that we actually receive some rows to look at.
+
+50
+00:03:01,580 --> 00:03:07,445
+So, actually this should be if records is none or record zero.
+
+51
+00:03:07,445 --> 00:03:13,540
+The length of record zero is less than one.
+
+52
+00:03:13,540 --> 00:03:18,060
+Then, we're going to raise a value error.
+
+53
+00:03:18,730 --> 00:03:26,490
+Because no records present and destination table,
+
+54
+00:03:28,460 --> 00:03:30,890
+and this is going to be a format string.
+
+55
+00:03:30,890 --> 00:03:33,860
+So, we're going to raise an error because we want this task to fail.
+
+56
+00:03:33,860 --> 00:03:34,970
+If our check fails,
+
+57
+00:03:34,970 --> 00:03:40,370
+we want to raise a value error to denote the fact that the value is incorrect and wrong.
+
+58
+00:03:40,370 --> 00:03:43,380
+We're also going to log an error,
+
+59
+00:03:44,530 --> 00:03:48,600
+and we'll log more or less the same thing.
+
+60
+00:03:52,490 --> 00:03:56,169
+Essentially, we just want to say no markers are present,
+
+61
+00:03:56,169 --> 00:03:57,880
+and we want to make sure that's obvious so that in
+
+62
+00:03:57,880 --> 00:04:00,310
+the airflow logs we can see that something happened.
+
+63
+00:04:00,310 --> 00:04:02,140
+We're going to save our dag,
+
+64
+00:04:02,140 --> 00:04:06,310
+and then we're going to return to the dag menu and run this again.
+
+65
+00:04:06,310 --> 00:04:10,030
+Before we do that, I just want to show how to actually add an SLA.
+
+66
+00:04:10,030 --> 00:04:14,650
+SLA can be added to tasks and you do that by providing a time delta.
+
+67
+00:04:14,650 --> 00:04:18,190
+So, we have this Postgres operator here that creates the trips table.
+
+68
+00:04:18,190 --> 00:04:20,575
+This is pretty fast, so we're not going to look at this one.
+
+69
+00:04:20,575 --> 00:04:22,570
+We're going to look at the copy trips task.
+
+70
+00:04:22,570 --> 00:04:24,120
+This one can take a little while.
+
+71
+00:04:24,120 --> 00:04:25,440
+There could be a lot of data.
+
+72
+00:04:25,440 --> 00:04:33,290
+So, we want to set an SLA equal to a time delta for some amount of time.
+
+73
+00:04:33,290 --> 00:04:34,735
+So, in this case,
+
+74
+00:04:34,735 --> 00:04:36,320
+I don't have anything specific in mind,
+
+75
+00:04:36,320 --> 00:04:39,065
+but we could say let's say we wanted to complete within an hour.
+
+76
+00:04:39,065 --> 00:04:40,880
+Say hour is equal one.
+
+77
+00:04:40,880 --> 00:04:42,630
+If it needs to complete within a minute,
+
+78
+00:04:42,630 --> 00:04:44,330
+you could say minutes equal one,
+
+79
+00:04:44,330 --> 00:04:49,990
+or seconds equals 30 whatever the appropriate SLA is for your given task.
+
+80
+00:04:49,990 --> 00:04:51,935
+So, we've saved this.
+
+81
+00:04:51,935 --> 00:04:55,865
+We can go back to lesson two demo for in the UI.
+
+82
+00:04:55,865 --> 00:04:59,390
+We're going to look at the code. We want to make sure that it was parsed correctly.
+
+83
+00:04:59,390 --> 00:05:02,675
+So, we can see that our checks are now present,
+
+84
+00:05:02,675 --> 00:05:06,815
+and if we scroll down, we can see your copy trips task has an SLA.
+
+85
+00:05:06,815 --> 00:05:11,150
+So, I can return to our menu here and turn on and it's
+
+86
+00:05:11,150 --> 00:05:15,470
+still set to run monthly. All right.
+
+87
+00:05:15,470 --> 00:05:20,005
+So, jump into our graph view and we can see it's getting underway.
+
+88
+00:05:20,005 --> 00:05:25,735
+So, we're running our create trips tables and stations table. Those have run.
+
+89
+00:05:25,735 --> 00:05:28,000
+Now, we're going to start running the load trips and
+
+90
+00:05:28,000 --> 00:05:30,625
+load stations table which we've already seen before.
+
+91
+00:05:30,625 --> 00:05:33,415
+There was a completed. Now, we're actually going to run
+
+92
+00:05:33,415 --> 00:05:36,340
+our checks to make sure that data is present in those tables.
+
+93
+00:05:36,340 --> 00:05:42,550
+So, they're running, and they both completing successfully.
+
+94
+00:05:42,550 --> 00:05:45,470
+So, let's take a look at the logs and see what they got printed up.
+
+95
+00:05:45,470 --> 00:05:48,940
+So again, I clicked on a task and the graph view,
+
+96
+00:05:48,940 --> 00:05:54,505
+and then I'm going to click on view log to actually view log's going to scroll down.
+
+97
+00:05:54,505 --> 00:05:57,280
+We can see our log statement here.
+
+98
+00:05:57,280 --> 00:06:05,335
+Data quality on table trips check passed with nine million records,
+
+99
+00:06:05,335 --> 00:06:06,965
+almost 10 million records.
+
+100
+00:06:06,965 --> 00:06:09,770
+So, we can see that our data quality check passed.
+
+101
+00:06:09,770 --> 00:06:13,965
+If I went and deleted all the data from that table right now and re-run this task,
+
+102
+00:06:13,965 --> 00:06:17,370
+it would fail because there would be zero records present.
+

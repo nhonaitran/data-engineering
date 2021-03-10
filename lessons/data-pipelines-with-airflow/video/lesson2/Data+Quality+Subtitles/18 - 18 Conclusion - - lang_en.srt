@@ -1,0 +1,44 @@
+1
+00:00:00,000 --> 00:00:03,465
+I hope you enjoyed our review of the facets of data quality.
+
+2
+00:00:03,465 --> 00:00:06,090
+Today, we covered data lineage and how we can use it
+
+3
+00:00:06,090 --> 00:00:08,565
+to understand the movement of data in our pipelines.
+
+4
+00:00:08,565 --> 00:00:11,130
+We also covered scheduling and how it can be used
+
+5
+00:00:11,130 --> 00:00:13,965
+to speed up our analyses and backfill data.
+
+6
+00:00:13,965 --> 00:00:17,470
+Building on the concepts of using scheduling to speed up analysis,
+
+7
+00:00:17,470 --> 00:00:18,990
+we learned how to partition data.
+
+8
+00:00:18,990 --> 00:00:20,700
+Finally, you saw the role that
+
+9
+00:00:20,700 --> 00:00:23,925
+good requirements play in determining and measuring data quality.
+
+10
+00:00:23,925 --> 00:00:27,285
+In lesson three, we'll build on the concepts from lesson one and two,
+
+11
+00:00:27,285 --> 00:00:30,400
+to learn how to build production quality data pipelines.
+

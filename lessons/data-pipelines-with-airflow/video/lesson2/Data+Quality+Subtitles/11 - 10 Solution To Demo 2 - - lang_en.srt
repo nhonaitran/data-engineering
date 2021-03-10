@@ -1,0 +1,124 @@
+1
+00:00:00,000 --> 00:00:02,850
+Hopefully everybody had a good time working in exercise two.
+
+2
+00:00:02,850 --> 00:00:05,085
+I'm going to review the solution with you real quick.
+
+3
+00:00:05,085 --> 00:00:09,180
+So, we already saw in my demonstration,
+
+4
+00:00:09,180 --> 00:00:11,385
+how to add a monthly interval.
+
+5
+00:00:11,385 --> 00:00:14,130
+Major difference between the exercise and what I
+
+6
+00:00:14,130 --> 00:00:18,135
+demonstrated was the frequency of the runs and how long it was running for.
+
+7
+00:00:18,135 --> 00:00:19,515
+So, I'm going to go ahead,
+
+8
+00:00:19,515 --> 00:00:20,910
+move back to the code.
+
+9
+00:00:20,910 --> 00:00:22,530
+I'm going to pull up the solution here.
+
+10
+00:00:22,530 --> 00:00:26,055
+So, we're looking at lesson two, exercise two.
+
+11
+00:00:26,055 --> 00:00:29,025
+Okay. So, in the code,
+
+12
+00:00:29,025 --> 00:00:32,490
+I asked for you to set an end date, February first.
+
+13
+00:00:32,490 --> 00:00:36,375
+So, your code should look something like this, February one.
+
+14
+00:00:36,375 --> 00:00:39,315
+Secondly, I asked for a schedule interval of monthly,
+
+15
+00:00:39,315 --> 00:00:42,345
+and I wanted to use at the max active runs to one.
+
+16
+00:00:42,345 --> 00:00:46,930
+Once you've done that, very similar to what you saw me show in the Airflow UI,
+
+17
+00:00:46,930 --> 00:00:49,130
+you would have pulled up the Airflow UI.
+
+18
+00:00:49,130 --> 00:00:52,915
+Seen lesson two, exercise two,
+
+19
+00:00:52,915 --> 00:00:54,585
+you would've turned it on.
+
+20
+00:00:54,585 --> 00:00:56,205
+Without clicking the run button,
+
+21
+00:00:56,205 --> 00:00:57,525
+you didn't need to click this.
+
+22
+00:00:57,525 --> 00:01:02,045
+Airflow automatically would have backfilled for both January and February.
+
+23
+00:01:02,045 --> 00:01:06,775
+You could click into the DAG and you can see a couple of columns here.
+
+24
+00:01:06,775 --> 00:01:11,775
+Click into the graph view and you can see a graph of those runs.
+
+25
+00:01:11,775 --> 00:01:13,655
+Now, it's worth mentioning.
+
+26
+00:01:13,655 --> 00:01:16,070
+If you didn't want to just run through February,
+
+27
+00:01:16,070 --> 00:01:19,160
+if you wanted to run through the end of 2018 or even to today,
+
+28
+00:01:19,160 --> 00:01:21,280
+you're more than welcome to do that.
+
+29
+00:01:21,280 --> 00:01:22,855
+For the sake of speed,
+
+30
+00:01:22,855 --> 00:01:24,710
+we had you only do a couple of backfills,
+
+31
+00:01:24,710 --> 00:01:27,150
+but there's nothing wrong with adding more.
+

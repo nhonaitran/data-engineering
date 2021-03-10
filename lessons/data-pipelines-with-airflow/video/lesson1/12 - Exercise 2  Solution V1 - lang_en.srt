@@ -1,0 +1,72 @@
+1
+00:00:00,000 --> 00:00:02,930
+The only change you had to make was to go in here
+
+2
+00:00:02,930 --> 00:00:06,200
+and add schedule interval equal '@daily.'
+
+3
+00:00:06,200 --> 00:00:07,815
+So, now that you've done that,
+
+4
+00:00:07,815 --> 00:00:14,964
+you would see a similar result to what we saw here the difference being that,
+
+5
+00:00:14,964 --> 00:00:18,824
+because we have only a single day time delta,
+
+6
+00:00:18,824 --> 00:00:21,629
+you would still only see one run,
+
+7
+00:00:21,629 --> 00:00:25,544
+but your schedule here should say '@daily.'
+
+8
+00:00:25,545 --> 00:00:28,185
+Again, if you were interested to see the output,
+
+9
+00:00:28,184 --> 00:00:31,199
+you can click on the "Task" from here if you'd like,
+
+10
+00:00:31,199 --> 00:00:34,784
+you can click on "Hello World" task here,
+
+11
+00:00:34,784 --> 00:00:38,139
+and then click on "Log."
+
+12
+00:00:38,240 --> 00:00:42,329
+You can see that we printed "Hello world."
+
+13
+00:00:42,329 --> 00:00:46,500
+Alright. Again, I'm going to ask you guys if you can,
+
+14
+00:00:46,500 --> 00:00:50,804
+just make sure that you toggle your DAGS off when you're done using them.
+
+15
+00:00:50,804 --> 00:00:54,719
+In a normal airflow installation you would not toggle your DAGS off,
+
+16
+00:00:54,719 --> 00:00:58,060
+but I just want to make sure that for your exercises,
+
+17
+00:00:58,060 --> 00:00:59,420
+things are as simple as possible,
+
+18
+00:00:59,420 --> 00:01:02,609
+so that you're getting the most out of those exercises.
+

@@ -1,0 +1,144 @@
+1
+00:00:00,000 --> 00:00:02,370
+Now, that we're familiar with data pipelines,
+
+2
+00:00:02,370 --> 00:00:05,384
+let's spend some time learning about data validation.
+
+3
+00:00:05,384 --> 00:00:11,969
+Data validation is the process of ensuring that data is present, correct, and meaningful.
+
+4
+00:00:11,970 --> 00:00:15,510
+Validating that data that passes through our data pipelines
+
+5
+00:00:15,509 --> 00:00:18,824
+helps ensure that our pipelines are producing correct results.
+
+6
+00:00:18,824 --> 00:00:22,410
+Data validation can be done manually by quality assurance,
+
+7
+00:00:22,410 --> 00:00:25,004
+data engineers, or even your data customers.
+
+8
+00:00:25,004 --> 00:00:26,640
+However, with that being said,
+
+9
+00:00:26,640 --> 00:00:30,615
+it's much preferable to perform data validation in an automated fashion.
+
+10
+00:00:30,614 --> 00:00:34,664
+Validation can and should become part of your pipeline definitions.
+
+11
+00:00:34,664 --> 00:00:36,644
+There are previously bikes for example,
+
+12
+00:00:36,645 --> 00:00:38,805
+we loaded data from S3 to Redshift.
+
+13
+00:00:38,804 --> 00:00:42,405
+We transformed it, and then we ranked locations by how busy they are.
+
+14
+00:00:42,405 --> 00:00:45,829
+What would happen if our system miscalculate the location ranking?
+
+15
+00:00:45,829 --> 00:00:48,469
+What if no data was produced at all?
+
+16
+00:00:48,469 --> 00:00:51,070
+When we make mistakes in our data pipelines,
+
+17
+00:00:51,070 --> 00:00:54,070
+they can lead to some serious problems for our businesses,
+
+18
+00:00:54,070 --> 00:00:56,539
+for our customers, and for people who depend on that kind of data.
+
+19
+00:00:56,539 --> 00:00:58,549
+So, it's really important that we perform this step of
+
+20
+00:00:58,549 --> 00:01:03,155
+data validation to ensure that the data we're creating is accurate and correct.
+
+21
+00:01:03,155 --> 00:01:08,185
+Before the data engineer moves on from the extract load step to any transformations,
+
+22
+00:01:08,185 --> 00:01:10,490
+they would likely assert that Redshift contains
+
+23
+00:01:10,489 --> 00:01:14,509
+the same number of rows in Redshift as were extracted from S3.
+
+24
+00:01:14,620 --> 00:01:17,960
+After that first validation step is passed,
+
+25
+00:01:17,959 --> 00:01:20,659
+the data pipeline processes the data in Redshift and
+
+26
+00:01:20,659 --> 00:01:23,959
+creates a fact table based on the raw input data.
+
+27
+00:01:23,959 --> 00:01:28,429
+At this point, validity assertion can be made about the data itself,
+
+28
+00:01:28,430 --> 00:01:34,085
+through the numbers produce why an unexpected range with any output data produced at all.
+
+29
+00:01:34,084 --> 00:01:37,669
+The day-to-day work of most data engineers is centered around
+
+30
+00:01:37,670 --> 00:01:41,090
+the movement and transformation of data in some form.
+
+31
+00:01:41,090 --> 00:01:44,990
+Data pipelines give us a set of logical guidelines and a common set of
+
+32
+00:01:44,989 --> 00:01:47,179
+terminology to work with when we're describing
+
+33
+00:01:47,180 --> 00:01:49,775
+the various tasks involved in this process.
+
+34
+00:01:49,775 --> 00:01:53,930
+With a solid understanding of what data pipelines are, how they work,
+
+35
+00:01:53,930 --> 00:01:55,465
+and how to validate their output,
+
+36
+00:01:55,465 --> 00:01:59,189
+you'll be well-equipped to start your journey as a data engineer.
+
