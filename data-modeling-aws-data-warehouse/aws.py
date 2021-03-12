@@ -15,17 +15,17 @@ config.read('dwh.cfg')
 
 KEY = config.get('AWS', 'KEY')
 SECRET = config.get('AWS', 'SECRET')
+AWS_REGION = config.get("AWS", "REGION")
 
-DWH_NAME = config.get("CLUSTER", "NAME")
-DWH_REGION = config.get("CLUSTER", "REGION")
-DWH_CLUSTER_TYPE = config.get("CLUSTER", "TYPE")
-DWH_NUM_NODES = config.get("CLUSTER", "NUM_NODES")
-DWH_NODE_TYPE = config.get("CLUSTER", "NODE_TYPE")
+AWS_REDSHIFT_CLUSTER_NAME = config.get("AWS_REDSHIFT_CLUSTER", "NAME")
+AWS_REDSHIFT_CLUSTER_TYPE = config.get("AWS_REDSHIFT_CLUSTER", "TYPE")
+AWS_REDSHIFT_CLUSTER_NUM_NODES = config.get("AWS_REDSHIFT_CLUSTER", "NUM_NODES")
+AWS_REDSHIFT_CLUSTER_NODE_TYPE = config.get("AWS_REDSHIFT_CLUSTER", "NODE_TYPE")
 
-DWH_DB = config.get("CLUSTER", "DB")
-DWH_DB_USER = config.get("CLUSTER", "DB_USER")
-DWH_DB_PASSWORD = config.get("CLUSTER", "DB_PASSWORD")
-DWH_PORT = config.get("CLUSTER", "DB_PORT")
+AWS_REDSHIFT_CLUSTER_SCHEMA = config.get("AWS_REDSHIFT_CLUSTER", "SCHEMA")
+AWS_REDSHIFT_CLUSTER_SCHEMA_USER = config.get("AWS_REDSHIFT_CLUSTER", "SCHEMA_USER")
+AWS_REDSHIFT_CLUSTER_SCHEMA_PASSWORD = config.get("AWS_REDSHIFT_CLUSTER", "SCHEMA_PASSWORD")
+AWS_REDSHIFT_CLUSTER_SCHEMA_PORT = config.get("AWS_REDSHIFT_CLUSTER", "SCHEMA_PORT")
 
 DWH_IAM_ROLE = config.get("IAM_ROLE", "ARN")
 DWH_ROLE_ARN = ""
@@ -42,22 +42,22 @@ def create_aws_resources():
     """
     logging.info("Init AWS Client and Resource instances")
     aws_ec2 = boto3.resource('ec2',
-                             region_name=DWH_REGION,
+                             region_name=AWS_REGION,
                              aws_access_key_id=KEY,
                              aws_secret_access_key=SECRET)
 
     aws_s3 = boto3.resource('s3',
-                            region_name=DWH_REGION,
+                            region_name=AWS_REGION,
                             aws_access_key_id=KEY,
                             aws_secret_access_key=SECRET)
 
     aws_iam = boto3.client('iam',
-                           region_name=DWH_REGION,
+                           region_name=AWS_REGION,
                            aws_access_key_id=KEY,
                            aws_secret_access_key=SECRET)
 
     aws_redshift = boto3.client('redshift',
-                                region_name=DWH_REGION,
+                                region_name=AWS_REGION,
                                 aws_access_key_id=KEY,
                                 aws_secret_access_key=SECRET)
 
@@ -70,19 +70,19 @@ def create_cluster():
     :return: None
     """
     try:
-        logging.info(f"Creating Redshift cluster {DWH_NAME}")
+        logging.info(f"Creating Redshift cluster {AWS_REDSHIFT_CLUSTER_NAME}")
 
         # check the IAM role ARN
         role_arn = iam.get_role(RoleName=DWH_IAM_ROLE)['Role']['Arn']
 
         redshift.create_cluster(
-            ClusterType=DWH_CLUSTER_TYPE,
-            NodeType=DWH_NODE_TYPE,
-            NumberOfNodes=int(DWH_NUM_NODES),
-            DBName=DWH_DB,
-            ClusterIdentifier=DWH_NAME,
-            MasterUsername=DWH_DB_USER,
-            MasterUserPassword=DWH_DB_PASSWORD,
+            ClusterType=AWS_REDSHIFT_CLUSTER_TYPE,
+            NodeType=AWS_REDSHIFT_CLUSTER_NODE_TYPE,
+            NumberOfNodes=int(AWS_REDSHIFT_CLUSTER_NUM_NODES),
+            DBName=AWS_REDSHIFT_CLUSTER_SCHEMA,
+            ClusterIdentifier=AWS_REDSHIFT_CLUSTER_NAME,
+            MasterUsername=AWS_REDSHIFT_CLUSTER_SCHEMA_USER,
+            MasterUserPassword=AWS_REDSHIFT_CLUSTER_SCHEMA_PASSWORD,
             IamRoles=[role_arn]
         )
     except Exception as e:
@@ -95,8 +95,8 @@ def delete_cluster() -> None:
     :return: None
     """
     try:
-        logging.info(f"Deleting cluster {DWH_NAME}")
-        redshift.delete_cluster(ClusterIdentifier=DWH_NAME, SkipFinalClusterSnapshot=True)
+        logging.info(f"Deleting cluster {AWS_REDSHIFT_CLUSTER_NAME}")
+        redshift.delete_cluster(ClusterIdentifier=AWS_REDSHIFT_CLUSTER_NAME, SkipFinalClusterSnapshot=True)
     except Exception as e:
         logging.error(e)
 
@@ -150,7 +150,7 @@ def show_cluster_property() -> None:
             logging.info(f"DWH_ENDPOINT :: {cluster_props['Endpoint']['Address']}")
             logging.info(f"DWH_ROLE_ARN :: {cluster_props['IamRoles'][0]['IamRoleArn']}")
     except redshift.exceptions.ClusterNotFoundFault:
-        logging.warning(f"Cluster {DWH_NAME} has been deleted")
+        logging.warning(f"Cluster {AWS_REDSHIFT_CLUSTER_NAME} has been deleted")
     except Exception as e:
         logging.error(e)
 
@@ -166,13 +166,13 @@ def connect_to_data_warehouse():
     try:
         end_point = cluster_props['Endpoint']['Address']
 
-        logging.info(f"Connecting to {DWH_DB} at {end_point}, and get cursor to it")
+        logging.info(f"Connecting to {AWS_REDSHIFT_CLUSTER_SCHEMA} at {end_point}, and get cursor to it")
         conn = psycopg2.connect(
             host=end_point,
-            user=DWH_DB_USER,
-            port=DWH_PORT,
-            password=DWH_DB_PASSWORD,
-            dbname=DWH_DB
+            user=AWS_REDSHIFT_CLUSTER_SCHEMA_USER,
+            port=AWS_REDSHIFT_CLUSTER_SCHEMA_PORT,
+            password=AWS_REDSHIFT_CLUSTER_SCHEMA_PASSWORD,
+            dbname=AWS_REDSHIFT_CLUSTER_SCHEMA
         )
         cur = conn.cursor()
         return conn, cur
@@ -211,27 +211,27 @@ def open_tcp_port_for_external_access():
             GroupName=default_sg.group_name,
             CidrIp='0.0.0.0/0',
             IpProtocol='TCP',
-            FromPort=int(DWH_PORT),
-            ToPort=int(DWH_PORT)
+            FromPort=int(AWS_REDSHIFT_CLUSTER_SCHEMA_PORT),
+            ToPort=int(AWS_REDSHIFT_CLUSTER_SCHEMA_PORT)
         )
     except Exception as e:
         logging.warning(e)
 
 
 # show db info
-conn_str = f"host={DWH_NAME} dbname={DWH_DB} user={DWH_DB_USER} password={DWH_DB_PASSWORD} port={DWH_PORT}"
+conn_str = f"host={AWS_REDSHIFT_CLUSTER_NAME} dbname={AWS_REDSHIFT_CLUSTER_SCHEMA} user={AWS_REDSHIFT_CLUSTER_SCHEMA_USER} password={AWS_REDSHIFT_CLUSTER_SCHEMA_PASSWORD} port={AWS_REDSHIFT_CLUSTER_SCHEMA_PORT}"
 logging.info(f"Data warehouse cluster info: {conn_str}")
 
 ec2, s3, iam, redshift = create_aws_resources()
 
 try:
     logging.info("Fetching AWS IAM role for loading data to data warehouse")
-    cluster_props = redshift.describe_clusters(ClusterIdentifier=DWH_NAME)['Clusters'][0]
+    cluster_props = redshift.describe_clusters(ClusterIdentifier=AWS_REDSHIFT_CLUSTER_NAME)['Clusters'][0]
     if cluster_props['ClusterStatus'] == "available":
         DWH_ROLE_ARN = cluster_props['IamRoles'][0]['IamRoleArn']
         logging.info(f"IAM Role: {DWH_ROLE_ARN}")
 except redshift.exceptions.ClusterNotFoundFault:
     cluster_props = None
-    logging.warning(f"Cluster {DWH_NAME} is not found")
+    logging.warning(f"Cluster {AWS_REDSHIFT_CLUSTER_NAME} is not found")
 except Exception as e:
     logging.error(e)
