@@ -110,7 +110,7 @@ $ make launch-cluster
 
 To delete an existing cluster:
 ```
-$ make remove
+$ make remove-cluster
 ```
 
 To create the database schema with all tables:
