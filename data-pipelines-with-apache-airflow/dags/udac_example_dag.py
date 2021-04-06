@@ -16,7 +16,7 @@ default_args = {
     'retry_delay': timedelta(minutes=5),
     'email_on_retry': False,
     'catchup': False,
-    'schedule_interval': '@monthly'
+    'schedule_interval': '@hourly'
 }
 
 with DAG(

@@ -1,6 +1,6 @@
 # Sparkify ETL Data Warehouse Pipelines Automation
 
-This repo contains the Apache Airflow DAG and customized plugins for automating Sparkify data warehouse ETL pipelines.  The ETL workflow is setup to run every month, and saves the final schema in AWS Redshift for user listening analysis
+This repo contains the Apache Airflow DAG and customized plugins for automating Sparkify data warehouse ETL pipelines.  The ETL workflow is setup to run hourly, and saves the final schema in AWS Redshift for user listening analysis
 
 The DAG is designed to perform the following the data warehouse tasks:
 * Create the tables in Amazon Redshift cluster
