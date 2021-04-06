@@ -21,6 +21,6 @@ clean:
 
 shell:
 	@echo Open bash shell to container
-	docker exec -it airflow_airflow-webserver_1 /bin/bash
+	docker exec -it docker_airflow-webserver_1 /bin/bash
 
 .PHONY: build clean init run shell
