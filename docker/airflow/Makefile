@@ -1,4 +1,4 @@
-APP_VERSION ?= 2.0.1rc
+APP_VERSION ?= 2.0.2rc
 DOCKER_IMAGE_NAME = apache/airflow
 
 all: build init
@@ -19,4 +19,8 @@ clean:
 	@echo Stopping containers: delete containers, volumes with database data, and images
 	docker-compose down --volumes --rmi all
 
-.PHONY: build clean init run
+shell:
+	@echo Open bash shell to container
+	docker exec -it airflow_airflow-webserver_1 /bin/bash
+
+.PHONY: build clean init run shell
