@@ -1,0 +1,43 @@
+[2021-04-06 03:04:41,603] {taskinstance.py:851} INFO - Dependencies all met for <TaskInstance: udac_example_dag.load_songs_from_s3_to_redshift 2021-03-24T00:00:00+00:00 [queued]>
+[2021-04-06 03:04:41,668] {taskinstance.py:851} INFO - Dependencies all met for <TaskInstance: udac_example_dag.load_songs_from_s3_to_redshift 2021-03-24T00:00:00+00:00 [queued]>
+[2021-04-06 03:04:41,670] {taskinstance.py:1042} INFO - 
+--------------------------------------------------------------------------------
+[2021-04-06 03:04:41,671] {taskinstance.py:1043} INFO - Starting attempt 1 of 4
+[2021-04-06 03:04:41,674] {taskinstance.py:1044} INFO - 
+--------------------------------------------------------------------------------
+[2021-04-06 03:04:41,718] {taskinstance.py:1063} INFO - Executing <Task(StageToRedshiftOperator): load_songs_from_s3_to_redshift> on 2021-03-24T00:00:00+00:00
+[2021-04-06 03:04:41,742] {standard_task_runner.py:52} INFO - Started process 135 to run task
+[2021-04-06 03:04:41,826] {standard_task_runner.py:76} INFO - Running: ['airflow', 'tasks', 'run', 'udac_example_dag', 'load_songs_from_s3_to_redshift', '2021-03-24T00:00:00+00:00', '--job-id', '46', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/udac_example_dag.py', '--cfg-path', '/tmp/tmp94irj01i', '--error-file', '/tmp/tmpbhoroagl']
+[2021-04-06 03:04:41,830] {standard_task_runner.py:77} INFO - Job 46: Subtask load_songs_from_s3_to_redshift
+[2021-04-06 03:04:42,005] {logging_mixin.py:104} INFO - Running <TaskInstance: udac_example_dag.load_songs_from_s3_to_redshift 2021-03-24T00:00:00+00:00 [running]> on host 0ccaa9d2b3f1
+[2021-04-06 03:04:42,156] {taskinstance.py:1257} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=udacity
+AIRFLOW_CTX_DAG_ID=udac_example_dag
+AIRFLOW_CTX_TASK_ID=load_songs_from_s3_to_redshift
+AIRFLOW_CTX_EXECUTION_DATE=2021-03-24T00:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-03-24T00:00:00+00:00
+[2021-04-06 03:04:42,161] {stage_redshift.py:33} INFO - Clearing staging table staging_songs in Redshift
+[2021-04-06 03:04:42,187] {base.py:74} INFO - Using connection to: id: redshift. Host: sparkify-redshift.c5c7ovgg2wrr.us-west-2.redshift.amazonaws.com, Port: 5439, Schema: sparkify-song-analytics, Login: data.engineer, Password: XXXXXXXX, extra: None
+[2021-04-06 03:04:42,887] {dbapi.py:180} INFO - Running statement: 
+        BEGIN; 
+        DELETE FROM staging_songs; 
+        COMMIT;
+    , parameters: None
+[2021-04-06 03:04:43,350] {dbapi.py:186} INFO - Rows affected: -1
+[2021-04-06 03:04:43,439] {stage_redshift.py:40} INFO - Copying data from S3 to staging table in Redshift
+[2021-04-06 03:04:43,441] {base_aws.py:362} INFO - Airflow Connection: aws_conn_id=aws_credentials
+[2021-04-06 03:04:43,451] {base_aws.py:160} INFO - Credentials retrieved from login
+[2021-04-06 03:04:43,452] {base_aws.py:81} INFO - Creating session with aws_access_key_id=AKIAXV53R5BDTO7XCN5L region_name=('us-west-2',)
+[2021-04-06 03:04:43,479] {base_aws.py:151} INFO - role_arn is None
+[2021-04-06 03:04:43,505] {base.py:74} INFO - Using connection to: id: redshift. Host: sparkify-redshift.c5c7ovgg2wrr.us-west-2.redshift.amazonaws.com, Port: 5439, Schema: sparkify-song-analytics, Login: data.engineer, Password: XXXXXXXX, extra: None
+[2021-04-06 03:04:44,104] {dbapi.py:180} INFO - Running statement: 
+        COPY staging_songs
+        FROM 's3://udacity-dend/song_data'
+        ACCESS_KEY_ID 'AKIAXV53R5BDTO7XCN5L'
+        SECRET_ACCESS_KEY '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'
+        JSON 'auto';
+    , parameters: None
+[2021-04-06 03:10:40,801] {dbapi.py:186} INFO - Rows affected: -1
+[2021-04-06 03:10:40,995] {taskinstance.py:1166} INFO - Marking task as SUCCESS. dag_id=udac_example_dag, task_id=load_songs_from_s3_to_redshift, execution_date=20210324T000000, start_date=20210406T030441, end_date=20210406T031040
+[2021-04-06 03:10:41,107] {taskinstance.py:1220} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-04-06 03:10:41,146] {local_task_job.py:146} INFO - Task exited with return code 0

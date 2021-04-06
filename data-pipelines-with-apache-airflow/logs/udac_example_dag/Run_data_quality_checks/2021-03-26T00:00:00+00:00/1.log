@@ -1,0 +1,34 @@
+[2021-04-06 03:08:13,350] {taskinstance.py:851} INFO - Dependencies all met for <TaskInstance: udac_example_dag.Run_data_quality_checks 2021-03-26T00:00:00+00:00 [queued]>
+[2021-04-06 03:08:13,373] {taskinstance.py:851} INFO - Dependencies all met for <TaskInstance: udac_example_dag.Run_data_quality_checks 2021-03-26T00:00:00+00:00 [queued]>
+[2021-04-06 03:08:13,374] {taskinstance.py:1042} INFO - 
+--------------------------------------------------------------------------------
+[2021-04-06 03:08:13,375] {taskinstance.py:1043} INFO - Starting attempt 1 of 4
+[2021-04-06 03:08:13,376] {taskinstance.py:1044} INFO - 
+--------------------------------------------------------------------------------
+[2021-04-06 03:08:13,384] {taskinstance.py:1063} INFO - Executing <Task(DataQualityOperator): Run_data_quality_checks> on 2021-03-26T00:00:00+00:00
+[2021-04-06 03:08:13,389] {standard_task_runner.py:52} INFO - Started process 153 to run task
+[2021-04-06 03:08:13,394] {standard_task_runner.py:76} INFO - Running: ['airflow', 'tasks', 'run', 'udac_example_dag', 'Run_data_quality_checks', '2021-03-26T00:00:00+00:00', '--job-id', '58', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/udac_example_dag.py', '--cfg-path', '/tmp/tmpynoiunb2', '--error-file', '/tmp/tmpzq01o3hh']
+[2021-04-06 03:08:13,395] {standard_task_runner.py:77} INFO - Job 58: Subtask Run_data_quality_checks
+[2021-04-06 03:08:13,442] {logging_mixin.py:104} INFO - Running <TaskInstance: udac_example_dag.Run_data_quality_checks 2021-03-26T00:00:00+00:00 [running]> on host 0ccaa9d2b3f1
+[2021-04-06 03:08:13,485] {taskinstance.py:1257} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=udacity
+AIRFLOW_CTX_DAG_ID=udac_example_dag
+AIRFLOW_CTX_TASK_ID=Run_data_quality_checks
+AIRFLOW_CTX_EXECUTION_DATE=2021-03-26T00:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-03-26T00:00:00+00:00
+[2021-04-06 03:08:13,496] {base.py:74} INFO - Using connection to: id: redshift. Host: sparkify-redshift.c5c7ovgg2wrr.us-west-2.redshift.amazonaws.com, Port: 5439, Schema: sparkify-song-analytics, Login: data.engineer, Password: XXXXXXXX, extra: None
+[2021-04-06 03:08:14,575] {data_quality.py:33} INFO - Data quality on table staging_events check passed with 40280 records
+[2021-04-06 03:08:14,584] {base.py:74} INFO - Using connection to: id: redshift. Host: sparkify-redshift.c5c7ovgg2wrr.us-west-2.redshift.amazonaws.com, Port: 5439, Schema: sparkify-song-analytics, Login: data.engineer, Password: XXXXXXXX, extra: None
+[2021-04-06 03:08:15,420] {taskinstance.py:1455} ERROR - Data quality check failed. staging_songs contained 0 rows
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1112, in _run_raw_task
+    self._prepare_and_execute_task_with_callbacks(context, task)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1285, in _prepare_and_execute_task_with_callbacks
+    result = self._execute_task(context, task_copy)
+  File "/home/airflow/.local/lib/python3.6/site-packages/airflow/models/taskinstance.py", line 1315, in _execute_task
+    result = task_copy.execute(context=context)
+  File "/opt/airflow/plugins/operators/data_quality.py", line 31, in execute
+    raise ValueError(f"Data quality check failed. {table} contained 0 rows")
+ValueError: Data quality check failed. staging_songs contained 0 rows
+[2021-04-06 03:08:15,438] {taskinstance.py:1503} INFO - Marking task as UP_FOR_RETRY. dag_id=udac_example_dag, task_id=Run_data_quality_checks, execution_date=20210326T000000, start_date=20210406T030813, end_date=20210406T030815
+[2021-04-06 03:08:15,486] {local_task_job.py:146} INFO - Task exited with return code 1

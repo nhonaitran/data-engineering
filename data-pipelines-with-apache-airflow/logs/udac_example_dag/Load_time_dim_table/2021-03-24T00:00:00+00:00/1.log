@@ -1,0 +1,45 @@
+[2021-04-06 03:19:37,265] {taskinstance.py:851} INFO - Dependencies all met for <TaskInstance: udac_example_dag.Load_time_dim_table 2021-03-24T00:00:00+00:00 [queued]>
+[2021-04-06 03:19:37,321] {taskinstance.py:851} INFO - Dependencies all met for <TaskInstance: udac_example_dag.Load_time_dim_table 2021-03-24T00:00:00+00:00 [queued]>
+[2021-04-06 03:19:37,322] {taskinstance.py:1042} INFO - 
+--------------------------------------------------------------------------------
+[2021-04-06 03:19:37,323] {taskinstance.py:1043} INFO - Starting attempt 1 of 4
+[2021-04-06 03:19:37,324] {taskinstance.py:1044} INFO - 
+--------------------------------------------------------------------------------
+[2021-04-06 03:19:37,358] {taskinstance.py:1063} INFO - Executing <Task(LoadDimensionOperator): Load_time_dim_table> on 2021-03-24T00:00:00+00:00
+[2021-04-06 03:19:37,380] {standard_task_runner.py:52} INFO - Started process 244 to run task
+[2021-04-06 03:19:37,413] {standard_task_runner.py:76} INFO - Running: ['airflow', 'tasks', 'run', 'udac_example_dag', 'Load_time_dim_table', '2021-03-24T00:00:00+00:00', '--job-id', '102', '--pool', 'default_pool', '--raw', '--subdir', 'DAGS_FOLDER/udac_example_dag.py', '--cfg-path', '/tmp/tmpamz3y694', '--error-file', '/tmp/tmp7o4udsdy']
+[2021-04-06 03:19:37,414] {standard_task_runner.py:77} INFO - Job 102: Subtask Load_time_dim_table
+[2021-04-06 03:19:37,543] {logging_mixin.py:104} INFO - Running <TaskInstance: udac_example_dag.Load_time_dim_table 2021-03-24T00:00:00+00:00 [running]> on host 0ccaa9d2b3f1
+[2021-04-06 03:19:37,628] {taskinstance.py:1257} INFO - Exporting the following env vars:
+AIRFLOW_CTX_DAG_OWNER=udacity
+AIRFLOW_CTX_DAG_ID=udac_example_dag
+AIRFLOW_CTX_TASK_ID=Load_time_dim_table
+AIRFLOW_CTX_EXECUTION_DATE=2021-03-24T00:00:00+00:00
+AIRFLOW_CTX_DAG_RUN_ID=scheduled__2021-03-24T00:00:00+00:00
+[2021-04-06 03:19:37,630] {load_dimension.py:25} INFO - Clearing table...
+[2021-04-06 03:19:37,654] {base.py:74} INFO - Using connection to: id: redshift. Host: sparkify-redshift.c5c7ovgg2wrr.us-west-2.redshift.amazonaws.com, Port: 5439, Schema: sparkify-song-analytics, Login: data.engineer, Password: XXXXXXXX, extra: None
+[2021-04-06 03:19:38,227] {dbapi.py:180} INFO - Running statement: 
+        BEGIN; 
+        DELETE FROM timeplays; 
+        COMMIT;
+    , parameters: None
+[2021-04-06 03:19:38,532] {dbapi.py:186} INFO - Rows affected: -1
+[2021-04-06 03:19:38,615] {load_dimension.py:28} INFO - Loading data...
+[2021-04-06 03:19:38,628] {base.py:74} INFO - Using connection to: id: redshift. Host: sparkify-redshift.c5c7ovgg2wrr.us-west-2.redshift.amazonaws.com, Port: 5439, Schema: sparkify-song-analytics, Login: data.engineer, Password: XXXXXXXX, extra: None
+[2021-04-06 03:19:39,194] {dbapi.py:180} INFO - Running statement: 
+        BEGIN; 
+        INSERT INTO timeplays (start_time, hour, day, week, month, year, weekday)
+        SELECT start_time, 
+                extract(hour from start_time), 
+                extract(day from start_time), 
+                extract(week from start_time), 
+                extract(month from start_time), 
+                extract(year from start_time), 
+                extract(dayofweek from start_time)
+        FROM songplays;
+        COMMIT;
+    , parameters: None
+[2021-04-06 03:19:39,681] {dbapi.py:186} INFO - Rows affected: -1
+[2021-04-06 03:19:39,785] {taskinstance.py:1166} INFO - Marking task as SUCCESS. dag_id=udac_example_dag, task_id=Load_time_dim_table, execution_date=20210324T000000, start_date=20210406T031937, end_date=20210406T031939
+[2021-04-06 03:19:39,829] {taskinstance.py:1220} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2021-04-06 03:19:39,878] {local_task_job.py:146} INFO - Task exited with return code 0
