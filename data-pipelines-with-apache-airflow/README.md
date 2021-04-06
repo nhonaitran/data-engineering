@@ -26,4 +26,4 @@ The log and song datasets are stored S3.  Here is their links:
 ### Running Airflow in Docker for Development Locally
 Go to [running airflow in docker](https://github.com/nhonaitran/data-engineering/tree/master/docker/airflow) for step-by-step instructions on how to setup and run Airflow:v2.0.1rc in docker for development.
 
-Once all the components are up and running, open http://localhost:8080 in Google Chrome for Airflow web UI.  Search for `udac_example_dag` dag and enable it to run the pipeline.  
+Once all the components are up and running, open http://localhost:8080 in Google Chrome for Airflow:wq! web UI.  Search for `udac_example_dag` dag and enable it to run the pipeline.  
