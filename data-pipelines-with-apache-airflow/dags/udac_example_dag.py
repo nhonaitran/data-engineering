@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from airflow import DAG
+from airflow.models import Variable
 from airflow.operators.dummy_operator import DummyOperator
 from operators import CreateTablesOperator, \
     StageToRedshiftOperator, \
@@ -10,7 +11,7 @@ from helpers import SqlQueries
 
 default_args = {
     'owner': 'udacity',
-    'start_date': datetime(2021, 4, 5),
+    'start_date': datetime(2021, 4, 6),
     'depends_on_past': False,
     'retries': 3,
     'retry_delay': timedelta(minutes=5),
@@ -38,7 +39,8 @@ with DAG(
         redshift_conn_id='redshift',
         aws_credentials_id='aws_credentials',
         region_name="us-west-2",
-        s3_path="s3://udacity-dend/log_data",
+        s3_bucket='{{ var.json.s3.bucket }}',
+        s3_key='{{ var.json.s3.log_key }}/{{ var.json.s3.log_year }}/{{ var.json.s3.log_month }}',
         table_name='staging_events',
         json_format="s3://udacity-dend/log_json_path.json",
         dag=dag
@@ -49,7 +51,8 @@ with DAG(
         redshift_conn_id='redshift',
         aws_credentials_id='aws_credentials',
         region_name="us-west-2",
-        s3_path="s3://udacity-dend/song_data",
+        s3_bucket='{{ var.json.s3.bucket }}',
+        s3_key='{{ var.json.s3.song_key }}',
         table_name='staging_songs',
         json_format="auto",
         dag=dag
@@ -104,17 +107,12 @@ with DAG(
 
     end_operator = DummyOperator(task_id='Stop_execution', dag=dag)
 
-    start_operator >> create_tables
+    start_operator >> create_tables >> [stage_events_to_redshift,
+                                        stage_songs_to_redshift] >> load_songplays_table
 
-    create_tables >> stage_events_to_redshift
-    create_tables >> stage_songs_to_redshift
-
-    stage_events_to_redshift >> load_songplays_table
-    stage_songs_to_redshift >> load_songplays_table
-
-    load_songplays_table >> load_user_dimension_table >> run_quality_checks
-    load_songplays_table >> load_song_dimension_table >> run_quality_checks
-    load_songplays_table >> load_artist_dimension_table >> run_quality_checks
-    load_songplays_table >> load_time_dimension_table >> run_quality_checks
+    load_songplays_table >> [load_user_dimension_table,
+                             load_song_dimension_table,
+                             load_artist_dimension_table,
+                             load_time_dimension_table] >> run_quality_checks
 
     run_quality_checks >> end_operator
