@@ -7,7 +7,8 @@ from operators import CreateTablesOperator, \
     LoadFactOperator, \
     LoadDimensionOperator, \
     DataQualityOperator
-from helpers import SqlQueries
+
+from helpers import SqlQueries, LoadMode
 
 default_args = {
     'owner': 'udacity',
@@ -61,6 +62,7 @@ with DAG(
     load_songplays_table = LoadFactOperator(
         task_id='Load_songplays_fact_table',
         redshift_conn_id='redshift',
+        load_mode=LoadMode.TRUNCATE,
         clear_table_sql=SqlQueries.clear_table.format("songplays"),
         load_data_sql=SqlQueries.songplay_table_insert,
         dag=dag
@@ -69,6 +71,7 @@ with DAG(
     load_user_dimension_table = LoadDimensionOperator(
         task_id='Load_user_dim_table',
         redshift_conn_id='redshift',
+        load_mode=LoadMode.TRUNCATE,
         clear_table_sql=SqlQueries.clear_table.format("users"),
         load_data_sql=SqlQueries.user_table_insert,
         dag=dag
@@ -77,6 +80,7 @@ with DAG(
     load_song_dimension_table = LoadDimensionOperator(
         task_id='Load_song_dim_table',
         redshift_conn_id='redshift',
+        load_mode=LoadMode.TRUNCATE,
         clear_table_sql=SqlQueries.clear_table.format("songs"),
         load_data_sql=SqlQueries.song_table_insert,
         dag=dag
@@ -85,6 +89,7 @@ with DAG(
     load_artist_dimension_table = LoadDimensionOperator(
         task_id='Load_artist_dim_table',
         redshift_conn_id='redshift',
+        load_mode=LoadMode.TRUNCATE,
         clear_table_sql=SqlQueries.clear_table.format("artists"),
         load_data_sql=SqlQueries.artist_table_insert,
         dag=dag
@@ -93,6 +98,7 @@ with DAG(
     load_time_dimension_table = LoadDimensionOperator(
         task_id='Load_time_dim_table',
         redshift_conn_id='redshift',
+        load_mode=LoadMode.TRUNCATE,
         clear_table_sql=SqlQueries.clear_table.format("timeplays"),
         load_data_sql=SqlQueries.time_table_insert,
         dag=dag
