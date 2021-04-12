@@ -1,0 +1,240 @@
+1
+00:00:00,000 --> 00:00:01,815
+All right. So, let's look at a demo,
+
+2
+00:00:01,815 --> 00:00:03,629
+let's focus on clustering columns.
+
+3
+00:00:03,629 --> 00:00:05,939
+In this demo, we're going to walk through the basics of
+
+4
+00:00:05,940 --> 00:00:08,669
+creating a table with a good primary key,
+
+5
+00:00:08,669 --> 00:00:10,859
+and clustering columns in Apache Cassandra,
+
+6
+00:00:10,859 --> 00:00:12,404
+inserting rows of data,
+
+7
+00:00:12,404 --> 00:00:16,689
+and doing a simple SQL query to validate the information.
+
+8
+00:00:17,480 --> 00:00:21,359
+For your package, connect your database,
+
+9
+00:00:21,359 --> 00:00:24,675
+connect your keyspace. All right.
+
+10
+00:00:24,675 --> 00:00:29,370
+Let's imagine we'd like to start creating a new music library of albums.
+
+11
+00:00:29,370 --> 00:00:35,615
+We've created a lot of music library albums tables in this lesson, so,
+
+12
+00:00:35,615 --> 00:00:38,480
+imagine there are other things that you can do
+
+13
+00:00:38,479 --> 00:00:41,029
+data modeling on other than music libraries,
+
+14
+00:00:41,030 --> 00:00:44,435
+but this is just what we're going to use to walk as through.
+
+15
+00:00:44,435 --> 00:00:47,840
+We want to ask one question of our data,
+
+16
+00:00:47,840 --> 00:00:52,520
+give me every album in my music library that was released by
+
+17
+00:00:52,520 --> 00:00:58,234
+an artist with album name in descending order and city in descending order.
+
+18
+00:00:58,234 --> 00:01:00,769
+So, my query might look something like this,
+
+19
+00:01:00,770 --> 00:01:05,280
+select star from music library or artist name equals the Beatles.
+
+20
+00:01:06,909 --> 00:01:10,979
+So, then here's my collection of data that I have.
+
+21
+00:01:11,750 --> 00:01:15,390
+So, how should we model this data?
+
+22
+00:01:15,390 --> 00:01:19,269
+What should be our primary key and our partition key?
+
+23
+00:01:19,269 --> 00:01:23,599
+Since our data is looking for the artist name, let's start with that.
+
+24
+00:01:23,599 --> 00:01:28,765
+From there, we'll need to add other elements to make sure that the key is unique.
+
+25
+00:01:28,765 --> 00:01:32,170
+Again, because we need to start with artist name,
+
+26
+00:01:32,170 --> 00:01:35,125
+we have duplicates, for example, for the Beatles,
+
+27
+00:01:35,125 --> 00:01:38,349
+we have three rows that have the Beatles as their artist's name.
+
+28
+00:01:38,349 --> 00:01:43,030
+So that's not going to be unique enough to be our soul partition key.
+
+29
+00:01:43,030 --> 00:01:47,364
+So we're going to need to add other elements to make sure that the key is unique.
+
+30
+00:01:47,364 --> 00:01:49,149
+We also need to add the city,
+
+31
+00:01:49,150 --> 00:01:52,625
+and the album name as clustering columns to sort the data.
+
+32
+00:01:52,625 --> 00:01:57,400
+That shouldn't be enough to make our row key unique.
+
+33
+00:01:57,400 --> 00:01:59,375
+So, we're going to have music library,
+
+34
+00:01:59,375 --> 00:02:02,269
+column year, artist name, album name, and city.
+
+35
+00:02:02,269 --> 00:02:04,265
+So again, we're going to start with our partition key,
+
+36
+00:02:04,265 --> 00:02:06,439
+our partition key always goes first,
+
+37
+00:02:06,439 --> 00:02:12,400
+artist name, from there we're going to have album name, and city.
+
+38
+00:02:12,550 --> 00:02:15,740
+Let's create the table if it does not exist.
+
+39
+00:02:15,740 --> 00:02:19,850
+Again, album name and city are our clustering columns.
+
+40
+00:02:19,849 --> 00:02:23,419
+Great, let's insert our data into the table.
+
+41
+00:02:23,419 --> 00:02:27,569
+Again this looks like all the other inserts that we've done before.
+
+42
+00:02:27,849 --> 00:02:30,394
+Let's validate our data model.
+
+43
+00:02:30,395 --> 00:02:31,640
+Did it work?
+
+44
+00:02:31,639 --> 00:02:34,014
+If we look for albums from the Beatles,
+
+45
+00:02:34,014 --> 00:02:36,584
+we should expect to see three rows.
+
+46
+00:02:36,585 --> 00:02:38,310
+Again here's our query,
+
+47
+00:02:38,310 --> 00:02:42,050
+select star from music library were artist's name equals the Beatles,
+
+48
+00:02:42,050 --> 00:02:45,050
+and we're going to run that query and print the result.
+
+49
+00:02:45,050 --> 00:02:49,425
+Awesome. The Beatles, Beatles For Sale London 1964,
+
+50
+00:02:49,425 --> 00:02:51,630
+The Beatles Let it Be Liverpool,
+
+51
+00:02:51,629 --> 00:02:55,294
+The Beatles Rubber Soul and Oxford.
+
+52
+00:02:55,294 --> 00:02:56,899
+So as you can see,
+
+53
+00:02:56,900 --> 00:02:58,265
+we have our partition key,
+
+54
+00:02:58,264 --> 00:03:00,454
+and then our clustering columns are in order.
+
+55
+00:03:00,455 --> 00:03:04,585
+Beatles, let, and rubber that's in descending order.
+
+56
+00:03:04,585 --> 00:03:06,335
+Success, it worked.
+
+57
+00:03:06,335 --> 00:03:09,920
+We created a unique primary key that evenly distributed our data,
+
+58
+00:03:09,919 --> 00:03:12,274
+with clustering columns that sorted our data,
+
+59
+00:03:12,275 --> 00:03:14,960
+and for the sake of the demo I will drop the table,
+
+60
+00:03:14,960 --> 00:03:17,330
+and finally am going to close my session.
+

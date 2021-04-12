@@ -1,0 +1,232 @@
+1
+00:00:00,000 --> 00:00:02,910
+So, now we're going to be talking about the WHERE clause.
+
+2
+00:00:02,910 --> 00:00:05,009
+We've been utilizing the WHERE clause
+
+3
+00:00:05,009 --> 00:00:08,070
+extensively through lesson one through lesson three.
+
+4
+00:00:08,070 --> 00:00:13,544
+But I really want to dive deep on how we're actually using it?
+
+5
+00:00:13,544 --> 00:00:16,664
+The best ways to use it et cetera.
+
+6
+00:00:16,664 --> 00:00:20,669
+Data modeling and Apache Cassandra is query focused.
+
+7
+00:00:20,670 --> 00:00:23,910
+The focus needs to be on the WHERE clause.
+
+8
+00:00:23,910 --> 00:00:27,690
+The partition key must be included in your query and
+
+9
+00:00:27,690 --> 00:00:33,510
+any clustering columns that can be used in the order they appear in your primary key.
+
+10
+00:00:33,509 --> 00:00:38,004
+Failure to include a WHERE clause will result in an error.
+
+11
+00:00:38,005 --> 00:00:43,955
+Let's walk through an example with our music library table.
+
+12
+00:00:43,954 --> 00:00:48,079
+Because we have quite a few queries on this screen here.
+
+13
+00:00:48,079 --> 00:00:49,774
+Let's walk through them one by one.
+
+14
+00:00:49,774 --> 00:00:51,460
+So, the first query here,
+
+15
+00:00:51,460 --> 00:00:55,445
+select star for music library where year equals 1965.
+
+16
+00:00:55,445 --> 00:00:58,789
+Will get you back everything in your partition.
+
+17
+00:00:58,789 --> 00:01:02,359
+This is all the data you have stored on one node.
+
+18
+00:01:02,359 --> 00:01:04,674
+Be careful with this type of query.
+
+19
+00:01:04,674 --> 00:01:08,329
+Remember, no sequel is made for big data.
+
+20
+00:01:08,329 --> 00:01:12,890
+This could be getting back terabytes of data or even more.
+
+21
+00:01:12,890 --> 00:01:16,340
+Always be aware of the potential performance issues that
+
+22
+00:01:16,340 --> 00:01:20,295
+might result from pulling back large amount of data.
+
+23
+00:01:20,295 --> 00:01:22,085
+Our second query here,
+
+24
+00:01:22,084 --> 00:01:24,819
+select star from music library where year equals
+
+25
+00:01:24,819 --> 00:01:28,194
+1965 and the artist's name equals The Beatles.
+
+26
+00:01:28,194 --> 00:01:32,844
+See here that we're utilizing our clustering column to fetch more specific data.
+
+27
+00:01:32,844 --> 00:01:35,560
+We must use the clustering columns in the order that they were
+
+28
+00:01:35,560 --> 00:01:38,409
+provided in the primary key.
+
+29
+00:01:38,409 --> 00:01:41,649
+I cannot do a select star from music library where year
+
+30
+00:01:41,650 --> 00:01:45,115
+equals 1965 and then album name Let It Be.
+
+31
+00:01:45,114 --> 00:01:48,084
+That will result in an error because we partitioned by
+
+32
+00:01:48,084 --> 00:01:52,824
+year and our clustering column was artist's name, not album name.
+
+33
+00:01:52,825 --> 00:01:54,939
+Number three our third query,
+
+34
+00:01:54,939 --> 00:01:57,579
+select star from music library where year equals
+
+35
+00:01:57,579 --> 00:02:02,834
+1965 and artist's name equals The Beatles and album name equals Rubber Soul.
+
+36
+00:02:02,834 --> 00:02:07,669
+In this case, we will be getting back one row of information in our table.
+
+37
+00:02:07,670 --> 00:02:13,020
+I have used my partition key and all my clustering columns to fetch the data.
+
+38
+00:02:13,250 --> 00:02:16,305
+So, here's an example of the WHERE clause,
+
+39
+00:02:16,305 --> 00:02:19,349
+select star from music library where year equals
+
+40
+00:02:19,349 --> 00:02:24,229
+1965 and artist's name equals The Beatles and album name equals Rubber Soul.
+
+41
+00:02:24,229 --> 00:02:28,199
+Then we get back to that one row that we discussed.
+
+42
+00:02:28,219 --> 00:02:30,900
+Select star from table.
+
+43
+00:02:30,900 --> 00:02:35,390
+The WHERE clause must be included in our executed query.
+
+44
+00:02:35,389 --> 00:02:40,384
+It is recommended that one partition be queried at a time for performance implications.
+
+45
+00:02:40,384 --> 00:02:44,689
+It is possible to do a select star from table without
+
+46
+00:02:44,689 --> 00:02:49,909
+the WHERE clause if you add a configuration called ALLOW FILTERING to your query.
+
+47
+00:02:49,909 --> 00:02:54,965
+This is risky but available and absolutely necessary.
+
+48
+00:02:54,965 --> 00:02:57,830
+They should be done with extreme caution.
+
+49
+00:02:57,830 --> 00:03:02,525
+I actually will not even provide the syntax for you but it is available to you.
+
+50
+00:03:02,525 --> 00:03:06,050
+No sequel is all about big data and high-performance.
+
+51
+00:03:06,050 --> 00:03:08,945
+Keep those factors in mind when performing queries.
+
+52
+00:03:08,944 --> 00:03:14,180
+Thousands of nodes systems exist of Apache Cassandra and select star on
+
+53
+00:03:14,180 --> 00:03:19,504
+that system will be trying to pull all the data to the client from thousands of nodes.
+
+54
+00:03:19,504 --> 00:03:21,514
+This is called a full table scan.
+
+55
+00:03:21,514 --> 00:03:24,794
+Best case, would that it'd be extremely slow.
+
+56
+00:03:24,794 --> 00:03:27,289
+Worst case, it could bring down your system.
+
+57
+00:03:27,289 --> 00:03:30,620
+Adding the WHERE clause we'll make sure this doesn't happen and
+
+58
+00:03:30,620 --> 00:03:34,770
+you're serving the requests with low latency and high performance.
+

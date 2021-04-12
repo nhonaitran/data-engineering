@@ -1,0 +1,328 @@
+1
+00:00:00,000 --> 00:00:02,730
+All right. So let's go on to our next demo which is going to
+
+2
+00:00:02,730 --> 00:00:05,730
+focus on utilizing and using our primary key.
+
+3
+00:00:05,730 --> 00:00:08,220
+I'm going to my Jupyter Notebook,
+
+4
+00:00:08,220 --> 00:00:10,050
+and I'm going to open lesson three,
+
+5
+00:00:10,050 --> 00:00:13,920
+demo two, all about the primary key.
+
+6
+00:00:13,919 --> 00:00:15,765
+So, let's focus on that.
+
+7
+00:00:15,765 --> 00:00:20,880
+By the way, this eye is the Cassandra logo if anybody was wondering.
+
+8
+00:00:20,879 --> 00:00:24,779
+In this demo, we're going to walk through the basics of creating a table,
+
+9
+00:00:24,780 --> 00:00:27,345
+with a good primary key in Apache Cassandra,
+
+10
+00:00:27,344 --> 00:00:28,605
+inserting rows of data,
+
+11
+00:00:28,605 --> 00:00:31,740
+and doing a simple SQL query to validate the information.
+
+12
+00:00:31,739 --> 00:00:33,929
+We're going to import our library,
+
+13
+00:00:33,929 --> 00:00:36,240
+we're going to connect to the database,
+
+14
+00:00:36,240 --> 00:00:39,405
+and we're going to create our key space if it doesn't already exist,
+
+15
+00:00:39,405 --> 00:00:41,990
+and we'll connect to that key space.
+
+16
+00:00:41,990 --> 00:00:46,615
+Let's Imagine we'd like to start creating a new music library of albums.
+
+17
+00:00:46,615 --> 00:00:49,870
+We're going to work through one of the queries from exercise one.
+
+18
+00:00:49,869 --> 00:00:53,424
+We want to ask one question of our data: Give me
+
+19
+00:00:53,424 --> 00:00:57,564
+every album in my music library that was released in a given year.
+
+20
+00:00:57,564 --> 00:00:59,574
+Select star from music_library,
+
+21
+00:00:59,575 --> 00:01:01,915
+where year equals 1970.
+
+22
+00:01:01,914 --> 00:01:04,284
+Here's the collection of our data.
+
+23
+00:01:04,284 --> 00:01:07,254
+Here's the year, we have information about the city,
+
+24
+00:01:07,254 --> 00:01:12,444
+we have artist's name and album name. So let's look at our data.
+
+25
+00:01:12,444 --> 00:01:14,949
+How should we model this data?
+
+26
+00:01:14,950 --> 00:01:18,665
+Let's think about it. What should be our primary key?
+
+27
+00:01:18,665 --> 00:01:20,625
+What should be our partition key?
+
+28
+00:01:20,625 --> 00:01:25,560
+Since our data is looking for the year, let's start with that.
+
+29
+00:01:25,560 --> 00:01:29,394
+Is partitioning our data by year a good idea?
+
+30
+00:01:29,394 --> 00:01:32,200
+In this case, our data is very small.
+
+31
+00:01:32,200 --> 00:01:36,820
+But if we had a large data set of albums partitioned by year,
+
+32
+00:01:36,819 --> 00:01:38,574
+it may be a fine choice.
+
+33
+00:01:38,575 --> 00:01:41,320
+You would need to validate from your data set,
+
+34
+00:01:41,319 --> 00:01:44,104
+look at your own data and then model it to that.
+
+35
+00:01:44,105 --> 00:01:48,234
+But, essentially, we want to spread the data equally across our nodes.
+
+36
+00:01:48,234 --> 00:01:52,780
+So, in this case, we're going to create a table called music_library with a column year,
+
+37
+00:01:52,780 --> 00:01:55,060
+artist's name, album name, and city,
+
+38
+00:01:55,060 --> 00:01:57,730
+and our primary key is going to be on year.
+
+39
+00:01:57,730 --> 00:02:00,215
+So let's create our table.
+
+40
+00:02:00,215 --> 00:02:02,939
+Let's insert our data into the table.
+
+41
+00:02:02,939 --> 00:02:08,150
+So we're going to insert all that data we saw up above in this chart.
+
+42
+00:02:08,250 --> 00:02:13,099
+So, let's insert into our table,
+
+43
+00:02:13,099 --> 00:02:16,724
+and let's validate our data model, Did it work?
+
+44
+00:02:16,724 --> 00:02:22,489
+In this case, we can use the year 1970 or we can use any year.
+
+45
+00:02:22,490 --> 00:02:23,900
+So I'm showcasing this here.
+
+46
+00:02:23,900 --> 00:02:27,700
+So we're going to look for albums that were released in 1965.
+
+47
+00:02:27,699 --> 00:02:30,169
+We should expect to see two rows.
+
+48
+00:02:30,169 --> 00:02:32,759
+So let's go back here to our chart.
+
+49
+00:02:33,069 --> 00:02:40,155
+As you can see, there is The Beatles and Rubber Soul, 1965.
+
+50
+00:02:40,155 --> 00:02:41,444
+We also have The Who,
+
+51
+00:02:41,444 --> 00:02:44,504
+My Generation also 1965.
+
+52
+00:02:44,504 --> 00:02:49,409
+So I should expect to see those two back when I run this query.
+
+53
+00:02:50,479 --> 00:02:54,209
+That didn't work out. Why is that?
+
+54
+00:02:54,210 --> 00:02:59,254
+Because we did not create a unique primary key. That's why.
+
+55
+00:02:59,254 --> 00:03:02,644
+So, I had written in that 1965 for The Beatles,
+
+56
+00:03:02,645 --> 00:03:05,235
+and then it got overwritten by The Who,
+
+57
+00:03:05,235 --> 00:03:07,685
+My Generation. So let's try again.
+
+58
+00:03:07,685 --> 00:03:10,655
+Let's focus on making the primary key unique.
+
+59
+00:03:10,655 --> 00:03:12,080
+Look at our data set.
+
+60
+00:03:12,080 --> 00:03:14,840
+Do we have anything that is unique for each row?
+
+61
+00:03:14,840 --> 00:03:16,594
+We have a couple of options.
+
+62
+00:03:16,594 --> 00:03:19,030
+In this case, we have city and album name,
+
+63
+00:03:19,030 --> 00:03:21,455
+but that will not give us the query we need,
+
+64
+00:03:21,455 --> 00:03:24,740
+which we are looking for the album in a particular year.
+
+65
+00:03:24,740 --> 00:03:29,605
+Let's make a composite key of the year and the album name.
+
+66
+00:03:29,604 --> 00:03:34,639
+This is assuming that the album name is unique to that year.
+
+67
+00:03:34,639 --> 00:03:40,144
+Pardon me. That is assuming that the album name is unique to the year it was released.
+
+68
+00:03:40,145 --> 00:03:41,885
+This is not a bad bet.
+
+69
+00:03:41,884 --> 00:03:44,269
+But, remember, this is just a demo.
+
+70
+00:03:44,270 --> 00:03:47,540
+You will need to fully understand your own data set.
+
+71
+00:03:47,539 --> 00:03:50,219
+No betting on your own data.
+
+72
+00:03:50,650 --> 00:03:53,254
+So, we're going to create the table,
+
+73
+00:03:53,254 --> 00:03:58,585
+and again we're going to use a composite key here with year and album name.
+
+74
+00:03:58,585 --> 00:04:00,555
+We're going to create that query,
+
+75
+00:04:00,555 --> 00:04:03,250
+and again we're going to do our insert.
+
+76
+00:04:03,469 --> 00:04:07,050
+So, let's validate our data model. Did it work?
+
+77
+00:04:07,050 --> 00:04:09,270
+If we look for albums from 1965,
+
+78
+00:04:09,270 --> 00:04:11,775
+now we should see two rows.
+
+79
+00:04:11,775 --> 00:04:14,450
+Awesome, success. It worked.
+
+80
+00:04:14,449 --> 00:04:19,175
+We created a unique primary key that evenly distributed our data.
+
+81
+00:04:19,175 --> 00:04:21,814
+For the sake of the demo, I will drop the tables,
+
+82
+00:04:21,814 --> 00:04:23,969
+and we're going to close our connection.
+

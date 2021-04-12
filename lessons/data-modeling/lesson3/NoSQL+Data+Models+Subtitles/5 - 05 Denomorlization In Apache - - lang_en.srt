@@ -1,0 +1,364 @@
+1
+00:00:01,429 --> 00:00:06,189
+The Importance Of Denormalization in Apache Cassandra.
+
+2
+00:00:06,200 --> 00:00:11,535
+Denormalization of tables in Apache Cassandra is absolutely critical.
+
+3
+00:00:11,535 --> 00:00:15,660
+The biggest take-away when doing data modelling in Apache Cassandra is to
+
+4
+00:00:15,660 --> 00:00:20,265
+think about your queries first. I want to say that again.
+
+5
+00:00:20,265 --> 00:00:23,745
+Think about your queries first.
+
+6
+00:00:23,745 --> 00:00:27,945
+There are no joins in Apache Cassandra.
+
+7
+00:00:27,945 --> 00:00:30,480
+In relational data modeling,
+
+8
+00:00:30,480 --> 00:00:33,660
+what worked well for relational database cannot
+
+9
+00:00:33,659 --> 00:00:37,454
+be moved over as is into Apache Cassandra.
+
+10
+00:00:37,454 --> 00:00:40,850
+Normalized tables will need to go through the process of
+
+11
+00:00:40,850 --> 00:00:45,469
+denormalization to be able to fit into the Apache Cassandra data model.
+
+12
+00:00:45,469 --> 00:00:48,019
+What queries will be performed on that data?
+
+13
+00:00:48,020 --> 00:00:50,090
+This is what you'll need to know in advance.
+
+14
+00:00:50,090 --> 00:00:53,405
+This must be the number one priority
+
+15
+00:00:53,405 --> 00:00:57,140
+when doing data modelling in NoSQL or Apache Cassandra.
+
+16
+00:00:57,140 --> 00:01:03,344
+Again, if you're migrating some of your workloads from relational to a NoSQL database,
+
+17
+00:01:03,344 --> 00:01:05,474
+it cannot be transformed as is.
+
+18
+00:01:05,474 --> 00:01:08,209
+You're going to have to do some new data modelling task on
+
+19
+00:01:08,209 --> 00:01:11,479
+it to be able to get it transform into the correct data model.
+
+20
+00:01:11,480 --> 00:01:15,260
+If you walk away knowing that, you're in good shape.
+
+21
+00:01:15,260 --> 00:01:19,415
+So let's talk a little bit more about data modelling in Apache Cassandra.
+
+22
+00:01:19,415 --> 00:01:23,585
+So denormalization is not just okay, it's a must.
+
+23
+00:01:23,584 --> 00:01:28,264
+Normalization into third normal form will not work in Apache Cassandra.
+
+24
+00:01:28,265 --> 00:01:30,674
+There are no joins in Apache Cassandra.
+
+25
+00:01:30,674 --> 00:01:35,359
+Without joins, I can only query on one table at a time.
+
+26
+00:01:35,359 --> 00:01:39,109
+Denormalization must be done for fast reads.
+
+27
+00:01:39,109 --> 00:01:43,180
+Apache Cassandra has been optimized for fast writes.
+
+28
+00:01:43,180 --> 00:01:46,370
+Again, if we were talking more about the architecture of Apache Cassandra,
+
+29
+00:01:46,370 --> 00:01:50,795
+you'd be able to see that the right path is actually very beautiful in its simplicity.
+
+30
+00:01:50,795 --> 00:01:53,704
+But if you want fast write, pardon me.
+
+31
+00:01:53,704 --> 00:01:55,385
+If you want fast reads,
+
+32
+00:01:55,385 --> 00:01:59,150
+you must set yourself up for success with a good data model.
+
+33
+00:01:59,150 --> 00:02:01,690
+Nothing is magic and nothing comes for free.
+
+34
+00:02:01,689 --> 00:02:06,349
+So because of that you're going to have to set yourself up with a good data model.
+
+35
+00:02:06,349 --> 00:02:08,930
+Again, think queries first.
+
+36
+00:02:08,930 --> 00:02:12,275
+If you walk away knowing that, you're in good shape.
+
+37
+00:02:12,275 --> 00:02:13,849
+In relational data modeling,
+
+38
+00:02:13,849 --> 00:02:18,409
+we were concerned about slow writes with denormalized tables.
+
+39
+00:02:18,409 --> 00:02:21,650
+Since you'll have duplicates of your data and need to write
+
+40
+00:02:21,650 --> 00:02:25,670
+update and insert to more than one table for the same piece of data.
+
+41
+00:02:25,669 --> 00:02:29,125
+But because Apache Cassandra has been optimized for that,
+
+42
+00:02:29,125 --> 00:02:31,449
+there should be no concern.
+
+43
+00:02:31,449 --> 00:02:34,810
+Again, no joins.
+
+44
+00:02:34,810 --> 00:02:38,289
+One table per query is a great strategy.
+
+45
+00:02:38,289 --> 00:02:41,044
+This will lead to data replication.
+
+46
+00:02:41,044 --> 00:02:43,239
+You're going to have redundant data.
+
+47
+00:02:43,240 --> 00:02:45,140
+You're going to have extra copies of your data.
+
+48
+00:02:45,139 --> 00:02:48,424
+Basically, the exact opposite of what we're worried about in lesson two.
+
+49
+00:02:48,425 --> 00:02:51,380
+But the performance benefits and high availability of
+
+50
+00:02:51,379 --> 00:02:54,924
+the system far outweigh any additional storage costs.
+
+51
+00:02:54,925 --> 00:02:57,469
+Remember, storage is an expensive.
+
+52
+00:02:57,469 --> 00:03:02,194
+Losing customers to outages or low latency is not.
+
+53
+00:03:02,194 --> 00:03:05,239
+Let's take a look at this graphic here.
+
+54
+00:03:05,240 --> 00:03:07,790
+So here, we're talking about again,
+
+55
+00:03:07,789 --> 00:03:10,549
+a good comparison between Relational Databases and
+
+56
+00:03:10,550 --> 00:03:12,770
+NoSQL Databases or thinking about data
+
+57
+00:03:12,770 --> 00:03:16,010
+modelling and the fact that we no longer have joins.
+
+58
+00:03:16,009 --> 00:03:18,289
+So in this case in a relational database,
+
+59
+00:03:18,289 --> 00:03:21,054
+we can have our query represented here.
+
+60
+00:03:21,055 --> 00:03:25,300
+We can have one query that's accessing two tables,
+
+61
+00:03:25,300 --> 00:03:28,975
+three tables, as many tables as we want because we can join them together.
+
+62
+00:03:28,974 --> 00:03:31,495
+Now, in NoSQL databases, again,
+
+63
+00:03:31,495 --> 00:03:34,405
+one query per one table.
+
+64
+00:03:34,405 --> 00:03:36,520
+One query per one table.
+
+65
+00:03:36,520 --> 00:03:38,590
+You cannot join the data together.
+
+66
+00:03:38,590 --> 00:03:41,170
+You can only access one table at a time.
+
+67
+00:03:41,169 --> 00:03:46,659
+Just to reiterate the idea of no joins and using one query on one table.
+
+68
+00:03:46,659 --> 00:03:48,549
+This diagram compares the approach for
+
+69
+00:03:48,550 --> 00:03:51,685
+relational versus NoSQL databases like Apache Cassandra.
+
+70
+00:03:51,685 --> 00:03:56,754
+In relational databases, one query can access and join data from multiple tables.
+
+71
+00:03:56,754 --> 00:04:00,939
+In Apache Cassandra, the queries can pull data from a single table.
+
+72
+00:04:00,939 --> 00:04:04,465
+This is important to model with your data in mind.
+
+73
+00:04:04,465 --> 00:04:08,979
+So again, think two queries, two different tables.
+
+74
+00:04:08,979 --> 00:04:10,750
+So let's say I want to do two queries.
+
+75
+00:04:10,750 --> 00:04:15,729
+One is all albums in a given year and all albums by given artist.
+
+76
+00:04:15,729 --> 00:04:19,134
+So, here's just a quick example of what that would look like.
+
+77
+00:04:19,134 --> 00:04:24,610
+So in this case, I want to get all albums by particular year.
+
+78
+00:04:24,610 --> 00:04:26,705
+So I'm going to do a select star from music library,
+
+79
+00:04:26,704 --> 00:04:31,524
+where year equals and then I can fill in whatever year that I'm looking for.
+
+80
+00:04:31,524 --> 00:04:36,579
+Over here, I want to do a select star from album library where again,
+
+81
+00:04:36,579 --> 00:04:40,615
+a different table where the artist name equals the Beatles.
+
+82
+00:04:40,615 --> 00:04:42,340
+So in this case,
+
+83
+00:04:42,339 --> 00:04:45,579
+we have partitioned our data by year and in this case we've
+
+84
+00:04:45,579 --> 00:04:48,964
+partitioned our data artist's name. No don't be afraid.
+
+85
+00:04:48,964 --> 00:04:53,034
+You're seeing a lot of duplicate data between these two tables and that is okay.
+
+86
+00:04:53,035 --> 00:04:57,110
+If you're getting a little lost on when I said partitioning of the data,
+
+87
+00:04:57,110 --> 00:04:59,689
+we're going to talk about that a lot more here very soon.
+
+88
+00:04:59,689 --> 00:05:02,795
+So again, the data in these tables is going to be duplicated.
+
+89
+00:05:02,795 --> 00:05:06,199
+But that's okay in the nature of having denormalized tables.
+
+90
+00:05:06,199 --> 00:05:09,500
+What is important is that we have two queries that we're able to
+
+91
+00:05:09,500 --> 00:05:13,709
+execute against our data in a high-performance, no downtime system.
+

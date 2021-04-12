@@ -1,0 +1,88 @@
+1
+00:00:00,000 --> 00:00:03,089
+The CAP Theorem. This is a theorem in computer science that
+
+2
+00:00:03,089 --> 00:00:06,570
+states it is impossible for distributed data store to
+
+3
+00:00:06,570 --> 00:00:14,365
+simultaneously provide more than two out of the three following guarantees: consistency,
+
+4
+00:00:14,365 --> 00:00:17,160
+availability, and partition tolerance.
+
+5
+00:00:17,160 --> 00:00:21,120
+Consistency. Every read from the database gets
+
+6
+00:00:21,120 --> 00:00:25,964
+the latest and correct piece of data or it gets an error.
+
+7
+00:00:25,964 --> 00:00:30,454
+Availability. Every request is received and a response
+
+8
+00:00:30,454 --> 00:00:35,519
+is given without a guarantee that the data is the latest update.
+
+9
+00:00:35,520 --> 00:00:37,525
+Partition Tolerance.
+
+10
+00:00:37,524 --> 00:00:44,199
+The system continues to work regardless of losing network connectivity between nodes.
+
+11
+00:00:44,200 --> 00:00:46,375
+When your system is running fine,
+
+12
+00:00:46,375 --> 00:00:48,034
+there's no network failures.
+
+13
+00:00:48,034 --> 00:00:51,439
+You can also have availability and consistency.
+
+14
+00:00:51,439 --> 00:00:53,960
+But when the system has network failures,
+
+15
+00:00:53,960 --> 00:00:58,475
+then you may only have consistency or availability.
+
+16
+00:00:58,475 --> 00:01:02,120
+Apache Cassandra and other NoSQL databases
+
+17
+00:01:02,119 --> 00:01:06,664
+choose to be highly available at the potential cost of consistency.
+
+18
+00:01:06,665 --> 00:01:11,670
+It is an AP (Availability and Partition tolerant) database.
+
+19
+00:01:11,670 --> 00:01:15,469
+Remember, this only comes up during network failures.
+
+20
+00:01:15,469 --> 00:01:17,599
+I want to make it clear that we're learning about
+
+21
+00:01:17,599 --> 00:01:22,579
+these concepts because the difference
+
+22
+00:01:22,579 --> 00:01:27,450
+in the design of NoSQL databases affects how we will model the data.
+

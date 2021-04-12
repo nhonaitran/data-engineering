@@ -1,0 +1,400 @@
+1
+00:00:00,000 --> 00:00:01,605
+All right. Demo four.
+
+2
+00:00:01,605 --> 00:00:05,310
+Let's focus more on this WHERE clause.
+
+3
+00:00:05,309 --> 00:00:08,115
+We're going to go and open our Jupyter notebook.
+
+4
+00:00:08,115 --> 00:00:10,634
+Lesson three, demo four,
+
+5
+00:00:10,634 --> 00:00:13,379
+and using the WHERE clause.
+
+6
+00:00:13,380 --> 00:00:15,765
+In this demo, we're going to walk through the basics
+
+7
+00:00:15,765 --> 00:00:18,670
+of using the WHERE clause in Apache Cassandra.
+
+8
+00:00:19,309 --> 00:00:21,959
+We're going to import our library,
+
+9
+00:00:21,960 --> 00:00:24,045
+connect to our cluster,
+
+10
+00:00:24,045 --> 00:00:26,865
+create our key space if it does not exists,
+
+11
+00:00:26,864 --> 00:00:29,659
+connect to our key space, and there we go.
+
+12
+00:00:29,660 --> 00:00:34,234
+Let's imagine we'd like to start creating a new music library of albums.
+
+13
+00:00:34,234 --> 00:00:37,799
+We want to ask four questions of our data.
+
+14
+00:00:37,799 --> 00:00:42,744
+Give me every album in my music library that was released in a given year.
+
+15
+00:00:42,744 --> 00:00:45,949
+Select star from music library where year equals blank.
+
+16
+00:00:45,950 --> 00:00:48,725
+Give me the album that is in my music library
+
+17
+00:00:48,725 --> 00:00:51,560
+that was released in a given year by The Beatles.
+
+18
+00:00:51,560 --> 00:00:53,344
+Select star from music library where year
+
+19
+00:00:53,344 --> 00:00:56,585
+equals a particular year that you choose and artist name.
+
+20
+00:00:56,585 --> 00:00:58,535
+In this case, we're choosing The Beatles.
+
+21
+00:00:58,534 --> 00:01:03,394
+Give me all the albums released in a given year, in a given location.
+
+22
+00:01:03,395 --> 00:01:08,545
+Select star for music library where year equals 1970 and location equals Liverpool.
+
+23
+00:01:08,545 --> 00:01:15,105
+Give me a city that the album Let It Be was recorded.
+
+24
+00:01:15,105 --> 00:01:18,829
+Select city from music library where year equals 1970,
+
+25
+00:01:18,829 --> 00:01:20,254
+and artist name The Beatles,
+
+26
+00:01:20,254 --> 00:01:21,939
+and album name Let It Be.
+
+27
+00:01:21,939 --> 00:01:23,534
+Here's a collection of our data,
+
+28
+00:01:23,534 --> 00:01:27,185
+similar to that data that we've seen before in other demos and exercises.
+
+29
+00:01:27,185 --> 00:01:29,495
+How should we model this data?
+
+30
+00:01:29,495 --> 00:01:33,545
+Again, every time I start these demos,
+
+31
+00:01:33,545 --> 00:01:37,025
+that's what I start you with because that's what we have to be thinking about.
+
+32
+00:01:37,025 --> 00:01:41,840
+How should I model this data knowing my queries in advance?
+
+33
+00:01:41,840 --> 00:01:45,814
+What should be our primary key and our partition key?
+
+34
+00:01:45,814 --> 00:01:49,495
+Since our data is looking for year, let's start with that.
+
+35
+00:01:49,495 --> 00:01:53,925
+From there, we'll add clustering columns on artist name and album name.
+
+36
+00:01:53,924 --> 00:01:56,609
+So, let's create our music library,
+
+37
+00:01:56,609 --> 00:01:59,189
+year, artist name, album name, and city.
+
+38
+00:01:59,189 --> 00:02:00,920
+We're going to partition by year.
+
+39
+00:02:00,920 --> 00:02:04,890
+We're going to use a clustering column for artist name and album name.
+
+40
+00:02:05,000 --> 00:02:07,709
+Let's insert our data into the table.
+
+41
+00:02:07,709 --> 00:02:10,204
+Again, very similar to what you've seen before.
+
+42
+00:02:10,205 --> 00:02:14,450
+Let's validate our data model with our four queries.
+
+43
+00:02:14,449 --> 00:02:18,655
+Select star from music library where year equals 1970.
+
+44
+00:02:18,655 --> 00:02:21,344
+So, I get 1970, The Beatles,
+
+45
+00:02:21,344 --> 00:02:23,205
+and 1970, The Carpenters.
+
+46
+00:02:23,205 --> 00:02:24,935
+Success, it worked.
+
+47
+00:02:24,935 --> 00:02:27,370
+Let's try our second query.
+
+48
+00:02:27,469 --> 00:02:31,705
+Select star from music library where year equals 1970.
+
+49
+00:02:31,705 --> 00:02:33,830
+I think I want to bring up a point here.
+
+50
+00:02:33,830 --> 00:02:37,730
+So, as we've been talking about one query per one table,
+
+51
+00:02:37,729 --> 00:02:40,299
+which is a wonderful way to do data modeling.
+
+52
+00:02:40,300 --> 00:02:41,420
+But at the same time,
+
+53
+00:02:41,419 --> 00:02:45,739
+you can only do one query per one table.
+
+54
+00:02:45,740 --> 00:02:47,675
+You can do more than one type of query.
+
+55
+00:02:47,675 --> 00:02:49,100
+But this case, we have both.
+
+56
+00:02:49,099 --> 00:02:51,259
+But in that case, you can do more than one type of
+
+57
+00:02:51,259 --> 00:02:53,419
+query like we're doing here with year equals
+
+58
+00:02:53,419 --> 00:02:58,459
+1970 and year is equal 1970 and artist name equals The Beatles. You can't do that.
+
+59
+00:02:58,460 --> 00:03:00,590
+But you're just adding more of
+
+60
+00:03:00,590 --> 00:03:03,890
+the clustering columns and making your results more specific.
+
+61
+00:03:03,889 --> 00:03:07,699
+So, it's a different query but it's still utilizing the same data model.
+
+62
+00:03:07,699 --> 00:03:10,864
+I hope that's clear. So, let's try that.
+
+63
+00:03:10,865 --> 00:03:12,790
+Select star from music library where year equals
+
+64
+00:03:12,789 --> 00:03:15,655
+1970 and the artist name equals The Beatles.
+
+65
+00:03:15,655 --> 00:03:18,294
+Awesome. I got back my result.
+
+66
+00:03:18,294 --> 00:03:20,844
+It worked. Let's try the third query.
+
+67
+00:03:20,844 --> 00:03:26,810
+Select star from music library where year equals 1970 and location equals Liverpool.
+
+68
+00:03:28,800 --> 00:03:33,455
+An error, a very ugly error at that.
+
+69
+00:03:33,455 --> 00:03:36,104
+Undefined column name location,
+
+70
+00:03:36,104 --> 00:03:38,640
+not very clear. But what does it mean?
+
+71
+00:03:38,639 --> 00:03:42,579
+Error. You can not try to access a column or
+
+72
+00:03:42,580 --> 00:03:48,115
+clustering columns if you have not used the other defined clustering columns.
+
+73
+00:03:48,115 --> 00:03:52,450
+Let's go back to where we created our table.
+
+74
+00:03:52,449 --> 00:03:55,599
+So, here, we have our partition key of year,
+
+75
+00:03:55,599 --> 00:03:57,669
+our clustering column of artist name,
+
+76
+00:03:57,669 --> 00:03:59,859
+and our clustering column of album name.
+
+77
+00:03:59,860 --> 00:04:03,355
+You have to utilize to do a query.
+
+78
+00:04:03,354 --> 00:04:05,889
+You have to use these in order.
+
+79
+00:04:05,889 --> 00:04:09,909
+Also, if we wanted to use and city,
+
+80
+00:04:09,909 --> 00:04:13,314
+we have to use it after we've used all of these columns.
+
+81
+00:04:13,314 --> 00:04:15,234
+So, year, artist name,
+
+82
+00:04:15,235 --> 00:04:16,884
+album name, and city.
+
+83
+00:04:16,884 --> 00:04:19,149
+We can't just use any column.
+
+84
+00:04:19,149 --> 00:04:22,564
+We have to use all the clustering columns in order.
+
+85
+00:04:22,564 --> 00:04:24,524
+That's why we got a failure.
+
+86
+00:04:24,524 --> 00:04:26,114
+That value is to be expected.
+
+87
+00:04:26,115 --> 00:04:28,810
+So, let's see if we can do this in a different way.
+
+88
+00:04:28,810 --> 00:04:32,819
+Select city from music library where year equals 1970,
+
+89
+00:04:32,819 --> 00:04:34,500
+and artist name equals The Beatles,
+
+90
+00:04:34,500 --> 00:04:36,839
+and album name Let It Be.
+
+91
+00:04:36,839 --> 00:04:41,269
+So, again, we're utilizing all of our clustering columns in the query,
+
+92
+00:04:41,269 --> 00:04:43,599
+and we get back Liverpool.
+
+93
+00:04:43,600 --> 00:04:45,015
+So, for the sake of the demo,
+
+94
+00:04:45,014 --> 00:04:47,110
+I will drop the tables.
+
+95
+00:04:49,279 --> 00:04:52,809
+I got an error there, how interesting.
+
+96
+00:04:53,680 --> 00:04:55,865
+That's because I didn't create,
+
+97
+00:04:55,865 --> 00:04:58,014
+I've already dropped music library one.
+
+98
+00:04:58,014 --> 00:05:00,629
+Yeah. Unconfigured table, music library one.
+
+99
+00:05:00,629 --> 00:05:04,909
+That's just a typo. I didn't need this.
+
+100
+00:05:04,910 --> 00:05:07,970
+Then, we'll close our connection. Awesome.
+

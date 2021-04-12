@@ -1,0 +1,116 @@
+1
+00:00:00,000 --> 00:00:02,174
+So let's wrap up our course.
+
+2
+00:00:02,174 --> 00:00:05,639
+What did we learn in lesson one, two and three?
+
+3
+00:00:05,639 --> 00:00:08,669
+In lesson one, we learned about the fundamentals of when to use
+
+4
+00:00:08,669 --> 00:00:12,539
+relational databases and when to use a non-relational database.
+
+5
+00:00:12,539 --> 00:00:15,764
+We learned about their strength and their weaknesses.
+
+6
+00:00:15,765 --> 00:00:18,435
+In lesson two, we learned about the fundamentals
+
+7
+00:00:18,434 --> 00:00:21,089
+of how to do relational database modeling.
+
+8
+00:00:21,089 --> 00:00:25,094
+We focused on normalization and moving data into third normal form.
+
+9
+00:00:25,094 --> 00:00:29,669
+We also learned about when to denormalize even in relational data modeling.
+
+10
+00:00:29,670 --> 00:00:33,149
+We learn when to use fact and dimension tables and how
+
+11
+00:00:33,149 --> 00:00:37,159
+those come together to create a star schema which is highly used in industry.
+
+12
+00:00:37,159 --> 00:00:39,859
+In lesson three, we learned about the importance of
+
+13
+00:00:39,859 --> 00:00:42,920
+denormalization for NoSQL database modeling.
+
+14
+00:00:42,920 --> 00:00:48,859
+We learned that tables must be denormalized as there are no joints in NoSQL databases.
+
+15
+00:00:48,859 --> 00:00:54,049
+We learned about the fundamentals of NoSQL database modeling that focus on queries first.
+
+16
+00:00:54,049 --> 00:00:56,284
+We discussed how to create the primary key
+
+17
+00:00:56,284 --> 00:00:58,939
+out of the partition key and clustering columns.
+
+18
+00:00:58,939 --> 00:01:02,179
+We talked about the basics of distributed database design to help us
+
+19
+00:01:02,179 --> 00:01:06,155
+understand why data modeling is different from NoSQL database modeling.
+
+20
+00:01:06,155 --> 00:01:10,340
+Remember, the critical thinking skills you employ when you do data modeling is
+
+21
+00:01:10,340 --> 00:01:14,930
+a skill that is and should be independent of the type of database you're working with.
+
+22
+00:01:14,930 --> 00:01:16,490
+Once you have these skills,
+
+23
+00:01:16,489 --> 00:01:19,689
+you'll be able to transfer these skills to any database you are working with.
+
+24
+00:01:19,689 --> 00:01:21,209
+The skill is universal,
+
+25
+00:01:21,209 --> 00:01:23,989
+but data models between systems should be carefully
+
+26
+00:01:23,989 --> 00:01:27,170
+reviewed before doing any kind of blind copy paste.
+
+27
+00:01:27,170 --> 00:01:29,030
+I've really enjoyed creating these lessons and
+
+28
+00:01:29,030 --> 00:01:31,415
+sharing my understanding of data modeling with you all.
+
+29
+00:01:31,415 --> 00:01:34,980
+Congrats on finishing this course and thank you.
+

@@ -1,0 +1,236 @@
+1
+00:00:00,000 --> 00:00:03,705
+So, the primary key is how each row can be uniquely
+
+2
+00:00:03,705 --> 00:00:09,330
+identified and how the data is distributed across the nodes or servers in our system.
+
+3
+00:00:09,330 --> 00:00:12,509
+The first element of the primary key is
+
+4
+00:00:12,509 --> 00:00:16,785
+the partition key which will determined the distribution.
+
+5
+00:00:16,785 --> 00:00:18,929
+The primary key is made up of
+
+6
+00:00:18,929 --> 00:00:24,059
+either just the partition key or with the addition of clustering columns.
+
+7
+00:00:24,059 --> 00:00:26,864
+Again, the primary key is made up of
+
+8
+00:00:26,864 --> 00:00:30,869
+either just the partition key or with the addition of clustering columns.
+
+9
+00:00:30,870 --> 00:00:35,299
+The partition key will determine the distribution of data across the system.
+
+10
+00:00:35,299 --> 00:00:39,104
+The partition keys row value will be hashed,
+
+11
+00:00:39,104 --> 00:00:41,390
+turned into a number and stored on
+
+12
+00:00:41,390 --> 00:00:44,734
+the node in the system that holds that range of values.
+
+13
+00:00:44,734 --> 00:00:47,689
+I'm just letting you know that extra piece of information there.
+
+14
+00:00:47,689 --> 00:00:51,559
+Again, this goes more into the design and architecture of distributed databases.
+
+15
+00:00:51,560 --> 00:00:54,289
+So, if you're interested in this topic there's
+
+16
+00:00:54,289 --> 00:00:58,189
+much more information out there that you can access to learn about that.
+
+17
+00:00:58,189 --> 00:01:01,534
+Alright. So, here's an example of a primary key
+
+18
+00:01:01,534 --> 00:01:04,849
+using a simple primary key which is also our partition key.
+
+19
+00:01:04,849 --> 00:01:06,979
+So, I'm going to create table music library.
+
+20
+00:01:06,980 --> 00:01:09,329
+Again, your int is going to be int,
+
+21
+00:01:09,329 --> 00:01:15,094
+artist name is text and album name text and then our primary key will be then by year.
+
+22
+00:01:15,094 --> 00:01:21,295
+So again, that means our data will be distributed across our system by the year.
+
+23
+00:01:21,295 --> 00:01:25,144
+So, our primary key is also our partition key.
+
+24
+00:01:25,144 --> 00:01:27,829
+So, some key points about primary keys,
+
+25
+00:01:27,829 --> 00:01:29,840
+they must be unique.
+
+26
+00:01:29,840 --> 00:01:33,079
+A primary key must be unique to each row.
+
+27
+00:01:33,079 --> 00:01:35,905
+There are no duplicates in Apache Cassandra.
+
+28
+00:01:35,905 --> 00:01:37,935
+Think about your primary key,
+
+29
+00:01:37,935 --> 00:01:41,745
+is it going to end up resolving to a single?
+
+30
+00:01:41,745 --> 00:01:45,859
+Row. If you make your primary key first name,
+
+31
+00:01:45,859 --> 00:01:49,150
+only one Amanda will be allowed in your database,
+
+32
+00:01:49,150 --> 00:01:52,880
+but this is a very common name and there will be more than one.
+
+33
+00:01:52,879 --> 00:01:57,905
+Data will be overwritten if a new value comes in with the same primary key.
+
+34
+00:01:57,905 --> 00:02:02,760
+An error will not be thrown and the original data will be overwritten.
+
+35
+00:02:02,769 --> 00:02:07,564
+Hashing of this value results in placement on particular nodes in the system.
+
+36
+00:02:07,564 --> 00:02:10,340
+The value will be hashed to a numeric value
+
+37
+00:02:10,340 --> 00:02:13,520
+and the value will determine whether data will live on the system.
+
+38
+00:02:13,520 --> 00:02:17,575
+Either node one, node two or node 7,000.
+
+39
+00:02:17,574 --> 00:02:21,810
+Data distributed by this partition key.
+
+40
+00:02:21,879 --> 00:02:25,775
+The data will be distributed across the system by this key.
+
+41
+00:02:25,775 --> 00:02:31,115
+You want to pick a key that will evenly distribute the data as best you can.
+
+42
+00:02:31,115 --> 00:02:34,879
+For example, if you've distributed a customer table by state,
+
+43
+00:02:34,879 --> 00:02:37,519
+you're likely to see an uneven distribution
+
+44
+00:02:37,520 --> 00:02:41,060
+because more people live in California than Vermont.
+
+45
+00:02:41,060 --> 00:02:43,164
+Simple or composite.
+
+46
+00:02:43,164 --> 00:02:47,870
+The simple primary key is just one column that is also the partition key.
+
+47
+00:02:47,870 --> 00:02:52,789
+A composite primary key is made up of more than one column and will assist in creating
+
+48
+00:02:52,789 --> 00:02:59,625
+a unique value and will help you in getting your retrieval queries.
+
+49
+00:02:59,625 --> 00:03:02,930
+They have one or more clustering columns.
+
+50
+00:03:02,930 --> 00:03:06,250
+We'll talk more about clustering columns in the next section.
+
+51
+00:03:06,250 --> 00:03:08,444
+Again, here's our composite key.
+
+52
+00:03:08,444 --> 00:03:11,120
+So, now we're seeing that same type of query that we had before on
+
+53
+00:03:11,120 --> 00:03:14,240
+music library of the create table and in this case,
+
+54
+00:03:14,240 --> 00:03:16,879
+we have primary key and we have a composite key.
+
+55
+00:03:16,879 --> 00:03:21,234
+We're going to distribute by year with a combination of artist name.
+
+56
+00:03:21,235 --> 00:03:23,705
+So, both of these are the partition key,
+
+57
+00:03:23,705 --> 00:03:25,969
+these values will be hashed together.
+
+58
+00:03:25,969 --> 00:03:29,689
+You'll get one value back and then that data will be stored on a particular node.
+
+59
+00:03:29,689 --> 00:03:33,270
+All of this together is the primary key.
+

@@ -1,0 +1,164 @@
+1
+00:00:00,000 --> 00:00:03,450
+Let's talk of some of the basics of NoSQL database design.
+
+2
+00:00:03,450 --> 00:00:05,800
+So, before I get started I just kind of
+
+3
+00:00:05,799 --> 00:00:08,160
+want to let you know that the reason that we have to do a little
+
+4
+00:00:08,160 --> 00:00:12,359
+bit more on the distributed database design is because the difference in
+
+5
+00:00:12,359 --> 00:00:18,119
+the design is why our data modelling has to be different than relational databases.
+
+6
+00:00:18,120 --> 00:00:19,560
+So, I just want to focus on that.
+
+7
+00:00:19,559 --> 00:00:21,029
+That's why we're talking about some of
+
+8
+00:00:21,030 --> 00:00:25,560
+these design concepts that we didn't really touch in relational.
+
+9
+00:00:25,559 --> 00:00:27,779
+In a distributed database,
+
+10
+00:00:27,780 --> 00:00:34,170
+in order to have high availability you need copies of your data. Let's break that down.
+
+11
+00:00:34,170 --> 00:00:37,170
+First, what is a distributed database?
+
+12
+00:00:37,170 --> 00:00:40,565
+This is a database that has been scaled out horizontally.
+
+13
+00:00:40,564 --> 00:00:45,664
+It's not just a single system but a database made up of multiple machines.
+
+14
+00:00:45,664 --> 00:00:48,094
+Second, high availability.
+
+15
+00:00:48,094 --> 00:00:52,399
+This means that my system is always up and there's no downtime
+
+16
+00:00:52,399 --> 00:00:57,829
+or very little downtime but essentially no downtime.
+
+17
+00:00:57,829 --> 00:01:04,549
+That isn't to say that all my nodes are always up because nodes will fail.
+
+18
+00:01:04,549 --> 00:01:06,424
+It's just the nature of how this works.
+
+19
+00:01:06,424 --> 00:01:09,500
+If you have 7,000 machines running one of them is going to
+
+20
+00:01:09,500 --> 00:01:12,489
+fail and because the nodes will fail,
+
+21
+00:01:12,489 --> 00:01:14,644
+that node will go down.
+
+22
+00:01:14,644 --> 00:01:19,564
+Third, if my system is distributed and my nodes will go down,
+
+23
+00:01:19,564 --> 00:01:22,114
+this means I need copies of my data.
+
+24
+00:01:22,114 --> 00:01:24,769
+My data cannot just live in one place.
+
+25
+00:01:24,769 --> 00:01:28,729
+With the fact that my data is copied throughout my system leads to
+
+26
+00:01:28,730 --> 00:01:33,140
+the fact that my data may not be up to date in all locations.
+
+27
+00:01:33,140 --> 00:01:35,719
+This is called eventual consistency.
+
+28
+00:01:35,719 --> 00:01:39,500
+So, let's talk about what eventual consistency means.
+
+29
+00:01:39,500 --> 00:01:45,409
+A consistency model used in distributed computing to achieve high availability.
+
+30
+00:01:45,409 --> 00:01:51,679
+That informally guarantees that if no new updates are made to a given data item,
+
+31
+00:01:51,680 --> 00:01:56,730
+eventually all access to that item will return the last updated state.
+
+32
+00:01:56,730 --> 00:01:59,630
+This is basically saying that over time if
+
+33
+00:01:59,629 --> 00:02:04,670
+no new changes are made that each copy of my data will be the same.
+
+34
+00:02:04,670 --> 00:02:08,789
+But this also means that if there are new changes,
+
+35
+00:02:08,800 --> 00:02:11,600
+the value of my data I should say,
+
+36
+00:02:11,599 --> 00:02:13,879
+maybe different in different locations.
+
+37
+00:02:13,879 --> 00:02:17,689
+Now, many people hear that and are very concerned.
+
+38
+00:02:17,689 --> 00:02:20,150
+First and foremost we are talking about
+
+39
+00:02:20,150 --> 00:02:23,495
+milliseconds that the data may be in fact inconsistent.
+
+40
+00:02:23,495 --> 00:02:28,159
+Secondly, there are workarounds to prevent getting stale data that are outside
+
+41
+00:02:28,159 --> 00:02:33,560
+the scope of this course but rest assure they've been put in place to prevent issues.
+

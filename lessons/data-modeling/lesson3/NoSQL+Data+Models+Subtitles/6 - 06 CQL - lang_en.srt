@@ -1,0 +1,76 @@
+1
+00:00:00,000 --> 00:00:02,745
+So just a quick word on CQL.
+
+2
+00:00:02,745 --> 00:00:05,730
+Cassandra Query Language is the way that we interact with the database.
+
+3
+00:00:05,730 --> 00:00:08,955
+It's very similar to SQL, except again,
+
+4
+00:00:08,955 --> 00:00:13,425
+no JOIN no GROUP BY and there's not any subqueries,
+
+5
+00:00:13,425 --> 00:00:18,615
+and they're not in CQL and they're not supported by CQL.
+
+6
+00:00:18,614 --> 00:00:23,239
+In prior years, authentic Cassandra tables were assessed using a protocol called Thrift.
+
+7
+00:00:23,239 --> 00:00:25,229
+But that was very difficult to use and
+
+8
+00:00:25,230 --> 00:00:28,080
+hard for users coming from the relational CQL world.
+
+9
+00:00:28,079 --> 00:00:30,359
+There are many language drivers,
+
+10
+00:00:30,359 --> 00:00:34,769
+majority supported by datastacks to integrate into an application.
+
+11
+00:00:34,770 --> 00:00:38,640
+You've seen in lesson one in our demos and the exercises,
+
+12
+00:00:38,640 --> 00:00:40,855
+we were we're utilizing the Python driver.
+
+13
+00:00:40,854 --> 00:00:44,640
+Other popular drivers are Java,
+
+14
+00:00:44,640 --> 00:00:46,884
+C sharp, NodeJS, etc.
+
+15
+00:00:46,884 --> 00:00:48,229
+There's many many out there,
+
+16
+00:00:48,229 --> 00:00:49,909
+and again, they're all open source.
+
+17
+00:00:49,909 --> 00:00:53,569
+So if you have an idea for a new one, submit the code.
+
+18
+00:00:53,570 --> 00:00:55,780
+Go for it, go develop it.
+
+19
+00:00:55,780 --> 00:01:01,060
+We'll continue to use the Python driver in the next set of demos and exercises.
+

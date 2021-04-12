@@ -1,0 +1,80 @@
+1
+00:00:00,000 --> 00:00:02,910
+All right. So we're ready to wrap up.
+
+2
+00:00:02,910 --> 00:00:05,355
+We've gone through all our demos and all our exercises.
+
+3
+00:00:05,355 --> 00:00:07,110
+So what did we learn in this lesson?
+
+4
+00:00:07,110 --> 00:00:10,109
+We learned about the basics of distributed database design and why
+
+5
+00:00:10,109 --> 00:00:13,274
+the affects of that will affect our data modeling decisions.
+
+6
+00:00:13,275 --> 00:00:15,750
+NoSQL is already optimized for rights.
+
+7
+00:00:15,750 --> 00:00:20,204
+So we must model our data to allow reads to be fast.
+
+8
+00:00:20,204 --> 00:00:24,104
+We must have our queries and model the tables to our queries.
+
+9
+00:00:24,105 --> 00:00:26,714
+Always data model with queries in mind.
+
+10
+00:00:26,714 --> 00:00:29,539
+Importance of denormalization: We learned why
+
+11
+00:00:29,539 --> 00:00:32,509
+we must denormalize to allow for fast reads.
+
+12
+00:00:32,509 --> 00:00:37,134
+We learned about Apache Cassandra and how it is a very popular NoSQL database.
+
+13
+00:00:37,134 --> 00:00:40,969
+Then it's also used in a number of very high profile companies.
+
+14
+00:00:40,969 --> 00:00:42,899
+We learned about the primary key,
+
+15
+00:00:42,899 --> 00:00:45,259
+partition key, and clustering columns.
+
+16
+00:00:45,259 --> 00:00:49,085
+We learned about the primary key and how that is made up of partition key,
+
+17
+00:00:49,085 --> 00:00:50,509
+which distributes the data,
+
+18
+00:00:50,509 --> 00:00:53,089
+and the clustering column, which orders the data.
+
+19
+00:00:53,090 --> 00:00:56,980
+We learned about the where clause as we must think about our queries,
+
+20
+00:00:56,979 --> 00:01:00,159
+and that we have limitations on select star.
+

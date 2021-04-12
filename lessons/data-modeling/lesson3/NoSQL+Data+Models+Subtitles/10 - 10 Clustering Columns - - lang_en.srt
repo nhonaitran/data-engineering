@@ -1,0 +1,156 @@
+1
+00:00:00,000 --> 00:00:02,714
+Now let's move on to clustering columns.
+
+2
+00:00:02,714 --> 00:00:05,744
+Clustering columns- The PRIMARY KEY is made up of
+
+3
+00:00:05,745 --> 00:00:09,884
+either just the PARTITION KEY or with the addition of CLUSTERING COLUMNS.
+
+4
+00:00:09,884 --> 00:00:15,554
+The CLUSTERING COLUMNS will determine the sort order within a Partition.
+
+5
+00:00:15,554 --> 00:00:20,295
+The clustering columns will sort the data in sorted descending order.
+
+6
+00:00:20,295 --> 00:00:25,845
+More than one clustering column can be added or like we talked about before, or none.
+
+7
+00:00:25,844 --> 00:00:27,404
+So, in this case,
+
+8
+00:00:27,405 --> 00:00:32,730
+we have a Composite key with it we're partitioning by year,
+
+9
+00:00:32,729 --> 00:00:36,569
+and then from there we have a clustering column on artist's name, and album name.
+
+10
+00:00:36,570 --> 00:00:40,965
+So, you can see here in this example if I did a select star from that music library,
+
+11
+00:00:40,965 --> 00:00:43,600
+you can see that I have my year,
+
+12
+00:00:43,600 --> 00:00:48,590
+and then my artist's name which is then in alphabetical order in descending order;
+
+13
+00:00:48,590 --> 00:00:50,750
+E comes before T,
+
+14
+00:00:50,750 --> 00:00:54,125
+and B comes before M. Then after that,
+
+15
+00:00:54,125 --> 00:00:55,899
+it's going to sort by album name.
+
+16
+00:00:55,899 --> 00:00:58,394
+So, here you can see again so,
+
+17
+00:00:58,395 --> 00:01:00,345
+Elvis so Blue Hawaii,
+
+18
+00:01:00,344 --> 00:01:02,524
+and then we're going to sort the Beatles.
+
+19
+00:01:02,524 --> 00:01:04,280
+Here we're going to have Rubber Soul,
+
+20
+00:01:04,280 --> 00:01:08,180
+and then here I just wanted to make sure it was something that came after Rubber Soul,
+
+21
+00:01:08,180 --> 00:01:11,630
+so I made it not really an album it's called, 'Showing the order'.
+
+22
+00:01:11,629 --> 00:01:15,030
+So, here it's going to be in descending order as you can see.
+
+23
+00:01:15,030 --> 00:01:17,299
+Then here we'll have the item for the Monkees.
+
+24
+00:01:17,299 --> 00:01:20,484
+From there, the clustering column will sort in sorted order,
+
+25
+00:01:20,484 --> 00:01:22,944
+and how they were added to the primary key.
+
+26
+00:01:22,944 --> 00:01:25,984
+So, for example, in this example that I just showed,
+
+27
+00:01:25,984 --> 00:01:28,174
+they will be distributed by the key,
+
+28
+00:01:28,174 --> 00:01:32,954
+then sorted in descending order by first the artist's name, and then the album name.
+
+29
+00:01:32,954 --> 00:01:38,120
+So, the primary key is made up of a partition key which in this case is year,
+
+30
+00:01:38,120 --> 00:01:41,060
+and a clustering column which is the artist's name.
+
+31
+00:01:41,060 --> 00:01:44,064
+Remember this is just an example.
+
+32
+00:01:44,064 --> 00:01:47,465
+It might not be unique enough of a value.
+
+33
+00:01:47,465 --> 00:01:50,480
+Let's say that the artist created two albums in one year.
+
+34
+00:01:50,480 --> 00:01:52,340
+Then this data model would not hold up.
+
+35
+00:01:52,340 --> 00:01:54,170
+But just for the sake of this demo,
+
+36
+00:01:54,170 --> 00:01:55,864
+we're going to assume that it's unique.
+
+37
+00:01:55,864 --> 00:01:59,534
+So, here we're going to clustering or excuse me,
+
+38
+00:01:59,534 --> 00:02:01,825
+our partition key here which is year,
+
+39
+00:02:01,825 --> 00:02:04,480
+and our clustering column artist's name.
+

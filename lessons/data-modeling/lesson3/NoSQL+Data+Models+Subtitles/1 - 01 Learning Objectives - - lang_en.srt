@@ -1,0 +1,44 @@
+1
+00:00:00,000 --> 00:00:02,009
+So, welcome to lesson three,
+
+2
+00:00:02,009 --> 00:00:05,054
+Data Modeling for Non-relational Databases.
+
+3
+00:00:05,054 --> 00:00:08,160
+The learning objectives for this lesson are: students will learn
+
+4
+00:00:08,160 --> 00:00:11,564
+the fundamentals of data modeling for NoSQL databases,
+
+5
+00:00:11,564 --> 00:00:14,969
+focusing on the basics of NoSQL database design,
+
+6
+00:00:14,970 --> 00:00:20,385
+denormalization, primary keys, clustering columns and the WHERE clause.
+
+7
+00:00:20,385 --> 00:00:22,280
+This is one of my favorite topics.
+
+8
+00:00:22,280 --> 00:00:26,070
+It's a little bit complicated but it's very rewarding once you have
+
+9
+00:00:26,070 --> 00:00:29,969
+a full understanding of how to do data modeling for NoSQL databases.
+
+10
+00:00:29,969 --> 00:00:31,589
+So, let's get started.
+
+11
+00:00:31,589 --> 00:00:34,539
+It's going to be a little complicated but it's going to be fun.
+
