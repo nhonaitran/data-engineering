@@ -1,0 +1,440 @@
+1
+00:00:00,000 --> 00:00:03,180
+So from here, we're going to move on to Lesson 1,
+
+2
+00:00:03,180 --> 00:00:08,085
+Demo 1, and this is all about creating a table in Postgres.
+
+3
+00:00:08,085 --> 00:00:12,460
+So in this demo, we're going to walk through the basis of creating a table and Postgres.
+
+4
+00:00:12,460 --> 00:00:17,550
+Inserting rows of data and doing a simple SQL query to validate that information.
+
+5
+00:00:17,550 --> 00:00:20,855
+Like I said before, we're going to use a Python wrapper,
+
+6
+00:00:20,855 --> 00:00:23,880
+and you can find more information about it here.
+
+7
+00:00:23,880 --> 00:00:26,760
+If It's not installed on your local machine I've also included
+
+8
+00:00:26,760 --> 00:00:29,610
+the command that you could run to install it on your local machine,
+
+9
+00:00:29,610 --> 00:00:32,025
+but it should be installed in your workspace.
+
+10
+00:00:32,025 --> 00:00:35,115
+We're going to import the library, again,
+
+11
+00:00:35,115 --> 00:00:37,890
+if an error pops up make sure that you read it thoroughly,
+
+12
+00:00:37,890 --> 00:00:40,560
+but it may be something you can ignore.
+
+13
+00:00:40,560 --> 00:00:44,315
+All right, let's create a connection to the database.
+
+14
+00:00:44,315 --> 00:00:47,824
+This connects to our local instance in our case of Postgres,
+
+15
+00:00:47,824 --> 00:00:50,495
+from there we'll use the database and the schema.
+
+16
+00:00:50,495 --> 00:00:53,420
+This connection will reach up to the database and ensure that we
+
+17
+00:00:53,420 --> 00:00:56,525
+have the correct privileges to connect this database.
+
+18
+00:00:56,525 --> 00:00:58,670
+So I just want to let you know just here's
+
+19
+00:00:58,670 --> 00:01:01,355
+a note this block of code that you're seeing here,
+
+20
+00:01:01,355 --> 00:01:03,815
+is going to be very standard in all our notebooks.
+
+21
+00:01:03,815 --> 00:01:08,750
+We're adding this try-except block to make sure that errors are caught and understood.
+
+22
+00:01:08,750 --> 00:01:11,570
+This is just good coding techniques and practice.
+
+23
+00:01:11,570 --> 00:01:15,079
+So you need to have that just to make sure that you're catching any errors,
+
+24
+00:01:15,079 --> 00:01:17,525
+but you really want to focus on what's in the try command.
+
+25
+00:01:17,525 --> 00:01:18,990
+The rest is just pretty standard,
+
+26
+00:01:18,990 --> 00:01:20,735
+we'll be using it again and again.
+
+27
+00:01:20,735 --> 00:01:24,395
+So let's run this block of code we're going to make our connection,
+
+28
+00:01:24,395 --> 00:01:27,980
+and next we're going to use that connection to get a cursor,
+
+29
+00:01:27,980 --> 00:01:30,650
+so we can use that cursor to execute the queries,
+
+30
+00:01:30,650 --> 00:01:33,775
+and that we didn't know errors were thrown.
+
+31
+00:01:33,775 --> 00:01:38,450
+So again, for this demo we're going to use the auto commit for each action is
+
+32
+00:01:38,450 --> 00:01:43,040
+committed without having to call that conduct commit after each command.
+
+33
+00:01:43,040 --> 00:01:48,245
+The ability to roll back and commit transactions are a feature of relational databases.
+
+34
+00:01:48,245 --> 00:01:51,110
+So let's test our connection and our error handling.
+
+35
+00:01:51,110 --> 00:01:54,410
+Lets do a select star on a table that we have not yet created.
+
+36
+00:01:54,410 --> 00:01:57,290
+We should expect to see a nicely handled error.
+
+37
+00:01:57,290 --> 00:02:02,120
+So let's do a select star from udacity.music_library.
+
+38
+00:02:02,120 --> 00:02:05,220
+All right, good. We saw an error.
+
+39
+00:02:05,220 --> 00:02:07,590
+udacity.music_library does not exist.
+
+40
+00:02:07,590 --> 00:02:09,750
+Exactly. We haven't created it yet and we saw
+
+41
+00:02:09,750 --> 00:02:13,220
+an error where we were able to successfully connect to our database.
+
+42
+00:02:13,220 --> 00:02:17,345
+So let's actually create a database so that we can do our work.
+
+43
+00:02:17,345 --> 00:02:20,290
+So let's create the database Udacity.
+
+44
+00:02:20,290 --> 00:02:23,480
+So create database Udacity.
+
+45
+00:02:23,480 --> 00:02:26,870
+Wonderful. Well, in this case it already exists for me,
+
+46
+00:02:26,870 --> 00:02:29,330
+but when you run it you'll create it for the first time.
+
+47
+00:02:29,330 --> 00:02:32,240
+Let's close our connection to this default database,
+
+48
+00:02:32,240 --> 00:02:34,010
+that first connection that we made and
+
+49
+00:02:34,010 --> 00:02:37,625
+reconnect to the Udacity database and get a new cursor.
+
+50
+00:02:37,625 --> 00:02:40,670
+So as you can see here we're going to close the connection,
+
+51
+00:02:40,670 --> 00:02:45,060
+and then from there we're going to connect to our new database,
+
+52
+00:02:45,060 --> 00:02:47,600
+and then we're going to get the cursor.
+
+53
+00:02:47,600 --> 00:02:50,255
+So all those are going to happen in the same cell,
+
+54
+00:02:50,255 --> 00:02:54,770
+and we also set our auto commit to true and all of that ran successfully.
+
+55
+00:02:54,770 --> 00:02:58,370
+So now that we've done some of that upfront work,
+
+56
+00:02:58,370 --> 00:03:01,010
+let's actually start thinking about creating our table.
+
+57
+00:03:01,010 --> 00:03:05,345
+So let's imagine we're going to start creating a music library of albums.
+
+58
+00:03:05,345 --> 00:03:09,740
+Each album has a lot of information we could add to this music library table,
+
+59
+00:03:09,740 --> 00:03:11,960
+but we'll start with just the album name,
+
+60
+00:03:11,960 --> 00:03:13,550
+artist's name, and year.
+
+61
+00:03:13,550 --> 00:03:15,560
+The type of table we want to create and
+
+62
+00:03:15,560 --> 00:03:18,905
+the columns we need seemed to really fall out very naturally.
+
+63
+00:03:18,905 --> 00:03:22,055
+So let's imagine that our table name's going to be music library.
+
+64
+00:03:22,055 --> 00:03:25,120
+We're going to have three columns one called album name,
+
+65
+00:03:25,120 --> 00:03:27,165
+artist name, and year.
+
+66
+00:03:27,165 --> 00:03:30,895
+So now we want to translate this into a create table statement.
+
+67
+00:03:30,895 --> 00:03:35,290
+So if you want to review more documentation on Postgres and their data types,
+
+68
+00:03:35,290 --> 00:03:38,650
+you can find that information here in this link that I provided.
+
+69
+00:03:38,650 --> 00:03:40,450
+So again, in our try catch block,
+
+70
+00:03:40,450 --> 00:03:43,810
+we're going to create table if not exist.
+
+71
+00:03:43,810 --> 00:03:45,775
+So if it doesn't already exist create it,
+
+72
+00:03:45,775 --> 00:03:47,980
+if it does exist, don't create it.
+
+73
+00:03:47,980 --> 00:03:52,030
+We're going to call it Music Library and we're going to have our three column album name,
+
+74
+00:03:52,030 --> 00:03:54,355
+and that's going to be a varchar like a string,
+
+75
+00:03:54,355 --> 00:03:55,600
+our artist's name, again,
+
+76
+00:03:55,600 --> 00:03:57,355
+a varchar similar to a string,
+
+77
+00:03:57,355 --> 00:04:00,650
+and year we're going to use an int, an integer.
+
+78
+00:04:00,840 --> 00:04:05,095
+We're going to run that. So no errors was found.
+
+79
+00:04:05,095 --> 00:04:07,870
+So let's check to ensure our table was actually created.
+
+80
+00:04:07,870 --> 00:04:13,740
+Let's do select count star which should return zero as we have not inserted any rows.
+
+81
+00:04:14,080 --> 00:04:17,375
+Awesome. We see the zero here at the bottom,
+
+82
+00:04:17,375 --> 00:04:21,725
+and you can see where we executed the select count star from music library.
+
+83
+00:04:21,725 --> 00:04:25,010
+So let's go about the process of inserting two broads.
+
+84
+00:04:25,010 --> 00:04:28,100
+So I really want you to note the syntax here of how we're doing
+
+85
+00:04:28,100 --> 00:04:30,710
+this in this insert statement because
+
+86
+00:04:30,710 --> 00:04:33,680
+you'll be doing this again and again throughout our exercises.
+
+87
+00:04:33,680 --> 00:04:35,705
+So this is the syntax that you'll use.
+
+88
+00:04:35,705 --> 00:04:37,865
+So we're going to insert into our music library,
+
+89
+00:04:37,865 --> 00:04:39,620
+we're going to list our columns,
+
+90
+00:04:39,620 --> 00:04:44,465
+then we're going to use our values and we're going to use the percent sign and S,
+
+91
+00:04:44,465 --> 00:04:46,650
+and then we're going to actually add a comma,
+
+92
+00:04:46,650 --> 00:04:49,835
+and then we're going to add in the actual values that we're going to enter in.
+
+93
+00:04:49,835 --> 00:04:51,575
+So in this case we have a music library.
+
+94
+00:04:51,575 --> 00:04:53,775
+So we have an algorithm called Let it B,
+
+95
+00:04:53,775 --> 00:04:58,375
+our artists are The Beatles and the year that was produced was 1970.
+
+96
+00:04:58,375 --> 00:05:01,400
+So we're doing the same here for another album.
+
+97
+00:05:01,400 --> 00:05:03,915
+So we're going to insert two rows.
+
+98
+00:05:03,915 --> 00:05:07,360
+Let's validate that your data was actually inserted into the table,
+
+99
+00:05:07,360 --> 00:05:11,015
+so we're going to do a while loop and we're going to use that for printing the results.
+
+100
+00:05:11,015 --> 00:05:12,650
+If you were executing this query and
+
+101
+00:05:12,650 --> 00:05:15,155
+the Postgres shell you wouldn't really need this while loop.
+
+102
+00:05:15,155 --> 00:05:19,055
+But in this case we do because we're utilizing the Python library.
+
+103
+00:05:19,055 --> 00:05:23,830
+So if you do end up running this insert statement code more than once,
+
+104
+00:05:23,830 --> 00:05:26,465
+you're going to actually see duplicates of your data.
+
+105
+00:05:26,465 --> 00:05:33,000
+So Postgres just let you all know allows for duplicates. All right, awesome.
+
+106
+00:05:33,000 --> 00:05:35,960
+So we did a select star from Music Library,
+
+107
+00:05:35,960 --> 00:05:40,460
+and we were able to print out our results so successfully got loaded into the table.
+
+108
+00:05:40,460 --> 00:05:43,895
+So just for the sake of this demo I'm going to drop the table
+
+109
+00:05:43,895 --> 00:05:48,665
+and we're going to finally close out the connection to our database.
+
+110
+00:05:48,665 --> 00:05:52,440
+So that is the end of Demo 1.
+

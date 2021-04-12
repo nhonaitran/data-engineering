@@ -1,0 +1,40 @@
+1
+00:00:00,000 --> 00:00:01,680
+So what is Apache Cassandra?
+
+2
+00:00:01,680 --> 00:00:04,290
+Let's talk about the NoSQL database we'll be
+
+3
+00:00:04,290 --> 00:00:07,110
+using for our demos and examples in this course.
+
+4
+00:00:07,110 --> 00:00:09,720
+Apache Cassandra provides scalability and
+
+5
+00:00:09,720 --> 00:00:12,825
+high availability without compromising performance.
+
+6
+00:00:12,825 --> 00:00:15,960
+Linear scalability and proven fault-tolerance on
+
+7
+00:00:15,960 --> 00:00:19,020
+commodity hardware or cloud infrastructure
+
+8
+00:00:19,020 --> 00:00:22,410
+makes it the perfect platform for mission critical-data.
+
+9
+00:00:22,410 --> 00:00:28,605
+Apache Cassandra uses its own query language just called CQL or Cassandra Query Language,
+
+10
+00:00:28,605 --> 00:00:31,630
+but it'll feel very similar to SQL.
+

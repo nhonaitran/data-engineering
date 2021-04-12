@@ -1,0 +1,392 @@
+1
+00:00:00,000 --> 00:00:03,240
+All right, here is the solution for Lesson 1,
+
+2
+00:00:03,240 --> 00:00:06,105
+Exercise 1, Creating a Table in Postgres.
+
+3
+00:00:06,105 --> 00:00:09,720
+So some of these items we've actually already walked through in the demo.
+
+4
+00:00:09,720 --> 00:00:12,915
+So I may just quickly go over them and we'll get to the solution.
+
+5
+00:00:12,915 --> 00:00:16,440
+So again, we're going to import that library,
+
+6
+00:00:16,440 --> 00:00:20,040
+and again if you find that error, just ignore it.
+
+7
+00:00:20,040 --> 00:00:23,550
+We're going to create the connection to our database.
+
+8
+00:00:23,550 --> 00:00:27,590
+In this case, you'll see here I just connected to my local instance.
+
+9
+00:00:27,590 --> 00:00:30,215
+So I didn't actually need to provide any connection info,
+
+10
+00:00:30,215 --> 00:00:33,500
+but any connection you make just what connects its fine.
+
+11
+00:00:33,500 --> 00:00:40,265
+Again, we're going to get our cursor and we're going to set the auto commits to true,
+
+12
+00:00:40,265 --> 00:00:42,980
+and then we're going to test out other connections.
+
+13
+00:00:42,980 --> 00:00:44,465
+So let's set our arguments.
+
+14
+00:00:44,465 --> 00:00:48,620
+Just set our connections, so we're going to try to do select star from songs.
+
+15
+00:00:48,620 --> 00:00:52,680
+What we should expect to see is that nicely handled error, which we do.
+
+16
+00:00:52,680 --> 00:00:54,625
+Songs does not exist, wonderful.
+
+17
+00:00:54,625 --> 00:00:57,065
+So let's create that database to do our work.
+
+18
+00:00:57,065 --> 00:01:00,510
+So in this case, we created the database Udacity.
+
+19
+00:01:00,940 --> 00:01:04,010
+In my case, it already exists,
+
+20
+00:01:04,010 --> 00:01:06,610
+but for you it should execute the first time.
+
+21
+00:01:06,610 --> 00:01:09,095
+So again, we're going to close that connection
+
+22
+00:01:09,095 --> 00:01:11,750
+and then reconnect to that database that we created.
+
+23
+00:01:11,750 --> 00:01:13,300
+Then we're going get a cursor,
+
+24
+00:01:13,300 --> 00:01:14,840
+and we're going to set the auto commit,
+
+25
+00:01:14,840 --> 00:01:16,970
+all things that you saw in the demo.
+
+26
+00:01:16,970 --> 00:01:20,750
+So now we're ready to get going and actually create our table.
+
+27
+00:01:20,750 --> 00:01:23,615
+So in this case, we imagine that we're going to create
+
+28
+00:01:23,615 --> 00:01:28,040
+a song library in the demo we had created our music library with albums.
+
+29
+00:01:28,040 --> 00:01:29,615
+In this case, we're going to songs,
+
+30
+00:01:29,615 --> 00:01:31,675
+of all the songs that we know.
+
+31
+00:01:31,675 --> 00:01:35,750
+Each song has a lot of information that we could add to the song library table,
+
+32
+00:01:35,750 --> 00:01:38,885
+but we'll start with just the name of the song, the artist's name,
+
+33
+00:01:38,885 --> 00:01:41,210
+the year, and the album it was from,
+
+34
+00:01:41,210 --> 00:01:43,325
+and if it was a single.
+
+35
+00:01:43,325 --> 00:01:45,310
+So again, song title,
+
+36
+00:01:45,310 --> 00:01:47,730
+artist, year, album, and single.
+
+37
+00:01:47,730 --> 00:01:50,510
+Now, let's translate that into our create statement.
+
+38
+00:01:50,510 --> 00:01:52,580
+So this is really the key here.
+
+39
+00:01:52,580 --> 00:01:56,545
+So what we want to execute is the create table if does not exist,
+
+40
+00:01:56,545 --> 00:01:58,340
+and we're going to call our table, in this case,
+
+41
+00:01:58,340 --> 00:02:01,700
+it's songs, but you're welcome to call it anything that you feel comfortable with.
+
+42
+00:02:01,700 --> 00:02:04,000
+Then we're going to have a column called song title,
+
+43
+00:02:04,000 --> 00:02:05,375
+which is a varchar,
+
+44
+00:02:05,375 --> 00:02:07,860
+artist's name also varchar,
+
+45
+00:02:07,860 --> 00:02:11,430
+and don't feel like you need to have the exact same column names that I do.
+
+46
+00:02:11,430 --> 00:02:14,525
+As long as it's descriptive, it works great.
+
+47
+00:02:14,525 --> 00:02:16,805
+Then we're going to have a year that's an int,
+
+48
+00:02:16,805 --> 00:02:19,430
+we're going to have our album name, another varchar.
+
+49
+00:02:19,430 --> 00:02:20,870
+Then here's where it's something a little bit
+
+50
+00:02:20,870 --> 00:02:22,790
+interesting that we didn't show in the demo,
+
+51
+00:02:22,790 --> 00:02:25,010
+is that we're going to decide if it's a single,
+
+52
+00:02:25,010 --> 00:02:26,630
+if it's not part of an album.
+
+53
+00:02:26,630 --> 00:02:29,130
+We're going to say if that's true or false.
+
+54
+00:02:29,130 --> 00:02:31,300
+So we're going to execute that.
+
+55
+00:02:31,300 --> 00:02:34,200
+That should work, if no errors were found,
+
+56
+00:02:34,200 --> 00:02:36,335
+let's check to ensure our table was created.
+
+57
+00:02:36,335 --> 00:02:38,735
+So let's do a select count star from the table,
+
+58
+00:02:38,735 --> 00:02:42,085
+again my songs, which yours could be named anything.
+
+59
+00:02:42,085 --> 00:02:45,245
+Awesome, so in my case because I already created the table,
+
+60
+00:02:45,245 --> 00:02:47,105
+you're seeing I have three rows there.
+
+61
+00:02:47,105 --> 00:02:48,845
+Obviously, I didn't drop it in advance.
+
+62
+00:02:48,845 --> 00:02:50,150
+So in this case,
+
+63
+00:02:50,150 --> 00:02:52,685
+you should see zero instead I saw three.
+
+64
+00:02:52,685 --> 00:02:55,270
+So let's insert two rows.
+
+65
+00:02:55,270 --> 00:02:59,120
+So these are the two rows that we're going to insert Across the Universe,
+
+66
+00:02:59,120 --> 00:03:01,040
+which is a song, then The Beatles,
+
+67
+00:03:01,040 --> 00:03:04,070
+which is the artist's name, then the year,
+
+68
+00:03:04,070 --> 00:03:05,555
+and it was not a single,
+
+69
+00:03:05,555 --> 00:03:08,335
+and it was on the album Let It Be.
+
+70
+00:03:08,335 --> 00:03:10,815
+We're going to treat our second row,
+
+71
+00:03:10,815 --> 00:03:13,925
+and it's going to be the Beatles, Think for Yourself,
+
+72
+00:03:13,925 --> 00:03:17,075
+that's the song title, and then false,
+
+73
+00:03:17,075 --> 00:03:18,530
+that it was not a single,
+
+74
+00:03:18,530 --> 00:03:20,840
+and the year and then the album.
+
+75
+00:03:20,840 --> 00:03:24,210
+So we're going insert into the songs, the song title,
+
+76
+00:03:24,210 --> 00:03:25,980
+artists name, year, album name,
+
+77
+00:03:25,980 --> 00:03:27,645
+and single with the values.
+
+78
+00:03:27,645 --> 00:03:29,870
+Again, we're just going to take that information that we
+
+79
+00:03:29,870 --> 00:03:33,070
+had that I provided here and actually insert it.
+
+80
+00:03:33,070 --> 00:03:35,880
+Across the Universe, The Beatles,
+
+81
+00:03:35,880 --> 00:03:38,325
+1970, Let It Be as the album,
+
+82
+00:03:38,325 --> 00:03:41,020
+and then false it was not a single,
+
+83
+00:03:41,270 --> 00:03:44,180
+and then the same with the second row.
+
+84
+00:03:44,180 --> 00:03:46,490
+So we're going execute that,
+
+85
+00:03:46,490 --> 00:03:49,430
+so validate your data was inserted into table.
+
+86
+00:03:49,430 --> 00:03:51,410
+So again, you're going to use that while loop
+
+87
+00:03:51,410 --> 00:03:54,125
+so that you can actually print out the results.
+
+88
+00:03:54,125 --> 00:03:56,300
+So we're going to do a select star from songs.
+
+89
+00:03:56,300 --> 00:03:59,105
+As you can see, you're seeing something a little interesting here.
+
+90
+00:03:59,105 --> 00:04:01,100
+You're seeing this multiple times,
+
+91
+00:04:01,100 --> 00:04:02,300
+obviously because I've run
+
+92
+00:04:02,300 --> 00:04:05,750
+this insert statement multiple times without dropping my table,
+
+93
+00:04:05,750 --> 00:04:09,650
+and that's okay, because Postgres allows for duplicates.
+
+94
+00:04:09,650 --> 00:04:12,530
+So if I run it once, I should only see this information once.
+
+95
+00:04:12,530 --> 00:04:15,630
+If I run it more than once, I'm going to see this information more than once.
+
+96
+00:04:15,630 --> 00:04:17,925
+So just something to be aware of.
+
+97
+00:04:17,925 --> 00:04:23,790
+Then if you see this two rows or if you see more than two rows, that's totally fine.
+
+98
+00:04:23,790 --> 00:04:28,000
+So then finally after that we close out our connection.
+

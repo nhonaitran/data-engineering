@@ -1,0 +1,220 @@
+1
+00:00:00,000 --> 00:00:01,410
+All right so let's move on to
+
+2
+00:00:01,410 --> 00:00:05,175
+our next demo which is creating a table with Apache Cassandra.
+
+3
+00:00:05,175 --> 00:00:08,280
+So here we're going to move back on to our Jupyter notebook,
+
+4
+00:00:08,280 --> 00:00:13,020
+and we're going to open Demo 2 for lesson 1.
+
+5
+00:00:13,020 --> 00:00:15,225
+So we're going to create a table.
+
+6
+00:00:15,225 --> 00:00:18,270
+A lot of this beginning code that we have here it's
+
+7
+00:00:18,270 --> 00:00:22,255
+actually going to feel pretty similar to what we just did in Exercise 1.
+
+8
+00:00:22,255 --> 00:00:24,870
+So in this demo we're going to walk through
+
+9
+00:00:24,870 --> 00:00:27,495
+the basis of creating a table in Apache Cassandra,
+
+10
+00:00:27,495 --> 00:00:31,785
+inserting rows, and doing the simple SQL query to validate the information.
+
+11
+00:00:31,785 --> 00:00:34,065
+Again we're going use a python wrapper,
+
+12
+00:00:34,065 --> 00:00:36,420
+and in this case it's called "Cassandra driver".
+
+13
+00:00:36,420 --> 00:00:38,240
+It's the python driver for Cassandra,
+
+14
+00:00:38,240 --> 00:00:40,775
+and more documentation can be found here.
+
+15
+00:00:40,775 --> 00:00:42,875
+So we're going to import the package,
+
+16
+00:00:42,875 --> 00:00:46,430
+even though we install it with Cassandra driver it's really just Cassandra.
+
+17
+00:00:46,430 --> 00:00:48,710
+To import that Python package.
+
+18
+00:00:48,710 --> 00:00:51,050
+Now let's create a connection to the database.
+
+19
+00:00:51,050 --> 00:00:53,975
+This connects to our local instance of Apache Cassandra.
+
+20
+00:00:53,975 --> 00:00:56,230
+Again the connection will reach out to the database and
+
+21
+00:00:56,230 --> 00:00:58,645
+ensure we have the correct privileges to connect.
+
+22
+00:00:58,645 --> 00:01:01,000
+Once we get the cluster object back,
+
+23
+00:01:01,000 --> 00:01:03,560
+we need to connect and then we'll create a session,
+
+24
+00:01:03,560 --> 00:01:05,960
+so that we can execute the queries.
+
+25
+00:01:05,960 --> 00:01:11,075
+Again this block of code will be pretty standard in all of our notebooks.
+
+26
+00:01:11,075 --> 00:01:12,860
+So we were able to connect,
+
+27
+00:01:12,860 --> 00:01:14,195
+let's test our connection.
+
+28
+00:01:14,195 --> 00:01:17,465
+We're trying to do a select star in a table that we have not yet created.
+
+29
+00:01:17,465 --> 00:01:20,790
+So we should expect to see a nicely handled error.
+
+30
+00:01:21,290 --> 00:01:23,855
+Awesome good we see an error,
+
+31
+00:01:23,855 --> 00:01:25,345
+but that's what we expected.
+
+32
+00:01:25,345 --> 00:01:28,270
+So we have not specified our keyspace yet,
+
+33
+00:01:28,270 --> 00:01:29,830
+keyspace is like our database.
+
+34
+00:01:29,830 --> 00:01:33,130
+So we need to be able to do that before we can do a select star.
+
+35
+00:01:33,130 --> 00:01:36,445
+So let's create that keyspace to do our work.
+
+36
+00:01:36,445 --> 00:01:40,135
+So in this case just ignore the replication strategy,
+
+37
+00:01:40,135 --> 00:01:42,370
+and the replication factor for now.
+
+38
+00:01:42,370 --> 00:01:44,510
+We'll talk about that in a later time,
+
+39
+00:01:44,510 --> 00:01:47,680
+but just know that for on a one node local instance
+
+40
+00:01:47,680 --> 00:01:51,190
+these will always be your strategy and your replication factor,
+
+41
+00:01:51,190 --> 00:01:53,310
+and just a little bit about a replication factor
+
+42
+00:01:53,310 --> 00:01:55,825
+that means how many times your your data is copied,
+
+43
+00:01:55,825 --> 00:01:57,970
+and since we're on a one node we don't want it copied
+
+44
+00:01:57,970 --> 00:02:00,580
+across multiple nodes because we don't have them really important.
+
+45
+00:02:00,580 --> 00:02:03,370
+So we're going to create our keyspace if doesn't exist,
+
+46
+00:02:03,370 --> 00:02:06,139
+and in this case we're going to create a keyspace called "udacity",
+
+47
+00:02:06,139 --> 00:02:10,715
+and then with our replication we're going to use the simple strategy and a factor of one.
+
+48
+00:02:10,715 --> 00:02:13,925
+So let's execute that and that ran,
+
+49
+00:02:13,925 --> 00:02:16,115
+and then let's connect to our keyspace.
+
+50
+00:02:16,115 --> 00:02:18,470
+So in this case we just need to set our key space.
+
+51
+00:02:18,470 --> 00:02:21,605
+This is the command here utilizing the python wrapper,
+
+52
+00:02:21,605 --> 00:02:24,215
+and then we connect it to the keyspace that we just created.
+
+53
+00:02:24,215 --> 00:02:27,930
+So compare this to how we were able to create a new session in PostgreSQL,
+
+54
+00:02:27,930 --> 00:02:29,930
+we're just able to set the keyspace here.
+
+55
+00:02:29,930 --> 00:02:34,050
+We don't need to make a new connection. It's very convenient.
+

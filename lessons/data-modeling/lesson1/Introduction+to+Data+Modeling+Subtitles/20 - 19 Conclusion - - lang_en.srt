@@ -1,0 +1,36 @@
+1
+00:00:00,000 --> 00:00:02,340
+So let's wrap up what we learned.
+
+2
+00:00:02,340 --> 00:00:05,055
+We learned about what is data modeling,
+
+3
+00:00:05,055 --> 00:00:07,200
+who does data modeling,
+
+4
+00:00:07,200 --> 00:00:11,040
+when to and not to use relational databases,
+
+5
+00:00:11,040 --> 00:00:14,895
+when to and not to use NoSQL databases,
+
+6
+00:00:14,895 --> 00:00:17,655
+how to create a simple table and PostgreSQL,
+
+7
+00:00:17,655 --> 00:00:20,850
+and how to create a simple table in Apache Cassandra.
+
+8
+00:00:20,850 --> 00:00:25,455
+Lesson two we'll focus more on how to do data modeling with PostgreSQL.
+
+9
+00:00:25,455 --> 00:00:30,490
+Lesson three we'll focus more on how to do data modeling in Apache Cassandra.
+

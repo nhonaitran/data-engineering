@@ -1,0 +1,240 @@
+1
+00:00:00,000 --> 00:00:04,320
+So let's talk about when to use a NoSQL database.
+
+2
+00:00:04,320 --> 00:00:06,665
+So if you have large amounts of data,
+
+3
+00:00:06,665 --> 00:00:09,425
+NoSQL was built for big data.
+
+4
+00:00:09,425 --> 00:00:12,360
+The more data you have and the ability to
+
+5
+00:00:12,360 --> 00:00:15,270
+scale out as needed to increase space and performance,
+
+6
+00:00:15,270 --> 00:00:17,460
+that's really what it had in mind.
+
+7
+00:00:17,460 --> 00:00:20,129
+If you need to horizontally scale,
+
+8
+00:00:20,129 --> 00:00:22,125
+you may need a NoSQL database.
+
+9
+00:00:22,125 --> 00:00:27,435
+The ability to add more nodes or servers to the system to increase performance.
+
+10
+00:00:27,435 --> 00:00:29,640
+If you need high throughput,
+
+11
+00:00:29,640 --> 00:00:32,460
+you may want to consider using a NoSQL database.
+
+12
+00:00:32,460 --> 00:00:35,970
+The ability to do fast reads and writes to the database.
+
+13
+00:00:35,970 --> 00:00:40,275
+You can do an insert statement quickly and also a select statement quickly.
+
+14
+00:00:40,275 --> 00:00:42,345
+If you need a flexible schema.
+
+15
+00:00:42,345 --> 00:00:44,855
+I can change my schema as necessary.
+
+16
+00:00:44,855 --> 00:00:48,230
+I don't have to have the same column set for each one of my rows.
+
+17
+00:00:48,230 --> 00:00:50,060
+If you need that kind of flexibility,
+
+18
+00:00:50,060 --> 00:00:52,760
+you might want to consider a NoSQL database.
+
+19
+00:00:52,760 --> 00:00:55,010
+If you need high availability.
+
+20
+00:00:55,010 --> 00:00:58,100
+If you need high availability with no downtime,
+
+21
+00:00:58,100 --> 00:01:00,800
+again, this is what NoSQL was built for.
+
+22
+00:01:00,800 --> 00:01:02,855
+That's something you may want to consider.
+
+23
+00:01:02,855 --> 00:01:07,130
+If you need to be able to store different data types and different datatype formats,
+
+24
+00:01:07,130 --> 00:01:09,065
+you may want to consider a NoSQL database.
+
+25
+00:01:09,065 --> 00:01:11,360
+Again, it's more flexible in that area.
+
+26
+00:01:11,360 --> 00:01:16,505
+If your users are distributed and you still want to have low latency to those users.
+
+27
+00:01:16,505 --> 00:01:19,490
+If the users of my database and my application that it
+
+28
+00:01:19,490 --> 00:01:22,365
+serves are geographically distributed,
+
+29
+00:01:22,365 --> 00:01:26,150
+and because of this I wanted to be able to serve each of my users with
+
+30
+00:01:26,150 --> 00:01:28,820
+a minimum amount of lag time between when they
+
+31
+00:01:28,820 --> 00:01:31,760
+execute a query and when they receive the response,
+
+32
+00:01:31,760 --> 00:01:36,200
+we may want to consider a distributed database like a NoSQL database.
+
+33
+00:01:36,200 --> 00:01:38,135
+So as you can see,
+
+34
+00:01:38,135 --> 00:01:43,790
+all the reasons to not use a relational database are the reasons to use a NoSQL database.
+
+35
+00:01:43,790 --> 00:01:46,030
+You can see that's not by accident.
+
+36
+00:01:46,030 --> 00:01:51,095
+NoSQL was built to handle the limitations that exist in relational databases.
+
+37
+00:01:51,095 --> 00:01:53,060
+If you know your database history,
+
+38
+00:01:53,060 --> 00:01:56,075
+you know that NoSQL became popular in the 2000s
+
+39
+00:01:56,075 --> 00:01:59,485
+as the web began to grow and data volumes increased.
+
+40
+00:01:59,485 --> 00:02:02,065
+NoSQL was built for big data.
+
+41
+00:02:02,065 --> 00:02:06,485
+NoSQL was also built to provide users with very low latency.
+
+42
+00:02:06,485 --> 00:02:08,255
+Just to let everyone know,
+
+43
+00:02:08,255 --> 00:02:10,250
+within a second delay on a website,
+
+44
+00:02:10,250 --> 00:02:13,340
+most folks will move to another website or app.
+
+45
+00:02:13,340 --> 00:02:14,840
+So here's just an example.
+
+46
+00:02:14,840 --> 00:02:16,430
+I just provided this to just show you
+
+47
+00:02:16,430 --> 00:02:19,580
+a quick example of Apache Cassandra and its performance,
+
+48
+00:02:19,580 --> 00:02:22,835
+and basically this is all about the linear scalability.
+
+49
+00:02:22,835 --> 00:02:27,080
+So a quick word about linear scalability and scalability.
+
+50
+00:02:27,080 --> 00:02:29,510
+So what this means is that you can add nodes and
+
+51
+00:02:29,510 --> 00:02:32,810
+the performance will increase in a linear fashion.
+
+52
+00:02:32,810 --> 00:02:35,840
+So this x-axis is the number of nodes and
+
+53
+00:02:35,840 --> 00:02:38,885
+the y-axis is the number of reads and writes that can be performed.
+
+54
+00:02:38,885 --> 00:02:40,685
+In this case, it's just writes.
+
+55
+00:02:40,685 --> 00:02:42,605
+So as you add more nodes,
+
+56
+00:02:42,605 --> 00:02:46,835
+your performance will increase in a linear fashion and you can see from this line here.
+
+57
+00:02:46,835 --> 00:02:48,395
+The more nodes you add,
+
+58
+00:02:48,395 --> 00:02:50,585
+the more you're going to be able to have client writes
+
+59
+00:02:50,585 --> 00:02:53,135
+to the database and this will also increase.
+
+60
+00:02:53,135 --> 00:02:57,210
+You can see this is actually information that was published by Netflix.
+

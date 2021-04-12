@@ -1,0 +1,368 @@
+1
+00:00:00,410 --> 00:00:03,210
+So let's start creating our tables.
+
+2
+00:00:03,210 --> 00:00:07,635
+Let's imagine we'd like to start creating a music library of albums.
+
+3
+00:00:07,635 --> 00:00:09,960
+Each album has a lot of information we could use,
+
+4
+00:00:09,960 --> 00:00:11,805
+but we're just going to start with the album name,
+
+5
+00:00:11,805 --> 00:00:13,350
+artist name, and year.
+
+6
+00:00:13,350 --> 00:00:16,935
+But, stop, wait.
+
+7
+00:00:16,935 --> 00:00:21,270
+We're working with Apache Cassandra a NoSQL database.
+
+8
+00:00:21,270 --> 00:00:26,285
+We can't model our data and create our table without more information.
+
+9
+00:00:26,285 --> 00:00:31,110
+What queries will I be performing on this data?
+
+10
+00:00:31,110 --> 00:00:35,480
+In this case, I'd like to be able to get every album that was
+
+11
+00:00:35,480 --> 00:00:39,100
+released in a particular year. View this query here.
+
+12
+00:00:39,100 --> 00:00:43,605
+Select star from music library where year equals 1970.
+
+13
+00:00:43,605 --> 00:00:49,025
+Because of this, I need to be able to do a where on year.
+
+14
+00:00:49,025 --> 00:00:51,335
+Year will become my partition key,
+
+15
+00:00:51,335 --> 00:00:56,730
+and the artist name will be my clustering column to make each primary key unique.
+
+16
+00:00:56,730 --> 00:00:59,735
+Remember, there are no duplicates in Apache Cassandra.
+
+17
+00:00:59,735 --> 00:01:01,805
+So if I don't have a unique key,
+
+18
+00:01:01,805 --> 00:01:03,880
+it will just get overwritten.
+
+19
+00:01:03,880 --> 00:01:07,045
+So in this case, my table name will be music library,
+
+20
+00:01:07,045 --> 00:01:09,895
+my column will be album name, artist name,
+
+21
+00:01:09,895 --> 00:01:13,660
+year, and then here's the key, my primary key.
+
+22
+00:01:13,660 --> 00:01:17,920
+I'm going to partition by year and then include my artist name to make it
+
+23
+00:01:17,920 --> 00:01:20,410
+unique because we're imagining
+
+24
+00:01:20,410 --> 00:01:23,335
+that an artist doesn't create more than one album in one year.
+
+25
+00:01:23,335 --> 00:01:27,205
+It's just an assumption that we're making for this demo and actually may be incorrect.
+
+26
+00:01:27,205 --> 00:01:30,370
+But just for the sake of the demo, that's what we're assuming.
+
+27
+00:01:30,370 --> 00:01:34,330
+Now let's translate this information into a Create Table Statement.
+
+28
+00:01:34,330 --> 00:01:37,285
+For more information on the datatypes in Apache Cassandra,
+
+29
+00:01:37,285 --> 00:01:39,470
+you can view this document here.
+
+30
+00:01:39,470 --> 00:01:43,035
+Now, don't worry if this all seems a little bit confusing.
+
+31
+00:01:43,035 --> 00:01:46,605
+We'll spend all of Lesson 3 on these topics.
+
+32
+00:01:46,605 --> 00:01:50,835
+So we're going to create table if it does not exist, music_library.
+
+33
+00:01:50,835 --> 00:01:54,835
+Then from there, we're going to have the year which we'll represent as an int,
+
+34
+00:01:54,835 --> 00:01:57,400
+our artist name which we'll represent as text,
+
+35
+00:01:57,400 --> 00:02:00,550
+again is like string or varchar in Postgres,
+
+36
+00:02:00,550 --> 00:02:04,340
+our album name as text and here we're setting our primary key,
+
+37
+00:02:04,340 --> 00:02:08,115
+Primary key, year, and artist name,
+
+38
+00:02:08,115 --> 00:02:10,555
+and that needs to be in parentheses.
+
+39
+00:02:10,555 --> 00:02:13,145
+So we'll execute this.
+
+40
+00:02:13,145 --> 00:02:15,645
+So if no errors were found,
+
+41
+00:02:15,645 --> 00:02:18,190
+but let's check to make sure our table was created.
+
+42
+00:02:18,190 --> 00:02:21,320
+Let's do a select count star which should return as zero,
+
+43
+00:02:21,320 --> 00:02:23,380
+as we have not inserted any rows.
+
+44
+00:02:23,380 --> 00:02:26,965
+Now depending on the version of Apache Cassandra you have installed,
+
+45
+00:02:26,965 --> 00:02:29,515
+this command may actually throw an error,
+
+46
+00:02:29,515 --> 00:02:31,965
+or it may show the answer of zero.
+
+47
+00:02:31,965 --> 00:02:33,685
+This is to be expected.
+
+48
+00:02:33,685 --> 00:02:38,465
+Again, these types of queries aren't normally performed on large datasets
+
+49
+00:02:38,465 --> 00:02:41,060
+because we're just doing a demo and I just wanted to show
+
+50
+00:02:41,060 --> 00:02:43,680
+you that the table was created. I'm doing this.
+
+51
+00:02:43,680 --> 00:02:45,245
+But on a large dataset,
+
+52
+00:02:45,245 --> 00:02:46,850
+maybe spread across a table,
+
+53
+00:02:46,850 --> 00:02:48,710
+spread across thousands of nodes.
+
+54
+00:02:48,710 --> 00:02:51,830
+You do not want to do a select count star or a select star.
+
+55
+00:02:51,830 --> 00:02:54,880
+But we're just doing that for the sake of the demo.
+
+56
+00:02:54,880 --> 00:02:58,050
+Okay, wonderful, I did my select count star from
+
+57
+00:02:58,050 --> 00:03:00,735
+my music_library and I got back a count of zero.
+
+58
+00:03:00,735 --> 00:03:03,165
+So again, let's insert our two rows.
+
+59
+00:03:03,165 --> 00:03:07,340
+Very similar syntax to what we saw in Postgres, little bit different.
+
+60
+00:03:07,340 --> 00:03:09,595
+So we're going to insert into music_library.
+
+61
+00:03:09,595 --> 00:03:11,870
+So in this case, we just set up one query
+
+62
+00:03:11,870 --> 00:03:14,630
+variable so that we can just utilize that again and again.
+
+63
+00:03:14,630 --> 00:03:17,330
+We could have also done it like we did in the Postgres exercise,
+
+64
+00:03:17,330 --> 00:03:19,055
+but this just made a little bit cleaner.
+
+65
+00:03:19,055 --> 00:03:21,680
+But as you can see, we have our insert,
+
+66
+00:03:21,680 --> 00:03:23,270
+we have our columns listed here,
+
+67
+00:03:23,270 --> 00:03:26,165
+and then our values with a percent s. Then we're going to
+
+68
+00:03:26,165 --> 00:03:29,510
+fill those in using the session.execute,
+
+69
+00:03:29,510 --> 00:03:30,895
+and then our query,
+
+70
+00:03:30,895 --> 00:03:33,080
+and then our information that we're going to provide to
+
+71
+00:03:33,080 --> 00:03:35,795
+that query statements to be executed.
+
+72
+00:03:35,795 --> 00:03:39,665
+So every year, the artist name and the album name.
+
+73
+00:03:39,665 --> 00:03:43,795
+So let's validate that our data was inserted into the table.
+
+74
+00:03:43,795 --> 00:03:47,090
+So in this case, just for the sake of the demo,
+
+75
+00:03:47,090 --> 00:03:50,560
+like I said before, we're going to do a select star from the table.
+
+76
+00:03:50,560 --> 00:03:52,615
+But on a real production system,
+
+77
+00:03:52,615 --> 00:03:54,980
+we would never do this query.
+
+78
+00:03:55,400 --> 00:03:57,910
+Okay, and we got back our answers.
+
+79
+00:03:57,910 --> 00:04:02,425
+So we were successfully able to query that table and we loaded that table.
+
+80
+00:04:02,425 --> 00:04:06,820
+Again, because Apache Cassandra does not allow for duplicates,
+
+81
+00:04:06,820 --> 00:04:10,080
+I can run that insert statement as many times as I want,
+
+82
+00:04:10,080 --> 00:04:12,680
+we'd never get more than two rows.
+
+83
+00:04:12,680 --> 00:04:16,855
+So let's validate our data model with the original query.
+
+84
+00:04:16,855 --> 00:04:21,040
+Select star from music library where year equals 1970.
+
+85
+00:04:21,040 --> 00:04:23,255
+So here's my query here,
+
+86
+00:04:23,255 --> 00:04:26,830
+and I'm going to execute it with this fetch and execute,
+
+87
+00:04:26,830 --> 00:04:30,565
+and then I'm going to print my rows.
+
+88
+00:04:30,565 --> 00:04:33,500
+Wonderful, I got back my information that I needed.
+
+89
+00:04:33,500 --> 00:04:36,760
+So I have 1970, let it be and the Beatles.
+
+90
+00:04:36,760 --> 00:04:38,130
+For the sake of the demo,
+
+91
+00:04:38,130 --> 00:04:40,215
+I will drop this table.
+
+92
+00:04:40,215 --> 00:04:45,030
+Then we're finally going to close out this session and the cluster connection.
+

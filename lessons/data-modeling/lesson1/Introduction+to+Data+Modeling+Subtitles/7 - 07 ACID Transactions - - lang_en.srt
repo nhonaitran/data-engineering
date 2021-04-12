@@ -1,0 +1,252 @@
+1
+00:00:00,000 --> 00:00:02,530
+We could spend a whole lesson or even a college
+
+2
+00:00:02,530 --> 00:00:05,965
+semester on Advanced Relational Database topic,
+
+3
+00:00:05,965 --> 00:00:08,455
+but let's do a brief introduction to ACID,
+
+4
+00:00:08,455 --> 00:00:11,125
+what it stands for, and why it's important.
+
+5
+00:00:11,125 --> 00:00:13,760
+You might have heard of ACID transactions before,
+
+6
+00:00:13,760 --> 00:00:16,094
+but if you haven't, now you will.
+
+7
+00:00:16,094 --> 00:00:21,190
+So the ACID properties are properties of a database transaction intended to
+
+8
+00:00:21,190 --> 00:00:26,140
+guarantee validity even in the event of errors or power failures.
+
+9
+00:00:26,140 --> 00:00:30,985
+A good example is to think of transferring funds in a bank transaction.
+
+10
+00:00:30,985 --> 00:00:36,085
+Multiple steps must all occur for this to be successful and correct.
+
+11
+00:00:36,085 --> 00:00:39,275
+All those steps are considered one transaction.
+
+12
+00:00:39,275 --> 00:00:42,510
+ACID transactions ensure data integrity,
+
+13
+00:00:42,510 --> 00:00:46,070
+and that the given answer that you get back is correct.
+
+14
+00:00:46,070 --> 00:00:48,080
+In the context of databases,
+
+15
+00:00:48,080 --> 00:00:52,670
+a sequence of database operations that satisfy the ACID properties,
+
+16
+00:00:52,670 --> 00:00:56,000
+that these can be perceived as a single logical operation,
+
+17
+00:00:56,000 --> 00:00:57,875
+is what is called a transaction.
+
+18
+00:00:57,875 --> 00:01:00,695
+Let's walk through each one of these properties.
+
+19
+00:01:00,695 --> 00:01:06,230
+Atomicity, consistency, isolation, and durability.
+
+20
+00:01:06,230 --> 00:01:08,375
+Let's walk through each of the term.
+
+21
+00:01:08,375 --> 00:01:14,135
+Atomicity, the whole transaction is processed or nothing is processed.
+
+22
+00:01:14,135 --> 00:01:16,310
+This is all about all or nothing.
+
+23
+00:01:16,310 --> 00:01:18,470
+Let's think of a banking transaction of
+
+24
+00:01:18,470 --> 00:01:21,245
+transferring money from my checking to my savings account.
+
+25
+00:01:21,245 --> 00:01:23,090
+This is a two-step process.
+
+26
+00:01:23,090 --> 00:01:27,470
+Money must be removed from my checking and added to my savings in one block.
+
+27
+00:01:27,470 --> 00:01:31,470
+If we need not do this in a block or an ACID transaction,
+
+28
+00:01:31,470 --> 00:01:33,110
+I could end up removing money from
+
+29
+00:01:33,110 --> 00:01:37,205
+my checking account and then never deposing it in my savings account.
+
+30
+00:01:37,205 --> 00:01:40,820
+Consistency, only transactions that abide by
+
+31
+00:01:40,820 --> 00:01:44,710
+constraints and rules is written into the database.
+
+32
+00:01:44,710 --> 00:01:48,110
+Otherwise, the database keeps previous state.
+
+33
+00:01:48,110 --> 00:01:50,030
+This is very straightforward.
+
+34
+00:01:50,030 --> 00:01:52,400
+If you've defined a column as a Boolean,
+
+35
+00:01:52,400 --> 00:01:54,085
+let's say a true or false,
+
+36
+00:01:54,085 --> 00:01:59,930
+you'll be unable to enter in a value for that row in that column that equals "Hello".
+
+37
+00:01:59,930 --> 00:02:05,390
+That's a string. It will be rejected and that transaction will not complete.
+
+38
+00:02:05,390 --> 00:02:10,780
+Isolation, transactions are processed independently and securely.
+
+39
+00:02:10,780 --> 00:02:12,925
+Order does not matter.
+
+40
+00:02:12,925 --> 00:02:16,004
+If multiple queries are performing actions,
+
+41
+00:02:16,004 --> 00:02:17,790
+even in a concurrent state,
+
+42
+00:02:17,790 --> 00:02:20,860
+those queries will continue to interact with the data in
+
+43
+00:02:20,860 --> 00:02:24,640
+the same way as if the queries had been run sequentially.
+
+44
+00:02:24,640 --> 00:02:28,990
+When a query comes in the row or the rows it affects,
+
+45
+00:02:28,990 --> 00:02:31,495
+will lock until the transaction is complete.
+
+46
+00:02:31,495 --> 00:02:35,170
+From there, other queries are not able to interact with this data.
+
+47
+00:02:35,170 --> 00:02:37,390
+This ensures the correctness of the data for
+
+48
+00:02:37,390 --> 00:02:40,900
+multiple users running queries against the database.
+
+49
+00:02:40,900 --> 00:02:44,425
+Durability, completed transactions are
+
+50
+00:02:44,425 --> 00:02:48,350
+saved to the database even in cases of system failure.
+
+51
+00:02:48,350 --> 00:02:50,840
+This definition is a bit confusing.
+
+52
+00:02:50,840 --> 00:02:54,065
+It seems impossible. So let's break it down.
+
+53
+00:02:54,065 --> 00:02:59,404
+Durability guarantees that once a transaction has been committed,
+
+54
+00:02:59,404 --> 00:03:02,960
+that's the key, it will remain committed,
+
+55
+00:03:02,960 --> 00:03:05,390
+even in the case of a system failure,
+
+56
+00:03:05,390 --> 00:03:07,145
+power outage, or crash.
+
+57
+00:03:07,145 --> 00:03:09,950
+This usually means that completed transaction or
+
+58
+00:03:09,950 --> 00:03:13,795
+its effects are recorded in non-volatile memory.
+
+59
+00:03:13,795 --> 00:03:16,880
+Essentially, what this means is all goes back to the fact that
+
+60
+00:03:16,880 --> 00:03:19,880
+our database is a persistent data store.
+
+61
+00:03:19,880 --> 00:03:23,479
+Once the transaction has happened and it is complete,
+
+62
+00:03:23,479 --> 00:03:26,675
+then even if you were to pull the plug on the database,
+
+63
+00:03:26,675 --> 00:03:29,980
+when you plug it back in, that data will be there.
+

@@ -1,0 +1,388 @@
+1
+00:00:00,000 --> 00:00:03,810
+Okay. So let's get to my favorite thing which are demos.
+
+2
+00:00:03,810 --> 00:00:07,350
+So we're going to jump over here to Demo 0 because we're all computer scientists here.
+
+3
+00:00:07,350 --> 00:00:10,320
+Of course, we're going to start with zero instead of starting with one.
+
+4
+00:00:10,320 --> 00:00:13,215
+So let's create a table with PostgreSQL.
+
+5
+00:00:13,215 --> 00:00:15,525
+So here as you can see,
+
+6
+00:00:15,525 --> 00:00:17,820
+I have my jupyter notebook open.
+
+7
+00:00:17,820 --> 00:00:20,010
+I love interacting with jupyter and using that
+
+8
+00:00:20,010 --> 00:00:22,380
+because it's so nice to have a clean data here,
+
+9
+00:00:22,380 --> 00:00:24,615
+so it's really just my favorite thing to use.
+
+10
+00:00:24,615 --> 00:00:27,510
+So we're going to be focusing on using jupyter notebooks
+
+11
+00:00:27,510 --> 00:00:30,880
+and using Python wrappers to execute our queries.
+
+12
+00:00:30,880 --> 00:00:35,420
+All these queries are also able to do them just in either Postgres shell,
+
+13
+00:00:35,420 --> 00:00:38,720
+but we're just going to focus on utilizing a Python wrapper for these.
+
+14
+00:00:38,720 --> 00:00:41,360
+Actually I'm just going to talk about something that you may hit
+
+15
+00:00:41,360 --> 00:00:44,655
+when you're working with Postgres and it's about AutoCommits.
+
+16
+00:00:44,655 --> 00:00:49,405
+So Lesson 1 Demo 0: PostgreSQL and AutoCommits.
+
+17
+00:00:49,405 --> 00:00:53,435
+So in this case, we're going to use this Python package here.
+
+18
+00:00:53,435 --> 00:00:55,155
+Let's go ahead and run that.
+
+19
+00:00:55,155 --> 00:00:59,110
+We're going to use this as our wrapper this Python package to wrap around Postgres.
+
+20
+00:00:59,110 --> 00:01:01,430
+In my case I'm working off my own machine.
+
+21
+00:01:01,430 --> 00:01:03,110
+I seem to get an error here,
+
+22
+00:01:03,110 --> 00:01:04,730
+but actually it's properly installed,
+
+23
+00:01:04,730 --> 00:01:06,560
+then if I just run it again it works.
+
+24
+00:01:06,560 --> 00:01:09,120
+So if you're working on your own and you see an arrow like that,
+
+25
+00:01:09,120 --> 00:01:11,480
+read it carefully but it may just be something
+
+26
+00:01:11,480 --> 00:01:14,285
+actually it's just signifying that they're going to be changing the name soon.
+
+27
+00:01:14,285 --> 00:01:17,015
+So it's a nice warning but not really necessary.
+
+28
+00:01:17,015 --> 00:01:19,475
+So let's create a connection to our database.
+
+29
+00:01:19,475 --> 00:01:22,520
+This connects in my case to a local instance of Postgres.
+
+30
+00:01:22,520 --> 00:01:24,300
+From there we're going to use the database and
+
+31
+00:01:24,300 --> 00:01:26,550
+Schema which in this case is the student dB,
+
+32
+00:01:26,550 --> 00:01:29,000
+and then our username and password.
+
+33
+00:01:29,000 --> 00:01:30,790
+Remember this is just the demo,
+
+34
+00:01:30,790 --> 00:01:34,280
+so the password is in clear text but you would never do that in production.
+
+35
+00:01:34,280 --> 00:01:36,860
+This connection will reach out to the database and ensure
+
+36
+00:01:36,860 --> 00:01:39,800
+that we have the correct privileges to connect to the database.
+
+37
+00:01:39,800 --> 00:01:42,185
+Let's run that and it's successfully ran.
+
+38
+00:01:42,185 --> 00:01:45,080
+So next let's use the connection to get a cursor,
+
+39
+00:01:45,080 --> 00:01:47,225
+and we'll use that to execute the query.
+
+40
+00:01:47,225 --> 00:01:49,010
+We have our cursor now.
+
+41
+00:01:49,010 --> 00:01:51,425
+So lets try to actually run a query.
+
+42
+00:01:51,425 --> 00:01:54,425
+So let's start from test one, two, three.
+
+43
+00:01:54,425 --> 00:01:56,410
+No, we have an error.
+
+44
+00:01:56,410 --> 00:01:58,500
+Okay. It says relation tests one,
+
+45
+00:01:58,500 --> 00:01:59,745
+two, three does not exist.
+
+46
+00:01:59,745 --> 00:02:01,230
+Okay. That's no problem.
+
+47
+00:02:01,230 --> 00:02:03,545
+So we had an error, but we were expecting that.
+
+48
+00:02:03,545 --> 00:02:06,595
+So let's go fix this error by creating a table.
+
+49
+00:02:06,595 --> 00:02:09,495
+So I'm going to create table test one, two, three.
+
+50
+00:02:09,495 --> 00:02:11,085
+This is just an example,
+
+51
+00:02:11,085 --> 00:02:13,245
+I have three columns and they're all Ints.
+
+52
+00:02:13,245 --> 00:02:17,090
+I'm going to run this. I've gotten another error.
+
+53
+00:02:17,090 --> 00:02:19,250
+Current transaction is aborted,
+
+54
+00:02:19,250 --> 00:02:22,085
+command's ignored until end of transaction block.
+
+55
+00:02:22,085 --> 00:02:24,495
+That's not what I was expecting at all.
+
+56
+00:02:24,495 --> 00:02:27,465
+So when you're using Postgres,
+
+57
+00:02:27,465 --> 00:02:30,830
+what we need to make sure that we understand is that again because we're working with
+
+58
+00:02:30,830 --> 00:02:35,390
+an acid database that we need to make sure that we commit our transactions.
+
+59
+00:02:35,390 --> 00:02:37,610
+So when I had that error in
+
+60
+00:02:37,610 --> 00:02:40,810
+my query I did not commit my transaction and so I got an error.
+
+61
+00:02:40,810 --> 00:02:43,070
+So as we have not committed the transaction,
+
+62
+00:02:43,070 --> 00:02:45,155
+we had an error in our transaction block.
+
+63
+00:02:45,155 --> 00:02:48,980
+At this point we're blocked until we restart the connection,
+
+64
+00:02:48,980 --> 00:02:51,845
+or we could have committed the transaction either one.
+
+65
+00:02:51,845 --> 00:02:54,295
+So let's just re-get our connection.
+
+66
+00:02:54,295 --> 00:02:57,015
+Okay. So we're going to connect to our database,
+
+67
+00:02:57,015 --> 00:02:58,900
+and then we're going to get our cursor.
+
+68
+00:02:58,900 --> 00:03:03,410
+In these exercises the point of this demo is to instead of worrying about
+
+69
+00:03:03,410 --> 00:03:08,090
+committing after each transaction or getting that strange error that we just hit,
+
+70
+00:03:08,090 --> 00:03:10,970
+let's just set auto commit to true.
+
+71
+00:03:10,970 --> 00:03:14,285
+So this says that after each call during this session,
+
+72
+00:03:14,285 --> 00:03:19,820
+commit that one action and do not hold open the transaction for any other actions.
+
+73
+00:03:19,820 --> 00:03:23,215
+So one action will equal one transaction.
+
+74
+00:03:23,215 --> 00:03:27,385
+For this demo we're going to set autocommit in the session to true.
+
+75
+00:03:27,385 --> 00:03:29,545
+So this line here.
+
+76
+00:03:29,545 --> 00:03:34,595
+We won't have to call con.commit for each command,
+
+77
+00:03:34,595 --> 00:03:36,640
+and that executes successfully.
+
+78
+00:03:36,640 --> 00:03:38,025
+So let's try this again.
+
+79
+00:03:38,025 --> 00:03:41,090
+Let's do select star from test one, two, three.
+
+80
+00:03:41,090 --> 00:03:42,680
+Okay. We got an error,
+
+81
+00:03:42,680 --> 00:03:44,205
+that's what we expected.
+
+82
+00:03:44,205 --> 00:03:47,650
+Now let's go down here and let's try to create that table.
+
+83
+00:03:47,650 --> 00:03:50,050
+Let's solve our problem. Create table test one, two,
+
+84
+00:03:50,050 --> 00:03:52,060
+three with our three columns,
+
+85
+00:03:52,060 --> 00:03:54,220
+and execute it successfully.
+
+86
+00:03:54,220 --> 00:03:56,765
+Wonderful that's exactly what we wanted.
+
+87
+00:03:56,765 --> 00:04:00,500
+When we executed this code again with auto commit set to true,
+
+88
+00:04:00,500 --> 00:04:03,159
+we didn't face any issues with the transaction blocks,
+
+89
+00:04:03,159 --> 00:04:05,605
+and we did not need to restart our connection.
+
+90
+00:04:05,605 --> 00:04:08,920
+So let's just do a select star from test one, two, three,
+
+91
+00:04:08,920 --> 00:04:10,970
+and since we don't have anything there we didn't get
+
+92
+00:04:10,970 --> 00:04:12,860
+anything back, and let's do a select,
+
+93
+00:04:12,860 --> 00:04:14,660
+count star, and we see that we have
+
+94
+00:04:14,660 --> 00:04:17,269
+zero rows in the table because we didn't add anything.
+
+95
+00:04:17,269 --> 00:04:19,024
+Then let's just drop the table.
+
+96
+00:04:19,024 --> 00:04:21,949
+So this was just a demo to make sure that you understand why
+
+97
+00:04:21,950 --> 00:04:25,670
+we're setting autocommit in each one of our demos.
+

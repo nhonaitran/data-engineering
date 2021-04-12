@@ -1,0 +1,108 @@
+1
+00:00:00,000 --> 00:00:03,830
+So now that we understand what data modeling is,
+
+2
+00:00:03,830 --> 00:00:07,230
+let's talk about why data modeling is important.
+
+3
+00:00:07,230 --> 00:00:10,695
+So data organization is critical.
+
+4
+00:00:10,695 --> 00:00:16,079
+So the organization of your data for your applications is extremely important.
+
+5
+00:00:16,079 --> 00:00:19,885
+Organizing data determines later data use.
+
+6
+00:00:19,885 --> 00:00:23,015
+Having a well thought out and organized data model
+
+7
+00:00:23,015 --> 00:00:26,375
+is critical to how that data can later be used.
+
+8
+00:00:26,375 --> 00:00:30,140
+Queries that could have been straightforward and simple might become
+
+9
+00:00:30,140 --> 00:00:34,220
+complicated queries if data modeling is not well thought out.
+
+10
+00:00:34,220 --> 00:00:39,485
+You don't want to have to do a join on four tables just to get a customer e-mail,
+
+11
+00:00:39,485 --> 00:00:43,375
+when they could have easily added that column to my customer table.
+
+12
+00:00:43,375 --> 00:00:47,150
+That's just a simple example to try to get you thinking about how we want to
+
+13
+00:00:47,150 --> 00:00:50,840
+make sure our queries are simple and straightforward as much as we can.
+
+14
+00:00:50,840 --> 00:00:53,915
+Next, begin prior to building out applications,
+
+15
+00:00:53,915 --> 00:00:56,555
+business models, and analytical models.
+
+16
+00:00:56,555 --> 00:01:00,665
+So the data modeling process begins prior to building out applications,
+
+17
+00:01:00,665 --> 00:01:02,765
+business logic, and analytical models.
+
+18
+00:01:02,765 --> 00:01:05,075
+It's definitely an iterative process.
+
+19
+00:01:05,075 --> 00:01:06,800
+So you want to make sure that your starting
+
+20
+00:01:06,800 --> 00:01:09,470
+data modeling early with half of your organization,
+
+21
+00:01:09,470 --> 00:01:12,440
+it's probably not something you can do alone to be successful.
+
+22
+00:01:12,440 --> 00:01:15,695
+This is not something you want to leave until the last minute.
+
+23
+00:01:15,695 --> 00:01:18,395
+Again, it is an iterative process.
+
+24
+00:01:18,395 --> 00:01:22,520
+Having flexibility will help as new information becomes available.
+
+25
+00:01:22,520 --> 00:01:26,615
+Maybe you'll need to add a column to a table that you had not foreseen.
+
+26
+00:01:26,615 --> 00:01:29,615
+Maybe you want to add a column to your customer table
+
+27
+00:01:29,615 --> 00:01:33,360
+or create a new table that focuses on new customers.
+

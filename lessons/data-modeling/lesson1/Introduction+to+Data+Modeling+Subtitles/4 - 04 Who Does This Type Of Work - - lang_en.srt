@@ -1,0 +1,44 @@
+1
+00:00:00,000 --> 00:00:02,880
+We've talked about the what and the why,
+
+2
+00:00:02,880 --> 00:00:05,220
+and now let's talk about the who,
+
+3
+00:00:05,220 --> 00:00:06,975
+and I don't mean the band.
+
+4
+00:00:06,975 --> 00:00:08,850
+Who does data modeling?
+
+5
+00:00:08,850 --> 00:00:11,145
+Data modeling is an important skill.
+
+6
+00:00:11,145 --> 00:00:13,065
+It's important for data scientists,
+
+7
+00:00:13,065 --> 00:00:15,675
+software engineers, data engineers.
+
+8
+00:00:15,675 --> 00:00:19,635
+Anyone involved in the process of using and analyzing data.
+
+9
+00:00:19,635 --> 00:00:22,170
+So really, everyone.
+
+10
+00:00:22,170 --> 00:00:24,405
+If you'll be working with data,
+
+11
+00:00:24,405 --> 00:00:28,480
+you want to have the fundamental of data modeling in your toolkit.
+

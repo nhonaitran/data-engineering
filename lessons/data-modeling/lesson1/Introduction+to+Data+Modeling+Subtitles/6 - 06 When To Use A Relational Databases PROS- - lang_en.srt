@@ -1,0 +1,240 @@
+1
+00:00:00,000 --> 00:00:03,255
+Let's talk about when to use a relational database.
+
+2
+00:00:03,255 --> 00:00:06,540
+So next, we will review when to use a relational database,
+
+3
+00:00:06,540 --> 00:00:08,820
+and we're going to go over this in the next few slides.
+
+4
+00:00:08,820 --> 00:00:10,680
+So the advantage of using
+
+5
+00:00:10,680 --> 00:00:14,535
+a relational database and we're going to go through quite a few options here.
+
+6
+00:00:14,535 --> 00:00:17,730
+So the first one here is just the ease of use,
+
+7
+00:00:17,730 --> 00:00:19,710
+and especially of using SQL.
+
+8
+00:00:19,710 --> 00:00:21,900
+The ease of writing queries in SQL,
+
+9
+00:00:21,900 --> 00:00:26,415
+it's a very common database query language that is very straightforward.
+
+10
+00:00:26,415 --> 00:00:29,250
+Next is the ability to do JOINS.
+
+11
+00:00:29,250 --> 00:00:32,384
+That's one of the reasons we'd want to use a relational database.
+
+12
+00:00:32,384 --> 00:00:34,620
+The ability to use JOINS,
+
+13
+00:00:34,620 --> 00:00:38,630
+combining more than one table on a common key or to get more information.
+
+14
+00:00:38,630 --> 00:00:42,800
+This is something that is unique to relational databases and makes it very powerful.
+
+15
+00:00:42,800 --> 00:00:46,130
+The ability to do aggregations and analytics,
+
+16
+00:00:46,130 --> 00:00:48,415
+the ability to do this on your data,
+
+17
+00:00:48,415 --> 00:00:51,315
+to do the analytics and the aggregations.
+
+18
+00:00:51,315 --> 00:00:54,380
+This is really what a relational database was built for,
+
+19
+00:00:54,380 --> 00:00:57,085
+along with being a persistent datastore.
+
+20
+00:00:57,085 --> 00:00:59,070
+GROUP BY, ORDER BY,
+
+21
+00:00:59,070 --> 00:01:02,690
+SOME are all examples that we're not going to go into this course,
+
+22
+00:01:02,690 --> 00:01:05,165
+but they are good examples of aggregations.
+
+23
+00:01:05,165 --> 00:01:07,480
+If you have smaller data volumes,
+
+24
+00:01:07,480 --> 00:01:11,115
+then using a relational database is probably a good idea.
+
+25
+00:01:11,115 --> 00:01:14,180
+If you have a smaller data volume, essentially,
+
+26
+00:01:14,180 --> 00:01:15,665
+if you don't have big data,
+
+27
+00:01:15,665 --> 00:01:18,965
+you can use a relational database for simplicity.
+
+28
+00:01:18,965 --> 00:01:22,310
+Next, it's easier to change business requirements.
+
+29
+00:01:22,310 --> 00:01:25,820
+Relational databases make it easy to change business requirements,
+
+30
+00:01:25,820 --> 00:01:29,645
+as you can perform ad hoc queries on your database with ease.
+
+31
+00:01:29,645 --> 00:01:32,300
+Again, you'll have the flexibility to run
+
+32
+00:01:32,300 --> 00:01:35,255
+many different queries and new queries on your data.
+
+33
+00:01:35,255 --> 00:01:37,885
+Think of a new query, go try it out,
+
+34
+00:01:37,885 --> 00:01:39,935
+as long as you have permissions, of course.
+
+35
+00:01:39,935 --> 00:01:43,715
+Modeling the data, not modeling queries.
+
+36
+00:01:43,715 --> 00:01:47,975
+With relational databases, you'll be modeling the data itself,
+
+37
+00:01:47,975 --> 00:01:51,025
+not modeling your data to the queries.
+
+38
+00:01:51,025 --> 00:01:55,520
+Data modeling is independent in some regards to your queries,
+
+39
+00:01:55,520 --> 00:01:58,670
+especially when compared to non-relational databases.
+
+40
+00:01:58,670 --> 00:02:01,670
+We'll learn more about this later in the next lesson.
+
+41
+00:02:01,670 --> 00:02:05,665
+You'll also get the added benefit of secondary indexes.
+
+42
+00:02:05,665 --> 00:02:08,350
+So what do we mean by secondary indexes?
+
+43
+00:02:08,350 --> 00:02:10,419
+Let's review on the next slide.
+
+44
+00:02:10,419 --> 00:02:15,850
+So in this case, another fundamental concept is the idea of secondary indexes.
+
+45
+00:02:15,850 --> 00:02:18,395
+You would like to efficiently structure your data
+
+46
+00:02:18,395 --> 00:02:20,920
+by an index that is not your primary key.
+
+47
+00:02:20,920 --> 00:02:23,965
+You can add a secondary index for quick searching.
+
+48
+00:02:23,965 --> 00:02:27,265
+In this example, our primary key is on city.
+
+49
+00:02:27,265 --> 00:02:30,160
+That is what we would normally use in our queries.
+
+50
+00:02:30,160 --> 00:02:36,270
+Let's say this here. Let's say imagine we normally do our queries using the city,
+
+51
+00:02:36,270 --> 00:02:40,465
+but we find we're frequently using the country code in our queries.
+
+52
+00:02:40,465 --> 00:02:44,385
+We can create a secondary index to speed up the retrieval process.
+
+53
+00:02:44,385 --> 00:02:48,800
+Be aware, secondary indexes require additional resources.
+
+54
+00:02:48,800 --> 00:02:52,925
+Let's go back to the advantages of using relational databases.
+
+55
+00:02:52,925 --> 00:02:57,110
+Here, maybe the most important one of all is the fact that
+
+56
+00:02:57,110 --> 00:03:01,310
+relational databases add the ability to have ACID transactions.
+
+57
+00:03:01,310 --> 00:03:05,930
+The benefit of ACID transactions means that you'll have strong data integrity,
+
+58
+00:03:05,930 --> 00:03:08,060
+basically that your data is correct.
+
+59
+00:03:08,060 --> 00:03:10,320
+What do we mean by ACID transactions?
+
+60
+00:03:10,320 --> 00:03:12,910
+Let's look at this more in depth.
+

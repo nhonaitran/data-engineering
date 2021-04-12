@@ -1,0 +1,92 @@
+1
+00:00:00,000 --> 00:00:01,905
+Hi there. Welcome to Lesson 1,
+
+2
+00:00:01,905 --> 00:00:04,065
+this is Introduction to Data Modeling.
+
+3
+00:00:04,065 --> 00:00:07,680
+In this lesson, you will understand the strengths and weaknesses of
+
+4
+00:00:07,680 --> 00:00:11,250
+different types of relational databases and non-relational databases,
+
+5
+00:00:11,250 --> 00:00:14,955
+and the fundamentals of data modeling for both types of databases.
+
+6
+00:00:14,955 --> 00:00:16,390
+My name is Amanda Moran,
+
+7
+00:00:16,390 --> 00:00:18,885
+and I will be your instructor for this course.
+
+8
+00:00:18,885 --> 00:00:21,450
+Throughout these lessons, I'll be introducing you to
+
+9
+00:00:21,450 --> 00:00:24,060
+the concept of data modeling and how you can use
+
+10
+00:00:24,060 --> 00:00:29,340
+them to organize your data that can be easily queried and utilized by your organization.
+
+11
+00:00:29,340 --> 00:00:30,840
+So before we get started,
+
+12
+00:00:30,840 --> 00:00:33,360
+I just wanted to tell you a little bit about myself.
+
+13
+00:00:33,360 --> 00:00:35,880
+I'm a bachelor's in science in biology from
+
+14
+00:00:35,880 --> 00:00:37,980
+the University of Washington and a master's in
+
+15
+00:00:37,980 --> 00:00:41,190
+computer science and engineering from Santa Clara University.
+
+16
+00:00:41,190 --> 00:00:44,730
+I worked as a Software Engineer at HP, SGEN,
+
+17
+00:00:44,730 --> 00:00:49,505
+Luckheed Martin, and Teradata on three different distributed databases.
+
+18
+00:00:49,505 --> 00:00:53,165
+I'm an Apache committer and I'm on the project management committee
+
+19
+00:00:53,165 --> 00:00:57,305
+for a open source project called Apache travodia.
+
+20
+00:00:57,305 --> 00:01:00,210
+For data stacks, I'm a Developer Advocate.
+
+21
+00:01:00,210 --> 00:01:03,590
+Developer Advocate is a Software Engineer that's in the middle layer
+
+22
+00:01:03,590 --> 00:01:06,995
+between our internal engineering organization and our users,
+
+23
+00:01:06,995 --> 00:01:09,630
+our developers, and our customers
+

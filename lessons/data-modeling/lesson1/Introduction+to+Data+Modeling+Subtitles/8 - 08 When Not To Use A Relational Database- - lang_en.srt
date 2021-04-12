@@ -1,0 +1,172 @@
+1
+00:00:00,000 --> 00:00:03,315
+We've just reviewed when to use a Relational Database,
+
+2
+00:00:03,315 --> 00:00:07,275
+but let's talk about when not to use a Relational Database.
+
+3
+00:00:07,275 --> 00:00:09,899
+So before we do some review,
+
+4
+00:00:09,899 --> 00:00:11,415
+let's go over some basics.
+
+5
+00:00:11,415 --> 00:00:14,175
+So let's say if you have large amounts of data
+
+6
+00:00:14,175 --> 00:00:17,925
+or you need to be able to store data in different data formats,
+
+7
+00:00:17,925 --> 00:00:22,800
+Relational Databases are not distributed databases because of this,
+
+8
+00:00:22,800 --> 00:00:28,620
+they can only scale vertically by adding more storage in the machine itself.
+
+9
+00:00:28,620 --> 00:00:31,440
+You're limited to how much you can scale,
+
+10
+00:00:31,440 --> 00:00:34,230
+and how much data you can store on one machine.
+
+11
+00:00:34,230 --> 00:00:38,850
+You can not add more machines like you can in NoSQL databases.
+
+12
+00:00:38,850 --> 00:00:42,355
+If you need high throughput or fast read,
+
+13
+00:00:42,355 --> 00:00:44,435
+this is when you should not use
+
+14
+00:00:44,435 --> 00:00:48,620
+a Relational Database while acid transaction bring benefits,
+
+15
+00:00:48,620 --> 00:00:52,430
+they also slow down the process of reading and writing data.
+
+16
+00:00:52,430 --> 00:00:55,190
+If you need very fast reads and writes
+
+17
+00:00:55,190 --> 00:00:58,745
+using a Relational Database may not suit your needs.
+
+18
+00:00:58,745 --> 00:01:00,890
+If you need a flexible schema,
+
+19
+00:01:00,890 --> 00:01:03,680
+flexible schemas can allow for columns to be
+
+20
+00:01:03,680 --> 00:01:06,860
+added that do not have to be used by every row,
+
+21
+00:01:06,860 --> 00:01:09,130
+and this saves disk space.
+
+22
+00:01:09,130 --> 00:01:11,845
+If you meet high availability,
+
+23
+00:01:11,845 --> 00:01:15,320
+the fact that Relational Databases are not distributed,
+
+24
+00:01:15,320 --> 00:01:16,715
+and even when they are,
+
+25
+00:01:16,715 --> 00:01:19,190
+they have a coordinator worker architecture,
+
+26
+00:01:19,190 --> 00:01:21,485
+they have a single point of failure.
+
+27
+00:01:21,485 --> 00:01:26,610
+When the database goes down a fail over to a backup system must happen,
+
+28
+00:01:26,610 --> 00:01:28,445
+and this takes time.
+
+29
+00:01:28,445 --> 00:01:31,360
+If you need to be able to scale horizontally.
+
+30
+00:01:31,360 --> 00:01:34,160
+Horizontal scalability, is the ability to add
+
+31
+00:01:34,160 --> 00:01:37,999
+more machines or nodes to a system to increase performance,
+
+32
+00:01:37,999 --> 00:01:39,800
+and add space for the data.
+
+33
+00:01:39,800 --> 00:01:42,875
+We will go over these last two points in a moment.
+
+34
+00:01:42,875 --> 00:01:46,250
+These issues that we're seeing here are what lead to
+
+35
+00:01:46,250 --> 00:01:50,015
+the creation of non-relational and NoSQL databases.
+
+36
+00:01:50,015 --> 00:01:52,730
+High availability, this describes
+
+37
+00:01:52,730 --> 00:01:56,165
+the database where there's very little downtime of the system,
+
+38
+00:01:56,165 --> 00:01:58,330
+and it's always on and functioning,
+
+39
+00:01:58,330 --> 00:02:02,975
+so highly available system has very little or even no downtime.
+
+40
+00:02:02,975 --> 00:02:07,595
+Horizontally Scalable, ability to add servers to the system.
+
+41
+00:02:07,595 --> 00:02:13,190
+Scalability of a database means that I can add more nodes or servers to a system,
+
+42
+00:02:13,190 --> 00:02:16,295
+and the performance in the space of the system will increase.
+
+43
+00:02:16,295 --> 00:02:23,150
+Many traditional databases especially Relational Databases cannot add additional servers.
+
