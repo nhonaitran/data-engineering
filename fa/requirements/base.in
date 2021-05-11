@@ -1,0 +1,5 @@
+# Put your primary dependencies here!
+# You need only list the library names unless you need one at a particular version
+click
+dependency-injector
+pyyaml

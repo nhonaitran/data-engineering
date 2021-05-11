@@ -1,0 +1,6 @@
+build/
+dist/
+fa.egg-info/
+venv
+.mypy_cache/
+*.pyc
