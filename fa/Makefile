@@ -34,11 +34,11 @@ format: venv
 beautiful: format
 
 lint: venv
-	$(call pytool, $(PYLINT), main test)
+	$(call pytool, $(PYLINT), --extension-pkg-allow-list=dependency_injector.containers *.py fa test)
 
 type-check: venv
 	$(call pytool, $(MYPY), --check-untyped-defs main test)
 
 test: venv
-	$(call pytool, $(TESTRUNNER), -xv)
+	$(call pytool, $(TESTRUNNER), test --cov=fa)
 

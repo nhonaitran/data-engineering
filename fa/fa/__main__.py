@@ -1,37 +1,39 @@
 """
-Main module for fa.
+Main module.
 """
-import argparse as ap
+import sys
 import logging
 
+from dependency_injector.wiring import inject, Provide
 
-def parse_args():
-    """"What it says on the can"""
-    parser = ap.ArgumentParser(formatter_class=ap.ArgumentDefaultsHelpFormatter)
-
-    log_levels = ("DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL")
-    parser.add_argument(
-        "--log_level", choices=log_levels, default="INFO", help="Possible log levels"
-    )
-
-    return parser.parse_args()
+from .listers import FlightLister
+from .containers import Container
 
 
-def main():
+@inject
+def main(lister: FlightLister = Provide[Container.lister]) -> None:
     """
-    Main entry point for fa. This is responsible for setting up scaffolding like
-    logging and command-line argument parsing. It generally doesn't contain significant
-    application logic but rather redirects flow elsewhere after the basics of the program
-    are set up and ready-to-go.
+    Main entry point for fa (flights-analytics).
     """
-    args = parse_args()
-    logging.basicConfig(
-        level=args.log_level,
-        format="%(asctime)s %(levelname)8s: (%(threadName)s) %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S",
-    )
-    print("Hello, FlightAware!")
+    logging.info('Flights depart from KHOU:')
+    for flight in lister.flights_depart_from('KHOU'):
+        logging.info(f"\t-{flight}")
+
+    logging.info('Flights arrive at KIWS:')
+    for flight in lister.flights_arrive_at('KIWS'):
+        logging.info(f"\t-{flight}")
 
 
 if __name__ == "__main__":
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format="%(asctime)s %(levelname)8s: (%(threadName)s) %(message)s",
+        datefmt="%Y-%m-%d %H:%M:%S",
+    )
+
+    container = Container()
+    container.config.from_yaml('config.yml')
+    container.config.finder.type.from_env('FLIGHT_FINDER_TYPE')
+    container.wire(modules=[sys.modules[__name__]])
+
     main()

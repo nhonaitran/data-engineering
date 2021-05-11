@@ -1,0 +1,8 @@
+finder:
+
+  csv:
+    path: "data/flights.csv"
+    delimiter: ","
+
+  sqlite:
+    path: "data/flights.db"
